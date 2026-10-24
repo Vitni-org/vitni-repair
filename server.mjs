@@ -1,9 +1,12 @@
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { readFileSync } from 'node:fs';
-import { extname, join, normalize } from 'node:path';
+import { dirname, extname, join, relative, resolve, sep } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { guides, stories } from './site-data.js';
 
-const root = process.cwd();
+const root = dirname(fileURLToPath(import.meta.url));
+const distributionRoot = resolve(root, 'dist');
 try {
   for (const line of readFileSync(join(root, '.env'), 'utf8').split(/\r?\n/)) {
     const match = line.match(/^\s*([A-Z_][A-Z0-9_]*)\s*=\s*(.*?)\s*$/);
@@ -11,7 +14,7 @@ try {
   }
 } catch { /* Local environment files are optional. */ }
 const port = Number(process.env.PORT || 4174);
-const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.wasm': 'application/wasm' };
+const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.webmanifest': 'application/manifest+json; charset=utf-8', '.wasm': 'application/wasm' };
 const schema = { type: 'object', additionalProperties: false, required: ['likely_issue', 'confidence', 'safety', 'summary', 'steps', 'parts'], properties: { likely_issue: { type: 'string', maxLength: 100 }, confidence: { type: 'integer', minimum: 0, maximum: 100 }, safety: { type: 'string', enum: ['safe_diy', 'get_help', 'do_not_attempt'] }, summary: { type: 'string' }, steps: { type: 'array', minItems: 2, maxItems: 5, items: { type: 'object', additionalProperties: false, required: ['title', 'instruction'], properties: { title: { type: 'string' }, instruction: { type: 'string' } } } }, parts: { type: 'array', maxItems: 6, items: { type: 'object', additionalProperties: false, required: ['name', 'details'], properties: { name: { type: 'string' }, details: { type: 'string' } } } } } };
 const illustrationCache = new Map();
 function send(res, status, body) { res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8' }).end(JSON.stringify(body)); }
@@ -64,13 +67,29 @@ async function illustrate(req, res) {
   catch (error) { return send(res, 400, { error: error.message || 'Could not illustrate this guide.' }); }
 }
 createServer(async (req, res) => {
-  const requestedPath = req.url.split('?')[0];
+  const requestUrl = new URL(req.url, 'http://localhost');
+  const requestedPath = requestUrl.pathname;
   if (req.method === 'POST' && ['/api/analyze', '/api/repair-guide'].includes(requestedPath)) return analyse(req, res);
   if (req.method === 'POST' && requestedPath === '/api/illustrate') return illustrate(req, res);
   if (req.method !== 'GET' && req.method !== 'HEAD') return send(res, 405, { error: 'Method not allowed.' });
-  const pathname = requestedPath === '/' ? '/index.html' : requestedPath;
-  const file = normalize(join(root, pathname));
-  if (!file.startsWith(root)) return res.writeHead(403).end();
+  if (requestedPath === '/guide.html') {
+    const id = requestUrl.searchParams.get('guide');
+    const guide = guides.find(item => item.id === id);
+    res.writeHead(308, { Location: guide ? `/guides/${guide.id}/` : '/guides.html' }).end();
+    return;
+  }
+  if (requestedPath === '/story.html') {
+    const id = requestUrl.searchParams.get('story');
+    res.writeHead(308, { Location: stories[id] ? `/stories/${id}/` : '/' }).end();
+    return;
+  }
+  let pathname;
+  try { pathname = decodeURIComponent(requestedPath); }
+  catch { return res.writeHead(400).end('Bad request'); }
+  if (pathname.endsWith('/')) pathname += 'index.html';
+  if (pathname === '/') pathname = '/index.html';
+  const file = resolve(distributionRoot, `.${pathname}`);
+  if (relative(distributionRoot, file).startsWith(`..${sep}`) || relative(distributionRoot, file) === '..') return res.writeHead(403).end();
   try { const info = await stat(file); if (!info.isFile()) throw Error(); const body = req.method === 'HEAD' ? undefined : await readFile(file); res.writeHead(200, { 'Content-Type': types[extname(file)] || 'application/octet-stream' }).end(body); }
   catch { res.writeHead(404).end('Not found'); }
 }).listen(port, () => console.log(`RepairLens is running at http://localhost:${port}`));

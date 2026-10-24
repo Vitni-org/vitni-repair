@@ -169,7 +169,7 @@ function addDiscoveryLinks() {
     if (story.querySelector('.story-link')) return;
     const link = document.createElement('a');
     link.className = 'story-link';
-    link.href = `/story.html?story=${storyKeys[index]}`;
+    link.href = `/stories/${storyKeys[index]}/`;
     link.textContent = 'See the repair path';
     story.append(link);
   });

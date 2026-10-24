@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "node scripts/build-site.mjs",
+    "prestart": "npm run build",
     "start": "node server.mjs"
   },
   "dependencies": {
