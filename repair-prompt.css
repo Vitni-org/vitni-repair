@@ -67,3 +67,20 @@
 .repair-prompt__submit>p:not(.suggestion){margin:0;color:#42524c;font-size:.85rem}
 @media(max-width:820px){.repair-prompt__fields{grid-template-columns:1fr}.repair-prompt .description-field textarea{min-height:140px}.repair-prompt .photo-box{min-height:0}.repair-prompt .photo-picker-actions{grid-template-columns:minmax(0,1fr) max-content}}
 @media(max-width:700px){.repair-prompt__intro{grid-template-columns:68px minmax(0,1fr);align-items:start;gap:.75rem}.repair-prompt .vitni-buddy--prompt{width:68px}.repair-prompt__intro h2{font-size:clamp(1.8rem,7vw,2.2rem)}.repair-prompt .photo-picker-actions{grid-template-columns:1fr}.repair-prompt .photo-picker-actions .upload-button{width:100%!important}.repair-prompt__submit{align-items:flex-start;flex-direction:column}}
+
+/* Make the desktop form feel like two equally intentional ways to start. */
+.repair-prompt__intro{margin-bottom:1.5rem}
+.repair-prompt__fields{grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:1.25rem;align-items:start}
+.repair-prompt .description-field textarea{min-height:184px}
+.repair-prompt .photo-box{min-height:0;padding:1.15rem;gap:.5rem}
+.repair-prompt .photo-picker-actions{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:.6rem;align-items:stretch}
+.repair-prompt .photo-picker-actions .upload-button,.repair-prompt .photo-picker-actions #useTestPhoto{width:100%!important;min-height:48px;margin:0;padding:.6rem .7rem;text-align:center}
+.repair-prompt .photo-picker-actions #useTestPhoto{border:1px solid var(--line);border-radius:3px;background:#fff;color:var(--forest);font-size:.8rem;font-weight:800;text-decoration:none}
+.repair-prompt .photo-picker-actions #useTestPhoto:hover{border-color:var(--forest);background:#edf4d7}
+.repair-prompt .photo-actions{margin-top:.1rem}
+.repair-prompt .photo-actions a:first-child{min-height:36px;padding:.25rem 0;border:0;background:transparent;color:var(--forest);font-size:.82rem;text-decoration:underline;text-underline-offset:3px}
+.repair-prompt .photo-tips{gap:0;margin:.1rem 0 0;padding:.55rem .7rem;font-size:.75rem}
+.repair-prompt .photo-tips strong{margin:0;font-size:.72rem}
+.repair-prompt__submit{margin-top:.1rem}
+@media(max-width:820px){.repair-prompt__fields{grid-template-columns:1fr}.repair-prompt .description-field textarea{min-height:145px}}
+@media(max-width:700px){.repair-prompt .photo-picker-actions{grid-template-columns:1fr}.repair-prompt .photo-picker-actions #useTestPhoto{width:100%!important}}

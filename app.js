@@ -186,11 +186,11 @@ function addDiscoveryLinks() {
   if (photoCopy && !photoCopy.querySelector('.photo-actions')) {
     const actions = document.createElement('div');
     actions.className = 'photo-actions';
-    actions.innerHTML = '<a href="/images/test/chain-off-test.jpg" target="_blank" rel="noreferrer">Open test photo ↗</a><a href="/guides.html">Browse common guides →</a>';
+    actions.innerHTML = '<a href="/guides.html">Browse common guides →</a>';
     photoCopy.append(actions);
     const tip = document.createElement('p');
     tip.className = 'photo-tips';
-    tip.innerHTML = '<strong>For a better match</strong>Take one close photo in good light. Include the damaged part and one wider view for context.';
+    tip.innerHTML = '<strong>Photo tip</strong>A close-up in good light, plus one wider view, helps show what changed.';
     photoCopy.after(tip);
   }
   const playbook = document.querySelector('.playbook');
