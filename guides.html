@@ -13,22 +13,24 @@
   <!--REPAIRLENS_PAGE_META-->
 </head>
 <body>
+  <a class="skip" href="#content">Skip to content</a>
   <header class="page-nav">
     <a class="brand" href="/" aria-label="RepairLens home"><span class="brand-mark" aria-hidden="true"><img src="/images/vitni-mark.svg" alt="" /></span>RepairLens</a>
     <a class="page-back" href="/">← Home</a>
   </header>
-  <main class="page-shell">
+  <main class="page-shell" id="content">
     <section class="guide-index__hero guide-index__hero--motion">
       <div><h1>Start with the everyday fixes.</h1><p>Clear visual steps for bikes, home repairs, and the clothes you want to keep.</p></div>
-      <div class="guide-detail-motion"><canvas id="guideHeroLottie" aria-hidden="true"></canvas><span>Vitni · your repair sidekick</span></div>
+      <div class="guide-detail-motion"><img class="guide-static-vitni" src="/images/vitni.svg" alt="" aria-hidden="true" width="200" height="225" /><canvas id="guideHeroLottie" aria-hidden="true"></canvas><span>Vitni · your repair sidekick</span></div>
     </section>
     <section class="guide-search" id="askRepair" aria-labelledby="askRepairTitle">
       <div class="guide-search__intro"><div class="vitni-intro"><img class="vitni-buddy vitni-buddy--search" src="/images/vitni.svg" alt="Vitni, your friendly repair sidekick" /><div><p class="vitni-label">VITNI IS ON THE CASE</p><h2 id="askRepairTitle">Can’t find your repair?</h2></div></div><p>Tell me what changed and add a photo if you can. I’ll look for the likely issue, suggest a safe route, and draw the steps.</p></div>
       <form id="guideSearchForm">
         <label for="guideSearchDescription">Describe what’s wrong</label>
-        <textarea id="guideSearchDescription" rows="3" maxlength="1000" required placeholder="e.g. My kitchen drawer slides out of its track when I open it."></textarea>
+        <textarea id="guideSearchDescription" name="description" rows="3" maxlength="1000" required aria-describedby="guideSearchHelp guideSearchError" placeholder="e.g. My kitchen drawer slides out of its track when I open it."></textarea>
+        <small id="guideSearchHelp">A few details help us identify a safe route.</small><p class="field-error" id="guideSearchError" role="alert" hidden></p>
         <label class="guide-search__photo" for="guideSearchPhoto"><strong>Take a photo or choose a file</strong><span>JPG, PNG, or WebP · optional</span></label>
-        <input type="file" accept="image/png,image/jpeg,image/webp" id="guideSearchPhoto" />
+        <input type="file" accept="image/png,image/jpeg,image/webp" id="guideSearchPhoto" name="photo" />
         <p class="guide-search__photo-name" id="guideSearchPhotoName" aria-live="polite">A clear close-up helps us spot the details.</p>
         <button class="button primary" id="guideSearchSubmit" type="submit">Get my repair steps <span aria-hidden="true">→</span></button>
         <p class="guide-search__status" id="guideSearchStatus" aria-live="polite"></p>
@@ -38,7 +40,8 @@
     <section class="guide-library-section" aria-labelledby="guideLibraryTitle">
       <div class="section-heading"><div><h2 id="guideLibraryTitle">Choose a repair to explore.</h2><p>Real photos make the starting point easier to recognize.</p></div></div>
       <nav class="guide-filters" id="guideFilters" aria-label="Filter guides"></nav>
-      <section class="guide-grid" id="guideGrid" aria-live="polite"><!--REPAIRLENS_GUIDE_CARDS--></section>
+      <p class="guide-library-status" id="guideLibraryStatus" role="status" aria-live="polite" aria-atomic="true"></p>
+      <section class="guide-grid" id="guideGrid"><!--REPAIRLENS_GUIDE_CARDS--></section>
       <nav class="guide-pagination" id="guidePagination" aria-label="Guide pages"></nav>
     </section>
   </main>

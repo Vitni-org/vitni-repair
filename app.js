@@ -5,11 +5,19 @@ const photoPreview = document.querySelector('#photoPreview');
 const photoStatus = document.querySelector('#photoStatus');
 const removePhoto = document.querySelector('#removePhoto');
 const photoDropZone = document.querySelector('#photoDropZone');
+const diagnoseForm = document.querySelector('#diagnoseForm');
+const descriptionError = document.querySelector('#descriptionError');
 let photoName = '';
 let suggestedParts = [];
 
 const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function setDescriptionError(message = '') {
+  descriptionError.textContent = message;
+  descriptionError.hidden = !message;
+  descriptionInput.setAttribute('aria-invalid', String(Boolean(message)));
+}
 
 function setPhoto(file) {
   if (!file) return;
@@ -31,6 +39,7 @@ function setPhoto(file) {
 }
 
 photoInput.addEventListener('change', () => setPhoto(photoInput.files?.[0]));
+descriptionInput.addEventListener('input', () => { if (descriptionInput.value.trim()) setDescriptionError(); });
 removePhoto.addEventListener('click', () => {
   if (photoPreview.src.startsWith('blob:')) URL.revokeObjectURL(photoPreview.src);
   photoInput.value = '';
@@ -252,23 +261,23 @@ function fileToDataUrl(file) {
   });
 }
 
-document.querySelector('#diagnoseButton').addEventListener('click', async event => {
+diagnoseForm.addEventListener('submit', async event => {
   event.preventDefault();
   const file = photoInput.files?.[0];
   const description = descriptionInput.value.trim();
   const result = document.querySelector('#result');
   const loading = document.querySelector('#guideLoading');
   const loadingText = document.querySelector('#guideLoadingText');
-  const button = event.currentTarget;
   if (!description) {
-    detectionNote.hidden = false;
-    detectionNote.textContent = 'Describe what happened in a few words so the repair guide has context.';
-    descriptionInput.focus();
+    setDescriptionError('Describe what happened in a few words so the repair guide has context.');
+    descriptionInput.focus({ preventScroll: true });
     return;
   }
+  setDescriptionError();
+  const submitButton = document.querySelector('#diagnoseButton');
   let planRendered = false;
-  button.disabled = true;
-  button.textContent = 'Building your guide…';
+  submitButton.disabled = true;
+  submitButton.textContent = 'Building your guide…';
   result.hidden = false;
   loading.hidden = false;
   loadingText.textContent = file ? 'Looking closely at your photo and description…' : 'Finding a safe repair route from your description…';
@@ -290,13 +299,14 @@ document.querySelector('#diagnoseButton').addEventListener('click', async event 
         if (!figure.querySelector('img')) figure.innerHTML = '<div class="step-visual-fallback" aria-hidden="true">Illustration unavailable</div><figcaption>Follow the written step above.</figcaption>';
       });
     } else {
-      detectionNote.hidden = false;
-      detectionNote.textContent = `Could not build the repair guide: ${error.message}. Check your connection and try again.`;
+      const message = `Could not build the repair guide: ${error.message}. Check your connection and try again.`;
+      setDescriptionError(message);
+      descriptionInput.focus({ preventScroll: true });
     }
   } finally {
     loading.hidden = true;
     document.dispatchEvent(new CustomEvent('repairlens:guide-loading', { detail: { active: false } }));
-    button.disabled = false;
-    button.innerHTML = 'Get my repair steps <svg aria-hidden="true"><use href="#arrow" /></svg>';
+    submitButton.disabled = false;
+    submitButton.innerHTML = 'Get my repair steps <svg aria-hidden="true"><use href="#arrow" /></svg>';
   }
 });

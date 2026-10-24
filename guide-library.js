@@ -22,15 +22,18 @@ function renderGuideLibrary() {
   currentPage = Math.min(currentPage, pageCount);
   const visible = filtered.slice((currentPage - 1) * pageSize, currentPage * pageSize);
   document.querySelector('#guideFilters').innerHTML = filters.map(name => `<button class="guide-filter" type="button" data-area="${name}" aria-pressed="${name === activeArea}">${name}</button>`).join('');
-  document.querySelector('#guideGrid').innerHTML = visible.map(guide => `<article class="guide-card"><a class="guide-card__link" href="/guides/${guide.id}/"><img src="${guide.image}" alt="${guide.alt}" loading="lazy" decoding="async" /><div class="guide-card__body"><span class="guide-card__area">${guide.area.toUpperCase()} · ${guide.level.toUpperCase()}</span><h3>${guide.title}</h3><p>${guide.desc}</p><span class="guide-card__action">Open illustrated guide <span aria-hidden="true">→</span></span></div></a></article>`).join('');
+  document.querySelector('#guideGrid').innerHTML = visible.map(guide => `<article class="guide-card"><a class="guide-card__link" href="/guides/${guide.id}/"><img src="${guide.image}" alt="${guide.alt}" width="720" height="720" loading="lazy" decoding="async" /><div class="guide-card__body"><span class="guide-card__area">${guide.area.toUpperCase()} · ${guide.level.toUpperCase()}</span><h3>${guide.title}</h3><p>${guide.desc}</p><span class="guide-card__action">Open illustrated guide <span aria-hidden="true">→</span></span></div></a></article>`).join('');
   const firstItem = filtered.length ? ((currentPage - 1) * pageSize) + 1 : 0;
   const lastItem = Math.min(currentPage * pageSize, filtered.length);
+  const status = document.querySelector('#guideLibraryStatus');
+  status.textContent = `Showing ${firstItem}–${lastItem} of ${filtered.length} ${activeArea === 'All' ? '' : `${activeArea.toLowerCase()} `}guides. Page ${currentPage} of ${pageCount}.`;
   document.querySelector('#guidePagination').innerHTML = pageCount > 1 ? `<button type="button" data-page="previous" ${currentPage === 1 ? 'disabled' : ''}>← Previous</button><span>Showing ${firstItem}–${lastItem} of ${filtered.length}</span><button type="button" data-page="next" ${currentPage === pageCount ? 'disabled' : ''}>Next →</button>` : `<span>${filtered.length} ${filtered.length === 1 ? 'guide' : 'guides'}</span>`;
   document.querySelectorAll('.guide-filter').forEach(button => button.addEventListener('click', () => {
     activeArea = button.dataset.area;
     currentPage = 1;
     updateLibraryUrl();
     renderGuideLibrary();
+    document.querySelector(`.guide-filter[data-area="${CSS.escape(activeArea)}"]`)?.focus({ preventScroll: true });
   }));
 }
 document.querySelector('#guidePagination')?.addEventListener('click', event => {
@@ -40,5 +43,6 @@ document.querySelector('#guidePagination')?.addEventListener('click', event => {
   updateLibraryUrl();
   renderGuideLibrary();
   document.querySelector('#guideLibraryTitle')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+  document.querySelector(`button[data-page="${button.dataset.page}"]`)?.focus({ preventScroll: true });
 });
 renderGuideLibrary();
