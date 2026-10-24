@@ -24,12 +24,12 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
         <div className="home-hero__copy">
           <p className="eyebrow">
             <span className="eyebrow-dot" />
-            Your pocket repair guide
+            Meet Vitni · your repair sidekick
           </p>
           <h1 className="hero-title">
             Keep good things <em>going.</em>
           </h1>
-          <p className="home-hero__lede">Show us what changed. Get a safe, illustrated route to fixing it.</p>
+          <p className="home-hero__lede">I’m Vitni. Show me what changed, and I’ll help you find a safe, practical next step.</p>
           <div className="home-hero__actions">
             <Link className={buttonVariants({ className: "primary-action", size: "lg" })} href="#diagnose">
               Get my repair steps <ArrowRight aria-hidden="true" />
@@ -78,7 +78,7 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
               <br className="desktop-break" /> to the next right move.
             </h2>
           </div>
-          <p>Vitni turns a photo and a few words into a practical repair plan, then helps you find the right parts and nearby help.</p>
+          <p>Send me a photo and a few words about what changed. I’ll suggest safe steps, parts to check, and nearby help.</p>
         </div>
         <div className="flow-steps">
           <article>
@@ -114,7 +114,7 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
           <h2 className="section-title" id="diagnose-title">
             What happened to it?
           </h2>
-          <p>Share the change you noticed. Add a photo if you can. Vitni will look for the likely issue and suggest a safe next step.</p>
+          <p>Tell me what changed. A clear photo helps me spot the detail, but words work too.</p>
         </div>
         <DeferredRepairRequest />
       </section>
@@ -203,18 +203,15 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
           <Image alt="Vitni, a cheerful comic-style repair robot with a wrench" fill sizes="(max-width: 760px) 70vw, 360px" src="/images/vitni.svg" />
         </div>
         <div>
-          <p className="eyebrow">Small repairs, longer stories</p>
+          <p className="eyebrow">Repairs worth keeping</p>
           <h2 className="section-title">
             Give good things
             <br />
             another chapter.
           </h2>
-          <p>
-            Learn a repair, share what worked, and pass useful things on. Vitni is here for the satisfying little fixes and the moments when it’s time
-            to ask a pro.
-          </p>
-          <Link className="text-link text-link--arrow" href="/guides/">
-            Meet your next repair <ArrowRight aria-hidden="true" />
+          <p>I love the little fixes that keep useful things in your life. I’ll help you see what’s safe to try and when to ask a repair pro.</p>
+          <Link className="text-link text-link--arrow" href="#diagnose">
+            Ask Vitni about your item <ArrowRight aria-hidden="true" />
           </Link>
         </div>
       </section>

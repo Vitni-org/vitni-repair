@@ -119,7 +119,7 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ sl
             <p>{guide.safetyNotes || "If the item feels unstable, unsafe, or unfamiliar, stop and ask a qualified repairer."}</p>
             <div className="vitni-aside">
               <Image alt="" aria-hidden="true" height={80} src="/images/vitni.svg" width={76} />
-              <p>Vitni says: stop if a part feels unsafe or needs force.</p>
+              <p>I’m Vitni. If a part feels unsafe or needs force, stop and ask a repair pro.</p>
             </div>
           </div>
           {!!guide.tools.length && (

@@ -103,7 +103,7 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
         <div>
           <p className="eyebrow">Your turn</p>
           <h2>Want a guide for your repair?</h2>
-          <p>Tell Vitni what happened. Get a safe next step tailored to the issue.</p>
+          <p>Tell me what changed. I’ll help you find a safe next step for your repair.</p>
         </div>
         <Link href="/#diagnose">
           Get my repair steps <ArrowRight aria-hidden="true" />

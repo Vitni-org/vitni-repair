@@ -9,7 +9,7 @@ import { searchGuides } from "@/lib/guide-repository";
 
 export const metadata: Metadata = {
   title: "Repair guide library | RepairLens",
-  description: "Browse practical, illustrated repair guides for bicycles, home fixtures, furniture, and clothes.",
+  description: "Meet Vitni, your repair sidekick, and browse practical guides for bicycles, home fixtures, furniture, and clothes.",
   alternates: { canonical: "/guides/" },
 };
 
@@ -33,12 +33,12 @@ export default async function GuidesPage({ searchParams }: { searchParams: Promi
     <main className="library-page" id="content">
       <section className="library-hero">
         <div>
-          <p className="eyebrow">Repair library</p>
+          <p className="eyebrow">Vitni’s repair library</p>
           <h1 className="hero-title">
             Start with the
             <br /> everyday fixes.
           </h1>
-          <p>Clear visual steps for bikes, home repairs, and the clothes you want to keep.</p>
+          <p>I’ve gathered practical starting points for bikes, home repairs, and clothes. Check the tools and safety notes before you begin.</p>
         </div>
         <div className="library-hero__mascot">
           <Image alt="Vitni, your repair sidekick" fill priority sizes="(max-width: 760px) 40vw, 230px" src="/images/vitni.svg" />
