@@ -6,7 +6,7 @@ const guidePage = document.querySelector('#guidePage');
 guidePage.innerHTML = `
   <section class="guide-detail-hero">
     <div><p class="overline">${escapeGuideText(guide.area.toUpperCase())} · ${escapeGuideText(guide.level.toUpperCase())}</p><h1>${escapeGuideText(guide.title)}</h1><p>${escapeGuideText(guide.desc)}</p><div class="case-meta"><span>${escapeGuideText(guide.time)}</span><span>COMMON REPAIR GUIDE</span></div></div>
-    <div class="guide-detail-motion"><canvas id="guideHeroLottie" aria-hidden="true"></canvas><span>Motion by <a href="https://lottiefiles.com/free-animation/happy-mechanic-n0qDVVhbfA" target="_blank" rel="noreferrer">Rishabh Goel / LottieFiles ↗</a></span></div>
+    <div class="guide-detail-motion"><canvas id="guideHeroLottie" aria-hidden="true"></canvas><span>Vitni · your repair sidekick</span></div>
   </section>
   <section class="repair-guide-layout" aria-labelledby="repairStepsTitle">
     <div class="repair-guide-main"><div class="repair-guide-heading"><div><p class="overline">REPAIR PATH</p><h2 id="repairStepsTitle">One clear step at a time.</h2></div><p class="illustration-note">AI-generated illustrations are visual hints. Check the fit and follow the written instructions.</p></div>
