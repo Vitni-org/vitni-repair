@@ -1,38 +1,63 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none" role="img" aria-labelledby="title desc">
   <title id="title">Vitni, your repair sidekick</title>
-  <desc id="desc">A cheerful comic-style helper robot carrying a small wrench.</desc>
+  <desc id="desc">A friendly comic helper robot with bright, expressive eyes and a small wrench.</desc>
   <g stroke="#142F2A" stroke-linecap="round" stroke-linejoin="round">
-    <!-- Antenna and friendly head -->
-    <path d="M158 40V25" stroke-width="8"/>
-    <path d="M158 23l11-9" stroke="#D9EF50" stroke-width="9"/>
-    <circle cx="173" cy="12" r="9" fill="#E7674D" stroke-width="4"/>
-    <path d="M105 50c0-21 17-38 38-38h34c21 0 38 17 38 38v69c0 26-21 47-47 47h-16c-26 0-47-21-47-47V50Z" fill="#F7F8F3" stroke-width="7"/>
-    <path d="M95 76h10m110 0h10" stroke="#D9EF50" stroke-width="9"/>
-    <path d="M119 63c0-8 7-15 15-15h52c8 0 15 7 15 15v37c0 10-8 18-18 18h-46c-10 0-18-8-18-18V63Z" fill="#194C42" stroke-width="5"/>
-    <ellipse cx="139" cy="79" rx="6" ry="8" fill="#D9EF50" stroke="none"/>
-    <ellipse cx="181" cy="79" rx="6" ry="8" fill="#D9EF50" stroke="none"/>
-    <path d="M141 99c5 6 11 9 19 9s14-3 19-9" stroke="#F7F8F3" stroke-width="4"/>
-    <circle cx="112" cy="132" r="5" fill="#E7674D" stroke-width="3"/>
-    <circle cx="208" cy="132" r="5" fill="#E7674D" stroke-width="3"/>
-    <!-- Open, welcoming arms -->
-    <path d="M119 181 81 206 54 178" stroke-width="18"/>
-    <circle cx="81" cy="205" r="13" fill="#D9EF50" stroke-width="5"/>
-    <circle cx="51" cy="174" r="9" fill="#D9EF50" stroke-width="5"/>
-    <path d="m56 179-6-6-9-9" stroke="#C8D5CF" stroke-width="5"/>
-    <path d="m41 164-19-19" stroke="#E7674D" stroke-width="12"/>
-    <path d="m21 145-7-8" stroke="#194C42" stroke-width="16"/>
-    <path d="M201 181 239 206 263 176" stroke-width="18"/>
-    <circle cx="239" cy="205" r="13" fill="#D9EF50" stroke-width="5"/>
-    <!-- Small wrench in the right hand -->
-    <path d="m266 165 15-15a17 17 0 0 0-21-21l-15 15 21 21Z" fill="#F7F8F3" stroke-width="5"/>
-    <path d="m249 158-34 35" stroke="#E7674D" stroke-width="9"/>
-    <path d="m210 188 11 11" stroke-width="5"/>
-    <!-- Compact suit and chest badge -->
-    <path d="M128 159c9 7 20 11 32 11s23-4 32-11l24 20-11 78H115l-11-78 24-20Z" fill="#194C42" stroke-width="7"/>
-    <path d="m144 180 16 12 16-12 8 18-13 13h-22l-13-13 8-18Z" fill="#D9EF50" stroke-width="4"/>
-    <path d="m158 187-7 11h8l-3 9 12-14h-8l4-6" fill="#194C42" stroke="none"/>
-    <path d="M126 253v42l-15 23c-4 7 1 15 9 15h34v-80m23 0v42l15 23c4 7-1 15-9 15h-34" fill="#F7F8F3" stroke-width="7"/>
-    <path d="M109 333h44m22 0h44" stroke="#E7674D" stroke-width="10"/>
-    <path d="M111 246h98" stroke="#D9EF50" stroke-width="5"/>
+    <!-- Little comic glints make the pose feel lively without crowding the silhouette. -->
+    <path d="m57 95 4 9 9 4-9 4-4 9-4-9-9-4 9-4 4-9Z" fill="#D9EF50" stroke-width="3"/>
+    <path d="m250 45 3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7Z" fill="#E7674D" stroke-width="3"/>
+
+    <!-- Bolt-shaped antenna and soft, rounded helmet. -->
+    <path d="M159 45V31" stroke-width="7"/>
+    <path d="m157 30 8-11-1 8 8-3-11 13 2-8-6 1Z" fill="#D9EF50" stroke-width="3"/>
+    <path d="M88 84c0-24 19-43 43-43h58c24 0 43 19 43 43v53c0 31-25 56-56 56h-32c-31 0-56-25-56-56V84Z" fill="#F7F8F3" stroke-width="7"/>
+    <path d="M84 94h7m138 0h7" stroke="#D9EF50" stroke-width="9"/>
+    <circle cx="91" cy="94" r="5" fill="#E7674D" stroke-width="2.5"/>
+    <circle cx="229" cy="94" r="5" fill="#E7674D" stroke-width="2.5"/>
+
+    <!-- Face screen: clear eye whites, dark pupils, catchlights, brows and a warm smile. -->
+    <rect x="108" y="76" width="104" height="78" rx="28" fill="#194C42" stroke-width="5"/>
+    <g id="vitni-face-features">
+    <g id="vitni-eyes-open">
+    <path d="M126 94c4-5 9-7 15-7m38 0c6 0 11 2 15 7" stroke="#F7F8F3" stroke-width="3.5"/>
+    <ellipse cx="143" cy="108" rx="10" ry="13" fill="#F7F8F3" stroke="none"/>
+    <ellipse cx="177" cy="108" rx="10" ry="13" fill="#F7F8F3" stroke="none"/>
+    <ellipse cx="145" cy="110" rx="4.5" ry="7" fill="#142F2A" stroke="none"/>
+    <ellipse cx="179" cy="110" rx="4.5" ry="7" fill="#142F2A" stroke="none"/>
+    <circle cx="146.5" cy="107" r="1.6" fill="#F7F8F3" stroke="none"/>
+    <circle cx="180.5" cy="107" r="1.6" fill="#F7F8F3" stroke="none"/>
+    </g>
+    <path d="M143 132c5 6 11 9 18 9s13-3 18-9" stroke="#F7F8F3" stroke-width="4"/>
+    <path d="M119 127c4-3 8-3 12 0m60 0c4-3 8-3 12 0" stroke="#E7674D" stroke-width="3"/>
+    </g>
+
+    <!-- Left hand waves hello; right hand holds an unmistakable open-end wrench. -->
+    <path d="m116 187-33 22-23-24" stroke-width="17"/>
+    <path d="m59 184-9-13m12 12-2-16m5 17 5-13" stroke-width="7"/>
+    <circle cx="83" cy="208" r="11" fill="#D9EF50" stroke-width="4"/>
+    <path d="M202 188 232 208 259 175" stroke-width="17"/>
+    <circle cx="233" cy="208" r="11" fill="#D9EF50" stroke-width="4"/>
+    <g id="vitni-wrench">
+    <path d="M263 171V112" stroke="#E7674D" stroke-width="12"/>
+    <path d="M255 111 247 99c-7-12-3-26 7-34 9-7 20-7 29-2l-14 14 6 11 16 1 12-14c5 12 1 25-9 33-9 7-20 8-30 3Z" fill="#F7F8F3" stroke-width="5"/>
+    <path d="M257 151h12" stroke="#F7F8F3" stroke-width="3"/>
+    </g>
+    <circle cx="263" cy="172" r="9" fill="#D9EF50" stroke-width="4"/>
+
+    <!-- Short work jacket, bright repair badge and a tidy utility pocket. -->
+    <path d="M126 169c9 9 21 14 34 14s25-5 34-14l22 17-9 94H113l-9-94 22-17Z" fill="#194C42" stroke-width="7"/>
+    <path d="M151 188h18l9 15-18 16-18-16 9-15Z" fill="#D9EF50" stroke-width="4"/>
+    <path d="m159 193-6 10h7l-3 8 10-12h-7l3-6" fill="#194C42" stroke="none"/>
+    <path d="M184 224h18v26h-18z" fill="#F7F8F3" stroke-width="4"/>
+    <path d="M187 230h12" stroke="#E7674D" stroke-width="3"/>
+    <path d="M116 253h88" stroke="#D9EF50" stroke-width="5"/>
+    <circle cx="117" cy="188" r="7" fill="#E7674D" stroke-width="3"/>
+    <circle cx="203" cy="188" r="7" fill="#E7674D" stroke-width="3"/>
+
+    <!-- Slim segmented legs and coral-soled work boots. -->
+    <path d="M132 264v43m54-43v43" stroke-width="14"/>
+    <path d="M132 273v31m54-31v31" stroke="#F7F8F3" stroke-width="7"/>
+    <path d="M125 306v20c0 6 5 10 11 10h18v-9h-14v-21m46 0v21h-14v9h18c6 0 11-4 11-10v-20" fill="#F7F8F3" stroke-width="6"/>
+    <path d="M128 334h28m26 0h28" stroke="#E7674D" stroke-width="9"/>
+    <path d="M123 326h30m31 0h25" stroke="#142F2A" stroke-width="4"/>
   </g>
 </svg>

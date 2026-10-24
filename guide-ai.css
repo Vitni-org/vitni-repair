@@ -64,10 +64,10 @@
 /* Vitni’s custom vector Lottie occupies the guide hero. */
 .guide-detail-motion{min-height:260px;background:#e8e4da}
 .guide-detail-motion:before,.guide-detail-motion:after{display:none}
-.guide-detail-motion canvas{width:min(100%,220px);height:auto;aspect-ratio:8/9;max-width:none}
+.guide-detail-motion canvas{width:min(100%,180px);height:auto;aspect-ratio:8/9;max-width:none}
 .guide-detail-motion>span{left:.75rem;bottom:.6rem;padding:.25rem .4rem;background:var(--paper);font:600 .72rem Manrope,system-ui,sans-serif;letter-spacing:0}
 .guide-detail-motion>span a{color:var(--forest);text-underline-offset:3px}
-.guide-static-vitni{display:none;width:min(100%,190px);height:auto}
+.guide-static-vitni{display:none;width:min(100%,180px);height:auto}
 .guide-search{align-items:start;background:#e8e4da;border:1px solid var(--line)}
 .guide-search form{grid-template-columns:minmax(0,1fr) minmax(220px,.8fr);gap:.7rem 1rem}
 .guide-search label[for=guideSearchDescription],.guide-search textarea,.guide-search button,.guide-search__status{grid-column:1/-1}
@@ -83,5 +83,6 @@
 .guide-search__status{min-height:1.2rem;margin:0;color:var(--forest);font-size:.78rem}
 .guide-search #guideSearchHelp{grid-column:1/-1;margin:0;color:var(--muted);font-size:.78rem}.guide-search .field-error{grid-column:1/-1}
 @media(max-width:800px){.guide-search form{grid-template-columns:1fr}.guide-search textarea,.guide-search label[for=guideSearchDescription],.guide-search__photo,.guide-search__photo-name,.guide-search button,.guide-search__status{grid-column:1}}
-@media(max-width:560px){.guide-detail-motion{min-height:200px}.guide-detail-motion canvas{width:150px;height:auto}}
+@media(max-width:560px){.guide-detail-motion{min-height:200px}.guide-detail-motion canvas{width:132px;height:auto}.guide-detail-motion .guide-static-vitni{width:132px}}
 @media(prefers-reduced-motion:reduce){.guide-detail-motion:before,.guide-detail-motion:after{display:none!important}.guide-detail-motion canvas{display:none}.guide-static-vitni{display:block}}
+.guide-detail-motion.show-static-vitni canvas{display:none}.guide-detail-motion.show-static-vitni .guide-static-vitni{display:block}
