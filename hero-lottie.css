@@ -1,3 +1,0 @@
-.hero .hero-lottie{position:absolute;z-index:0;right:clamp(1rem,10vw,10rem);bottom:4rem;width:min(31vw,300px);height:auto;aspect-ratio:8/9;max-width:none;pointer-events:none;opacity:.9}.hero .hero-lottie[hidden]{display:none}@media(max-width:700px){.hero .hero-lottie{width:160px;height:auto;right:1rem;bottom:2rem;opacity:.75}}
-
-@media(prefers-reduced-motion:reduce){.hero .hero-lottie{display:none}}

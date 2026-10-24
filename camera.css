@@ -1,5 +1,0 @@
-.photo-box{margin-top:1rem;border:1px dashed #8a988f;background:#fff;padding:1rem;display:flex;justify-content:space-between;gap:1rem;align-items:center;min-height:126px}
-.photo-copy{display:grid;gap:.3rem}.photo-copy strong{font-size:1.1rem;letter-spacing:-.03em}.photo-copy p{margin:0;color:var(--muted);font-size:.9rem}
-.upload-button,.remove-photo{width:max-content;min-height:44px;padding:.55rem .75rem;border:1px solid var(--forest);background:transparent;color:var(--forest);font-weight:800;border-radius:3px;cursor:pointer}
-.upload-button{margin-top:.4rem}.remove-photo{border:0;text-decoration:underline;padding:0;color:var(--muted)}#photoInput{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}.photo-box img{display:block;width:116px;height:92px;object-fit:cover;border:1px solid var(--line)}.photo-box img[hidden]{display:none}
-@media(max-width:700px){.photo-box{align-items:flex-start}.photo-box img{width:92px;height:92px}}

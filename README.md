@@ -1,45 +1,72 @@
 # RepairLens
 
-RepairLens is a responsive, installable web prototype that gives people a safe, practical repair path for everyday bikes, clothes, and household goods.
+RepairLens is a responsive, installable repair guide app. Vitni helps people understand everyday repairs, follow illustrated steps, and find community support when a job needs an extra hand.
 
-## Build and run
+## Stack
 
-```bash
-npm run build
-npm start
-```
+- Node.js 22
+- pnpm 12
+- Next.js App Router and React 19
+- Tailwind CSS 4
+- shadcn/ui components built on Base UI
+- Supabase Postgres and Storage for the shared generated guide library
+- OpenAI Responses API for repair assessment and image generation
 
-Open [http://localhost:4174](http://localhost:4174).
-
-`npm run build` writes the static pages and assets to `dist/`. `npm start` runs the build automatically, then starts the Node server that serves those files and the guide API. Deploy that Node service for the shared Supabase library; a static-only host cannot save generated guides or serve database-backed detail pages.
-
-## Public URL
-
-The build uses `https://vitni.cc` as the production URL for canonical links, social cards, and discovery files. To use a different public origin for a preview deployment, set only `PUBLIC_SITE_URL` in `.env` (or your deployment environment):
+## Run locally
 
 ```bash
-PUBLIC_SITE_URL=https://preview.example.com
+nvm use
+corepack enable
+pnpm install
+pnpm dev
 ```
 
-Configure `https://vitni.cc` at the production host before deploying the default build so those absolute URLs resolve correctly.
+Open [http://localhost:4174](http://localhost:4174). The app works with curated guides without external credentials. Copy `.env.example` to `.env.local` for AI generation and shared guide storage.
 
-## Demo flow
+## Environment
 
-1. Describe what is broken and optionally add a photo.
-2. Review the safety status, repair steps, illustrations, and suggested parts.
-3. Browse the shared guide library or open a saved guide link later.
+```dotenv
+OPENAI_API_KEY=
+SUPABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=
+PUBLIC_SITE_URL=https://vitni.cc
+```
+
+Keep `OPENAI_API_KEY` and `SUPABASE_SERVICE_ROLE_KEY` server-side. Do not use a `NEXT_PUBLIC_` prefix for either secret. `PUBLIC_SITE_URL` sets canonical URLs, sitemap and agent discovery links, and metadata origins.
 
 ## Supabase guide library
 
-The curated guides remain available locally without Supabase. Configure the shared store on the Node server to persist generated guides and illustrations:
+Run `supabase/migrations/20261024000000_create_guide_library.sql` in the Supabase SQL Editor, then seed the curated set:
 
 ```bash
-cp .env.example .env
-# Add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to .env
-# Run supabase/migrations/20261024000000_create_guide_library.sql in the Supabase SQL Editor
-npm run seed:guides
+pnpm seed:guides
 ```
 
-The migration creates `guides`, `guide_steps`, and `guide_parts`, enables row-level security, and creates the private `guide-illustrations` storage bucket. That bucket name is fixed in the migration. The browser never receives the service-role key. Keep it in the server environment on vitni.cc. Generated source photos and raw descriptions are not stored. Public guides are generalized and searchable; photo-specific and do-not-attempt results use unlisted links.
+The migration creates the guide, step, and part tables plus the private `guide-illustrations` storage bucket. The server uses the service-role credential; the browser never receives it. Generated descriptions and source photos are not saved. Generalized, safe DIY plans can be published and reused; photo-specific or unsafe results use unlisted share links.
 
-Without Supabase credentials, curated pages continue to work and generated plans are shown as one-time results with a clear “not saved” status.
+If Supabase credentials are absent, curated guide pages and search remain available locally. AI results are shown with a clear notice that the shared guide library is not connected.
+
+## Commands
+
+```bash
+pnpm dev
+pnpm build
+pnpm start
+pnpm lint
+pnpm typecheck
+pnpm format
+pnpm seed:guides
+```
+
+## Routes
+
+- `/` RepairLens home and photo-based repair request
+- `/guides/` searchable, paginated repair guide library
+- `/guides/[slug]/` individual illustrated repair guides
+- `/stories/[slug]/` repair stories and steps taken
+- `/repairs/[token]/` private, unlisted generated guides
+- `/api/repair-guide` assessment, illustration, deduplication, and Supabase persistence
+- `/api/guides` shared guide listing and search
+- `/sitemap.xml`, `/robots.txt`, `/llms.txt`, `/llms-full.txt` discovery endpoints
+
+Legacy `/guides.html`, `/guide.html?guide=…`, and `/story.html?story=…` links redirect to the App Router URLs.

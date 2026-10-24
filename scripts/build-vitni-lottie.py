@@ -287,7 +287,7 @@ def open_face_layer():
 
 
 def main():
-    master = ET.parse(ROOT / 'images/vitni.svg').getroot()
+    master = ET.parse(ROOT / 'public/images/vitni.svg').getroot()
     blink_master = copy.deepcopy(master)
     eyes = next(node for node in blink_master.iter() if node.get('id') == 'vitni-eyes-open')
     eyebrow = eyes[0]
@@ -321,9 +321,9 @@ def main():
         ],
         'markers': []
     }
-    target = ROOT / 'animations/vitni-repair-v4.json'
+    target = ROOT / 'public/animations/vitni-repair-v4.json'
     target.write_text(json.dumps(lottie, separators=(',', ':')) + '\n')
-    print(f'Built {target.name} from images/vitni.svg with {len(body)} body shapes, {len(open_face)} face shapes, and {len(wrench)} wrench shapes.')
+    print(f'Built {target.name} from public/images/vitni.svg with {len(body)} body shapes, {len(open_face)} face shapes, and {len(wrench)} wrench shapes.')
 
 
 if __name__ == '__main__':
