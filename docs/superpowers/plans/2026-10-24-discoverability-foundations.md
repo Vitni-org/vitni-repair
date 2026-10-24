@@ -55,7 +55,7 @@
 - [ ] Move the current story object into `site-data.js` as `stories`; preserve its four IDs and safety/outcome fields.
 - [ ] Change `guide-library.js` to import `{ guides } from './site-data.js'`; leave filter names, URL state, page size, and click behavior intact.
 - [ ] Change guide detail enhancement to resolve the static `data-guide-id` from the module and only request illustrations/update status; do not create headings or instructions that are absent from the HTML.
-- [ ] Change story detail enhancement to resolve the static story ID and only add interactive sharing; remove client-only page rendering.
+- [ ] Change story detail enhancement to resolve the static story ID for legacy-query redirects and remove client-only page rendering. Leave share-button binding to Task 3, when static share controls are added.
 - [ ] Mark relevant scripts as ES modules and preserve script load order; load shared data before the library/detail enhancement module.
 - [ ] Inspect representative records in the new module against the existing source to ensure all repair steps and safety text are retained.
 
