@@ -38,3 +38,39 @@ The guide data was moved directly from the previous array, and story data was mo
 ## Concerns
 
 The source `guide.html` and `story.html` shells no longer render full detail content on their own; the approved follow-up static site generator task must generate the clean route pages before deployment. The legacy browser redirect also relies on those clean routes being generated.
+
+## Fix round: remove unavailable story share binding
+
+Removed the story share handler from `case-study.js` as directed by the updated Task 1 brief. The module still reads `data-story-id`, resolves it against `stories`, and redirects legacy `?story=` URLs to the clean story path or home for unknown IDs. Story share behavior is deferred to Task 3, which adds the static controls and status region.
+
+### Exact commands and verification output
+
+Command:
+
+```sh
+node --check case-study.js
+```
+
+Output: exit code 0 (no syntax diagnostics).
+
+Command:
+
+```sh
+if rg -n 'data-share-button|data-share-status|navigator\\.share|clipboard' case-study.js; then printf 'Unexpected share binding remains.\\n'; exit 1; else printf 'No share binding selectors or APIs in case-study.js.\\n'; fi
+```
+
+Output:
+
+```text
+No share binding selectors or APIs in case-study.js.
+```
+
+Command:
+
+```sh
+git diff --check
+```
+
+Output: exit code 0 (no whitespace errors).
+
+No tests were added or run.
