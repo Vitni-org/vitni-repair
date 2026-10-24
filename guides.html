@@ -1,1 +1,20 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/><link rel="stylesheet" href="/styles.css"/><link rel="stylesheet" href="/library.css"/><title>Repair guides — RepairLens</title></head><body><header class="page-nav"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true"><img src="/images/repairlens-mark.svg" alt=""/></span>RepairLens</a><a class="page-back" href="/">← Home</a></header><main class="page-shell"><section class="guide-index__hero"><p class="overline">COMMON REPAIR GUIDES</p><h1>Start with the everyday fixes.</h1><p>Practical, safety-first mini guides for the things most likely to wear, loosen, slip, or tear.</p></section><nav class="guide-filters" id="guideFilters" aria-label="Filter guides"></nav><section class="guide-grid" id="guideGrid" aria-live="polite"></section></main><script src="/guide-library.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#194c42"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/styles.css"/><link rel="stylesheet" href="/library.css"/><link rel="stylesheet" href="/guide-ai.css?v=2"/>
+  <title>Repair guides — RepairLens</title>
+</head>
+<body>
+  <header class="page-nav"><a class="brand" href="/" aria-label="RepairLens home"><span class="brand-mark" aria-hidden="true"><img src="/images/repairlens-mark.svg" alt=""/></span>RepairLens</a><a class="page-back" href="/">← Home</a></header>
+  <main class="page-shell">
+    <section class="guide-index__hero guide-index__hero--motion"><div><p class="overline">REPAIR LIBRARY</p><h1>Start with the everyday fixes.</h1><p>Clear visual steps for bikes, home repairs, and the clothes you want to keep.</p></div><div class="guide-detail-motion" aria-hidden="true"><canvas id="guideLoadingLottie"></canvas><span>LEARN · REPAIR · KEEP</span></div></section>
+    <section class="guide-search" id="askRepair" aria-labelledby="askRepairTitle"><div class="guide-search__intro"><p class="overline">YOUR ITEM, YOUR GUIDE</p><h2 id="askRepairTitle">Can’t find your repair?</h2><p>Describe what happened. Add a photo if you like. RepairLens will suggest a safe route and illustrate the steps.</p></div><form id="guideSearchForm"><label for="guideSearchCategory">Item type</label><select id="guideSearchCategory"><option value="bike">Bike</option><option value="clothes">Clothes</option><option value="home">Home</option><option value="other">Something else</option></select><label for="guideSearchDescription">What’s wrong?</label><textarea id="guideSearchDescription" rows="3" maxlength="1000" required placeholder="e.g. My kitchen drawer slides out of its track when I open it."></textarea><label class="guide-search__photo" for="guideSearchPhoto">Add a photo <span>optional</span></label><input type="file" accept="image/png,image/jpeg,image/webp" id="guideSearchPhoto"/><button class="button primary" id="guideSearchSubmit" type="submit">Make my illustrated guide <span aria-hidden="true">→</span></button><p class="guide-search__status" id="guideSearchStatus" aria-live="polite"></p></form></section>
+    <section class="generated-guide" id="generatedGuide" hidden aria-live="polite"></section>
+    <section class="guide-library-section"><div class="section-heading"><div><p class="overline">COMMON REPAIRS</p><h2>Pick a place to start.</h2></div></div><nav class="guide-filters" id="guideFilters" aria-label="Filter guides"></nav><section class="guide-grid" id="guideGrid" aria-live="polite"></section></section>
+  </main>
+  <script src="/guide-library.js?v=2"></script><script src="/guide-ai.js?v=2"></script><script type="module" src="/hero-lottie.js?v=3"></script>
+</body>
+</html>
