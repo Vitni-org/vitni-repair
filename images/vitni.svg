@@ -17,7 +17,10 @@
     <!-- Open, welcoming arms -->
     <path d="M119 181 81 206 54 178" stroke-width="18"/>
     <circle cx="81" cy="205" r="13" fill="#D9EF50" stroke-width="5"/>
-    <path d="M51 174 38 161m13 13 13-13" stroke-width="8"/>
+    <circle cx="51" cy="174" r="9" fill="#D9EF50" stroke-width="5"/>
+    <path d="m56 179-6-6-9-9" stroke="#C8D5CF" stroke-width="5"/>
+    <path d="m41 164-19-19" stroke="#E7674D" stroke-width="12"/>
+    <path d="m21 145-7-8" stroke="#194C42" stroke-width="16"/>
     <path d="M201 181 239 206 263 176" stroke-width="18"/>
     <circle cx="239" cy="205" r="13" fill="#D9EF50" stroke-width="5"/>
     <!-- Small wrench in the right hand -->

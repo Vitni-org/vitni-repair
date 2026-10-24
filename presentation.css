@@ -3,7 +3,6 @@
 .presentation-flow__lead{display:grid;grid-template-columns:minmax(0,1fr) minmax(210px,.45fr);gap:1.5rem;padding:clamp(1.5rem,4vw,3.25rem);align-items:end;border-bottom:1px solid var(--line)}
 .presentation-flow__lead h2{max-width:700px;font-size:clamp(1.9rem,4.2vw,3.35rem);letter-spacing:-.065em;line-height:1;margin:.45rem 0 0}
 .presentation-flow__lead p{margin:0;color:var(--muted);max-width:27rem}
-.presentation-flow__route{width:100%;height:96px;align-self:center;pointer-events:none;background:radial-gradient(circle,rgba(25,76,66,.28) 1.4px,transparent 1.6px) center/13px 2px repeat-x}
 .presentation-flow__steps{display:grid;grid-template-columns:repeat(3,1fr)}
 .flow-step{padding:1.4rem;min-height:190px;border-right:1px solid var(--line);display:grid;align-content:start;gap:.7rem;position:relative}
 .flow-step:last-child{border-right:0}.flow-step__icon{width:42px;height:42px;padding:10px;border-radius:50%;display:grid;place-items:center;background:var(--lime);color:var(--forest)}
@@ -15,5 +14,5 @@
 .playbook-card{position:relative;overflow:hidden}.playbook-card:before{content:"";width:210px;height:210px;position:absolute;right:-105px;top:-105px;border:32px solid rgb(25 76 66/.1);border-radius:50%;pointer-events:none}
 .story-switch{transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease}.story-switch:hover{transform:translateY(-1px)}
 .photo-box{position:relative}.photo-box:after{content:"PHOTO + A FEW WORDS = A SAFER START";position:absolute;right:1.25rem;bottom:1rem;font:500 .64rem "DM Mono",monospace;letter-spacing:.06em;color:var(--muted);pointer-events:none}
-@media(max-width:700px){.presentation-flow__lead{grid-template-columns:1fr}.presentation-flow__route{height:64px}.presentation-flow__steps{grid-template-columns:1fr}.flow-step{min-height:0;border-right:0;border-bottom:1px solid var(--line);grid-template-columns:42px 1fr;column-gap:.9rem}.flow-step:last-child{border-bottom:0}.flow-step__icon{grid-row:span 3}.photo-box:after{display:none}}
+@media(max-width:700px){.presentation-flow__lead{grid-template-columns:1fr}.presentation-flow__steps{grid-template-columns:1fr}.flow-step{min-height:0;border-right:0;border-bottom:1px solid var(--line);grid-template-columns:42px 1fr;column-gap:.9rem}.flow-step:last-child{border-bottom:0}.flow-step__icon{grid-row:span 3}.photo-box:after{display:none}}
 @media(prefers-reduced-motion:reduce){.story,.story img,.story-switch{transition:none}.story:hover{transform:none}}

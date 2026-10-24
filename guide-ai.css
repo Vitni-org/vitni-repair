@@ -61,7 +61,7 @@
 @media(max-width:560px){.guide-index__hero--motion,.guide-detail-hero{grid-template-columns:1fr;gap:1rem;padding:2rem 0}.guide-detail-motion{min-height:160px}.guide-detail-motion canvas{width:140px;height:140px}.repair-step{grid-template-columns:1fr;gap:.55rem}.guide #steps .repair-step{grid-template-columns:1fr}.repair-step__visual>img,.step-visual-loading{aspect-ratio:1.5}.guide-prompt-link{align-items:flex-start;flex-direction:column}.guide-prompt-link .button{width:100%}.guide-search form{grid-template-columns:1fr}.guide-search select{grid-column:1/-1}}
 @media(prefers-reduced-motion:reduce){.guide-detail-motion:before,.guide-detail-motion:after,.step-visual-loading,.step-visual-loading span{animation:none!important}.step-visual-loading{background:#edf4d7}}
 
-/* The hero motion is the downloadable LottieFiles repair scene. */
+/* Vitni’s custom vector Lottie occupies the guide hero. */
 .guide-detail-motion{min-height:260px;background:#e8e4da}
 .guide-detail-motion:before,.guide-detail-motion:after{display:none}
 .guide-detail-motion canvas{width:min(100%,220px);height:auto;aspect-ratio:8/9;max-width:none}
