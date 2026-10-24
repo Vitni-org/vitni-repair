@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Vitni</title>
+  <desc id="desc">Friendly robot face with a small repair-bolt antenna.</desc>
+  <rect x="1" y="1" width="62" height="62" rx="31" fill="#194C42"/>
+  <path d="M31 7v6" stroke="#F7F8F3" stroke-width="3" stroke-linecap="round"/>
+  <path d="M31 5h4" stroke="#D9EF50" stroke-width="4" stroke-linecap="round"/>
+  <rect x="11" y="15" width="42" height="37" rx="15" fill="#F7F8F3" stroke="#142F2A" stroke-width="3"/>
+  <path d="M8 29h4m41 0h4" stroke="#D9EF50" stroke-width="4" stroke-linecap="round"/>
+  <rect x="17" y="22" width="30" height="21" rx="9" fill="#194C42"/>
+  <ellipse cx="25" cy="31" rx="2.8" ry="3.5" fill="#D9EF50"/>
+  <ellipse cx="39" cy="31" rx="2.8" ry="3.5" fill="#D9EF50"/>
+  <path d="M25 37c2.1 2 4.4 3 7 3s4.9-1 7-3" stroke="#F7F8F3" stroke-width="2.2" stroke-linecap="round"/>
+  <circle cx="16" cy="48" r="2" fill="#E7674D"/>
+  <circle cx="48" cy="48" r="2" fill="#E7674D"/>
+</svg>
