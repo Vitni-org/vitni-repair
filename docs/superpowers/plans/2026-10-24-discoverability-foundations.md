@@ -72,7 +72,7 @@
 - Canonical paths are `/`, `/guides.html`, `/guides/{id}/`, and `/stories/{id}/`.
 - `npm run build` regenerates all deployable output; `npm start` runs the build before starting the server.
 
-- [ ] Add the Node build script. It removes and recreates `dist/`, copies only public root `.html`, `.js`, `.css`, `.svg`, `.webmanifest` files plus `images/` and `animations/`, then writes generated detail pages and discovery files.
+- [ ] Add the Node build script. It removes and recreates `dist/`, copies only public root `.html`, `.js`, `.css`, `.svg`, `.webmanifest` files plus `images/` and `animations/`, then writes generated detail pages. Task 3 adds metadata and discovery-file generation.
 - [ ] Add `templates/guide-detail.html` and `templates/story-detail.html`, each with one `{{PAGE_META}}` and one `{{PAGE_CONTENT}}` marker. Exclude these templates from copied public output.
 - [ ] Add `<!--REPAIRLENS_GUIDE_CARDS-->` to the source library grid and render all guide cards into the marker in initial `dist/guides.html`. Browser JavaScript may replace that full grid with the selected filter/page after load.
 - [ ] Render each guide detail HTML with `<main>` containing visible area/level, exactly one H1, description, time, written ordered steps, safety text, tool/parts lists, image alt text, related-guide/home links, and the existing `figure[data-visual]` illustration enhancement containers.
