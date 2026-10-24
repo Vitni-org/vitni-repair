@@ -214,18 +214,39 @@ document.querySelectorAll('.story img').forEach(image => {
   if (key) [image.src, image.alt] = storyPhotos[key];
 });
 
-function renderVisionAnalysis(assessment) {
+function renderVisionAnalysis(assessment, savedResult = {}) {
   const safetyLabels = { safe_diy: 'Safe to try yourself', get_help: 'Get local repair help', do_not_attempt: 'Do not attempt this repair' };
   document.querySelector('#resultTitle').textContent = assessment.likely_issue;
   document.querySelector('#safetyTitle').textContent = safetyLabels[assessment.safety] || 'Repair assessment';
   document.querySelector('#safetyCopy').textContent = assessment.summary;
-  document.querySelector('#facts').innerHTML = `<div><small>CONFIDENCE</small><strong>${assessment.confidence}%</strong></div><div><small>SAFETY</small><strong>${escapeHtml(assessment.safety.replaceAll('_', ' '))}</strong></div><div><small>PARTS</small><strong>${assessment.parts.length}</strong></div>`;
-  document.querySelector('#steps').innerHTML = assessment.steps.map((step, index) => `<li class="repair-step"><figure class="repair-step__visual" data-visual="${index}"><div class="step-visual-loading" aria-hidden="true"><span></span></div><figcaption>Drawing this step…</figcaption></figure><div class="repair-step__copy"><strong>${escapeHtml(step.title)}</strong><p>${escapeHtml(step.instruction)}</p></div></li>`).join('');
-  suggestedParts = assessment.parts;
-  document.querySelector('#tools').innerHTML = assessment.parts.length ? assessment.parts.map(part => `<li><strong>${escapeHtml(part.name)}</strong><br><small>${escapeHtml(part.details)}</small></li>`).join('') : '<li>No replacement parts identified. Ask a repair café to confirm.</li>';
-  const partQuery = encodeURIComponent(assessment.parts.map(part => `${part.name} ${part.details}`).join(' '));
-  document.querySelector('#partsLinks').innerHTML = assessment.parts.length ? `<a class="parts-search-link" href="https://www.google.com/search?tbm=shop&q=${partQuery}" target="_blank" rel="noreferrer">Compare replacement parts ↗</a>` : '';
-  document.querySelector('#impact').innerHTML = '<strong>Your item, kept in use.</strong><p>Check dimensions and compatibility before buying. AI illustrations are visual hints; follow the written instructions and safety notes.</p>';
+  const steps = Array.isArray(assessment.steps) ? assessment.steps : [];
+  const parts = Array.isArray(assessment.parts) ? assessment.parts : [];
+  const tools = Array.isArray(assessment.tools) ? assessment.tools : [];
+  document.querySelector('#facts').innerHTML = `<div><small>CONFIDENCE</small><strong>${assessment.confidence}%</strong></div><div><small>SAFETY</small><strong>${escapeHtml(String(assessment.safety).replaceAll('_', ' '))}</strong></div><div><small>PARTS</small><strong>${parts.length}</strong></div>`;
+  document.querySelector('#guideStepsHeading').hidden = !steps.length;
+  document.querySelector('#steps').hidden = !steps.length;
+  document.querySelector('#steps').innerHTML = steps.map((step, index) => `<li class="repair-step"><figure class="repair-step__visual" data-visual="${index}"><div class="step-visual-loading" aria-hidden="true"><span></span></div><figcaption>Drawing this step…</figcaption></figure><div class="repair-step__copy"><strong>${escapeHtml(step.title)}</strong><p>${escapeHtml(step.instruction)}</p></div></li>`).join('');
+  suggestedParts = parts;
+  const supplies = [...tools.map(name => `<li><strong>${escapeHtml(name)}</strong><small>Tool</small></li>`), ...parts.map(part => `<li><strong>${escapeHtml(part.name)}</strong><br><small>${escapeHtml(part.details || 'Check dimensions and compatibility before buying.')}</small></li>`)];
+  document.querySelector('#tools').innerHTML = supplies.length ? supplies.join('') : '<li>No parts or tools identified. Ask a repair café to confirm the next safe step.</li>';
+  const partQuery = encodeURIComponent(parts.map(part => `${part.name} ${part.details || ''}`).join(' '));
+  document.querySelector('#partsLinks').innerHTML = parts.length ? `<a class="parts-search-link" href="https://www.google.com/search?tbm=shop&q=${partQuery}" target="_blank" rel="noreferrer noopener">Compare replacement parts ↗</a>` : '';
+  document.querySelector('#impact').innerHTML = assessment.safety === 'do_not_attempt'
+    ? '<strong>Stop here and get qualified help.</strong><p>Do not take the item apart. Share the safety note with a repair professional.</p>'
+    : '<strong>Your item, kept in use.</strong><p>Check dimensions and compatibility before buying. AI illustrations are visual hints; follow the written instructions and safety notes.</p>';
+  const savedStatus = document.querySelector('#savedGuideStatus');
+  savedStatus.replaceChildren();
+  savedStatus.hidden = false;
+  if (savedResult.saved && savedResult.href) {
+    savedStatus.append(document.createTextNode(savedResult.reused ? 'Found a saved repair guide. ' : 'Saved to the shared repair library. '));
+    const savedLink = document.createElement('a');
+    savedLink.href = savedResult.href;
+    savedLink.textContent = savedResult.guide?.visibility === 'unlisted' ? 'Open your private link' : 'Open full guide';
+    savedStatus.append(savedLink);
+    if (savedResult.guide?.visibility === 'unlisted') savedStatus.append(document.createTextNode(' · anyone with this link can view it.'));
+  } else {
+    savedStatus.textContent = 'This is a one-time guide and was not saved. Add Supabase credentials on the server to enable shared saving.';
+  }
   detectionNote.hidden = false;
   detectionNote.textContent = `AI-assisted starting point from your description${photoInput.files?.[0] ? ' and photo' : ''}. Confirm the item and measurements before you begin.`;
   const result = document.querySelector('#result');
@@ -233,23 +254,27 @@ function renderVisionAnalysis(assessment) {
   result.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth' });
 }
 
-async function addStepIllustrations(assessment) {
-  const response = await fetch('/api/illustrate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: assessment.likely_issue, steps: assessment.steps }) });
-  const payload = await response.json();
-  if (!response.ok) throw Error(payload.error || 'The written plan is ready, but its illustrations could not be generated.');
-  payload.visuals.forEach((src, index) => {
+async function addStepIllustrations(resultPayload) {
+  const assessment = resultPayload.assessment;
+  const savedSteps = resultPayload.guide?.steps;
+  const visuals = savedSteps ? savedSteps.map(step => step.image || null) : (resultPayload.visuals || []);
+  visuals.forEach((src, index) => {
     const figure = document.querySelector(`[data-visual="${index}"]`);
     if (!figure) return;
     if (!src) {
-      figure.innerHTML = '<div class="step-visual-fallback" aria-hidden="true">Visual unavailable</div><figcaption>Use the written instructions for this step.</figcaption>';
+      const figureIndex = index + 1;
+      const retryButton = resultPayload.guide?.visibility === 'public' && resultPayload.guide.slug
+        ? `<button type="button" class="repair-step__retry" data-retry-guide="${escapeHtml(resultPayload.guide.slug)}" data-retry-step="${figureIndex}">Retry illustration</button>` : '';
+      figure.innerHTML = `<div class="step-visual-fallback" aria-hidden="true">Visual unavailable</div><figcaption>Use the written instructions for this step.</figcaption>${retryButton}`;
       return;
     }
     const image = document.createElement('img');
     image.src = src;
-    image.alt = `AI-generated illustrative drawing for step ${index + 1}: ${assessment.steps[index].title}`;
+    image.alt = savedSteps?.[index]?.imageAlt || `AI-generated illustrative drawing for step ${index + 1}: ${assessment.steps[index].title}`;
     image.loading = 'lazy';
     figure.replaceChildren(image, Object.assign(document.createElement('figcaption'), { textContent: 'Illustrative drawing · verify parts and fit' }));
   });
+  if (assessment.steps.length && visuals.every(src => !src)) throw Error('The written plan is ready, but its illustrations could not be generated.');
 }
 
 function fileToDataUrl(file) {
@@ -284,13 +309,13 @@ diagnoseForm.addEventListener('submit', async event => {
   document.dispatchEvent(new CustomEvent('repairlens:guide-loading', { detail: { active: true } }));
   try {
     const image = file ? await fileToDataUrl(file) : undefined;
-    const response = await fetch('/api/analyze', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image, description }) });
+    const response = await fetch('/api/repair-guide', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image, description }) });
     const payload = await response.json();
     if (!response.ok) throw Error(payload.error || 'Guide generation failed.');
-    renderVisionAnalysis(payload);
+    renderVisionAnalysis(payload.assessment, payload);
     planRendered = true;
     loading.hidden = false;
-    loadingText.textContent = `Your plan is ready. Drawing ${payload.steps.length} step illustrations…`;
+    loadingText.textContent = payload.assessment.steps.length ? `${payload.saved ? 'Guide saved. ' : ''}Showing ${payload.assessment.steps.length} illustrated repair steps…` : 'This repair needs qualified help. Do not attempt it yourself.';
     await addStepIllustrations(payload);
   } catch (error) {
     if (planRendered) {

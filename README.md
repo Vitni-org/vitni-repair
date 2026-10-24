@@ -11,7 +11,7 @@ npm start
 
 Open [http://localhost:4174](http://localhost:4174).
 
-`npm run build` writes the deployable static site to `dist/`; deploy that directory after every build. `npm start` runs the build automatically before starting the local server.
+`npm run build` writes the static pages and assets to `dist/`. `npm start` runs the build automatically, then starts the Node server that serves those files and the guide API. Deploy that Node service for the shared Supabase library; a static-only host cannot save generated guides or serve database-backed detail pages.
 
 ## Public URL
 
@@ -25,9 +25,21 @@ Configure `https://vitni.cc` at the production host before deploying the default
 
 ## Demo flow
 
-1. Choose Bike, Clothes, or Home.
-2. Select a supported repair scenario.
-3. Review the safety check, time/cost estimate, tool list, and repair steps.
-4. Choose **I need local help** to reveal the repair-café fallback.
+1. Describe what is broken and optionally add a photo.
+2. Review the safety status, repair steps, illustrations, and suggested parts.
+3. Browse the shared guide library or open a saved guide link later.
 
-The initial supported scenarios are deliberately constrained so the hackathon demo is clear and the safety advice is reliable.
+## Supabase guide library
+
+The curated guides remain available locally without Supabase. Configure the shared store on the Node server to persist generated guides and illustrations:
+
+```bash
+cp .env.example .env
+# Add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to .env
+# Run supabase/migrations/20261024000000_create_guide_library.sql in the Supabase SQL Editor
+npm run seed:guides
+```
+
+The migration creates `guides`, `guide_steps`, and `guide_parts`, enables row-level security, and creates the private `guide-illustrations` storage bucket. That bucket name is fixed in the migration. The browser never receives the service-role key. Keep it in the server environment on vitni.cc. Generated source photos and raw descriptions are not stored. Public guides are generalized and searchable; photo-specific and do-not-attempt results use unlisted links.
+
+Without Supabase credentials, curated pages continue to work and generated plans are shown as one-time results with a clear “not saved” status.

@@ -51,7 +51,7 @@ function socialImageFor(image) {
   return /\.(?:png|jpe?g)$/i.test(image) ? { path: image, width: 720, height: 720 } : { path: defaultSocialImage, width: 1200, height: 630 };
 }
 
-function renderMetadata({ title, description, path, image = defaultSocialImage, imageWidth = 1200, imageHeight = 630, imageAlt = defaultSocialAlt, type = 'website', jsonLd }, origin) {
+function renderMetadata({ title, description, path, image = defaultSocialImage, imageWidth = 1200, imageHeight = 630, imageAlt = defaultSocialAlt, type = 'website', jsonLd, noindex = false }, origin) {
   const canonical = absoluteUrl(path, origin);
   const socialImage = absoluteUrl(image, origin);
   const attributes = value => escapeHtml(value);
@@ -70,6 +70,7 @@ function renderMetadata({ title, description, path, image = defaultSocialImage, 
   <meta name="twitter:title" content="${attributes(title)}" />
   <meta name="twitter:description" content="${attributes(description)}" />
   <meta name="twitter:image" content="${attributes(socialImage)}" />
+  ${noindex ? '<meta name="robots" content="noindex,nofollow" />' : ''}
   <script type="application/ld+json">${safeJson(jsonLd)}</script>`;
 }
 
@@ -88,6 +89,7 @@ function renderShareControls(canonical) {
 
 function guideJsonLd(guide, path, origin) {
   const totalTime = /^(\d+) min$/.exec(guide.time);
+  const partNames = (guide.parts || []).map(part => typeof part === 'string' ? part : part.name);
   return {
     '@context': 'https://schema.org',
     '@type': 'HowTo',
@@ -96,9 +98,11 @@ function guideJsonLd(guide, path, origin) {
     url: absoluteUrl(path, origin),
     image: absoluteUrl(guide.image, origin),
     ...(totalTime ? { totalTime: `PT${totalTime[1]}M` } : {}),
-    tool: guide.tools.map(name => ({ '@type': 'HowToTool', name })),
-    supply: guide.parts.map(name => ({ '@type': 'HowToSupply', name })),
-    step: guide.steps.map((text, index) => ({ '@type': 'HowToStep', name: `Step ${index + 1}`, text }))
+    tool: (guide.tools || []).map(name => ({ '@type': 'HowToTool', name })),
+    supply: partNames.map(name => ({ '@type': 'HowToSupply', name })),
+    step: (guide.steps || []).map((step, index) => typeof step === 'string'
+      ? ({ '@type': 'HowToStep', name: `Step ${index + 1}`, text: step })
+      : ({ '@type': 'HowToStep', name: step.title || `Step ${index + 1}`, text: step.instruction }))
   };
 }
 
@@ -123,7 +127,12 @@ export function canonicalPath(type, id) {
 }
 
 function renderList(items) {
-  return items.length ? `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<p>No additional parts are needed for this repair.</p>';
+  return items.length ? `<ul>${items.map(item => {
+    const name = typeof item === 'string' ? item : item.name;
+    const detail = typeof item === 'string' ? '' : item.details;
+    const link = typeof item === 'string' ? '' : item.url;
+    return `<li><strong>${escapeHtml(name)}</strong>${detail ? `<br><small>${escapeHtml(detail)}</small>` : ''}${link ? ` <a href="${escapeHtml(link)}" rel="nofollow sponsored noopener" target="_blank">Shop ↗</a>` : ''}</li>`;
+  }).join('')}</ul>` : '<p>No additional parts are needed for this repair.</p>';
 }
 
 function renderVitniSafety(message) {
@@ -134,17 +143,36 @@ function renderGuideCard(guide) {
   return `<article class="guide-card"><a class="guide-card__link" href="${canonicalPath('guide', guide.id)}"><img src="${escapeHtml(guide.image)}" alt="${escapeHtml(guide.alt)}" width="720" height="720" loading="lazy" decoding="async" /><div class="guide-card__body"><span class="guide-card__area">${escapeHtml(guide.area.toUpperCase())} · ${escapeHtml(guide.level.toUpperCase())}</span><h3>${escapeHtml(guide.title)}</h3><p>${escapeHtml(guide.desc)}</p><span class="guide-card__action">Open illustrated guide <span aria-hidden="true">→</span></span></div></a></article>`;
 }
 
-export function renderGuidePage(guide, origin) {
-  const path = canonicalPath('guide', guide.id);
+export function renderGuidePage(guide, origin, options = {}) {
+  const path = options.path || canonicalPath('guide', guide.id);
   const related = guides.find(item => item.area === guide.area && item.id !== guide.id);
+  const guideSteps = guide.safety === 'do_not_attempt' ? [] : (guide.steps || []);
+  const stepMarkup = guideSteps.map((step, index) => {
+    const text = typeof step === 'string' ? step : step.instruction;
+    const title = typeof step === 'string' ? '' : step.title;
+    const image = typeof step === 'string' ? '' : step.image;
+    const imageAlt = typeof step === 'string' ? '' : step.imageAlt;
+    const illustrationPending = !image && guide.source !== 'generated';
+    const retry = !image && guide.visibility === 'public' && guide.slug ? `<button type="button" class="repair-step__retry" data-retry-guide="${escapeHtml(guide.slug)}" data-retry-step="${index + 1}">Retry illustration</button>` : '';
+    const placeholder = illustrationPending
+      ? '<div class="step-visual-loading" aria-hidden="true"><span></span></div>'
+      : '<div class="step-visual-fallback" aria-hidden="true">Illustration pending</div>';
+    return `<li class="repair-step" data-guide-step="${escapeHtml(text)}"><figure class="repair-step__visual" data-visual="${index}">${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(imageAlt || `${guide.title}, step ${index + 1}`)}" loading="lazy" decoding="async" />` : placeholder}<figcaption>${image ? 'Illustrative drawing · verify parts and fit' : illustrationPending ? 'Drawing this step…' : 'Use the written instruction for this step.'}</figcaption>${retry}</figure><div class="repair-step__copy">${title ? `<strong>${escapeHtml(title)}</strong>` : ''}<p>${escapeHtml(text)}</p></div></li>`;
+  }).join('');
+  const illustrationStatus = guideSteps.length && guideSteps.every(step => typeof step !== 'string' && step.image)
+    ? 'Saved step illustrations are ready.'
+    : 'Written steps are ready. Illustrations may load below.';
+  const safetyOnlyMarkup = guide.safety === 'do_not_attempt'
+    ? `<div class="safety-card"><strong>Do not attempt this repair</strong><p>${escapeHtml(guide.safetyNotes || guide.desc)}</p><p>Stop here and contact a qualified repair professional.</p></div>`
+    : `<div><h2>Repair steps</h2><ol class="case-steps">${stepMarkup}</ol></div>`;
   const content = `<main class="page-shell" id="content" data-guide-id="${escapeHtml(guide.id)}">
     <nav class="guide-breadcrumb" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><span class="guide-breadcrumb__separator" aria-hidden="true">/</span><a href="/guides.html">Repair guides</a></li><li><span class="guide-breadcrumb__separator" aria-hidden="true">/</span><span aria-current="page">${escapeHtml(guide.title)}</span></li></ol></nav>
-    <section class="case-hero"><div><div class="case-meta"><span>${escapeHtml(guide.area.toUpperCase())}</span><span>${escapeHtml(guide.level.toUpperCase())}</span><span>${escapeHtml(guide.time)}</span></div><h1>${escapeHtml(guide.title)}</h1><p>${escapeHtml(guide.desc)}</p><p id="guideImageStatus" role="status" aria-live="polite">Written steps are ready. Illustrations may load below.</p></div><img src="${escapeHtml(guide.image)}" alt="${escapeHtml(guide.alt)}" width="720" height="720" /></section>
-    <section class="case-layout"><div><h2>Repair steps</h2><ol class="case-steps">${guide.steps.map((step, index) => `<li class="repair-step" data-guide-step="${escapeHtml(step)}"><figure class="repair-step__visual" data-visual="${index}"><div class="step-visual-loading" aria-hidden="true"><span></span></div><figcaption>Drawing this step…</figcaption></figure><div class="repair-step__copy"><p>${escapeHtml(step)}</p></div></li>`).join('')}</ol></div><aside class="case-aside"><h2>Before you begin</h2>${renderVitniSafety(guide.safety)}<h2>Tools</h2>${renderList(guide.tools)}<h2>Parts</h2>${renderList(guide.parts)}<p><a href="/guides.html">Browse all repair guides</a></p>${related ? `<p><a href="${canonicalPath('guide', related.id)}">Related guide: ${escapeHtml(related.title)}</a></p>` : ''}<p><a href="/">Return home</a></p></aside></section>
+    <section class="case-hero"><div><div class="case-meta"><span>${escapeHtml(guide.area.toUpperCase())}</span><span>${escapeHtml(guide.level.toUpperCase())}</span><span>${escapeHtml(guide.time)}</span></div><h1>${escapeHtml(guide.title)}</h1><p>${escapeHtml(guide.desc)}</p><p id="guideImageStatus" role="status" aria-live="polite">${illustrationStatus}</p></div><img src="${escapeHtml(guide.image || '/images/vitni.svg')}" alt="${escapeHtml(guide.alt || `Illustration for ${guide.title}`)}" width="720" height="720" /></section>
+    <section class="case-layout">${safetyOnlyMarkup}<aside class="case-aside"><h2>Before you begin</h2>${renderVitniSafety(guide.safetyNotes || guide.safety || guide.desc)}${guide.tools?.length ? `<h2>Tools</h2>${renderList(guide.tools)}` : ''}${guide.parts?.length ? `<h2>Parts</h2>${renderList(guide.parts)}` : ''}<p><a href="/guides.html">Browse all repair guides</a></p>${related ? `<p><a href="${canonicalPath('guide', related.id)}">Related guide: ${escapeHtml(related.title)}</a></p>` : ''}<p><a href="/">Return home</a></p></aside></section>
     ${renderShareControls(absoluteUrl(path, origin))}
   </main>`;
   const socialImage = socialImageFor(guide.image);
-  const meta = renderMetadata({ title: `${guide.title} — RepairLens`, description: guide.desc, path, image: socialImage.path, imageWidth: socialImage.width, imageHeight: socialImage.height, imageAlt: socialImage.path === defaultSocialImage ? defaultSocialAlt : guide.alt, type: 'article', jsonLd: guideJsonLd(guide, path, origin) }, origin);
+  const meta = renderMetadata({ title: `${guide.title} — RepairLens`, description: guide.desc, path, image: socialImage.path, imageWidth: socialImage.width, imageHeight: socialImage.height, imageAlt: socialImage.path === defaultSocialImage ? defaultSocialAlt : guide.alt, type: 'article', jsonLd: guideJsonLd(guide, path, origin), noindex: options.noindex === true }, origin);
   return applyTemplate('guide-detail.html', meta, content);
 }
 

@@ -6,9 +6,11 @@
   "scripts": {
     "build": "node scripts/build-site.mjs",
     "prestart": "npm run build",
-    "start": "node server.mjs"
+    "start": "node server.mjs",
+    "seed:guides": "node scripts/seed-guides.mjs"
   },
   "dependencies": {
-    "@lottiefiles/dotlottie-web": "^0.81.0"
+    "@lottiefiles/dotlottie-web": "^0.81.0",
+    "@supabase/supabase-js": "^2.118.0"
   }
 }

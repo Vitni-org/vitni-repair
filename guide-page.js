@@ -36,7 +36,26 @@ if (guidePage) {
       if (!response.ok) throw Error(payload.error || 'Illustrations are unavailable right now.');
       payload.visuals.forEach((src, index) => {
         const figure = steps[index]?.figure;
-        if (!figure || !src) return;
+        if (!figure) return;
+        if (!src) {
+          const fallback = document.createElement('div');
+          fallback.className = 'step-visual-fallback';
+          fallback.setAttribute('aria-hidden', 'true');
+          fallback.textContent = 'Illustration unavailable';
+          const caption = document.createElement('figcaption');
+          caption.textContent = 'Use the written instruction for this step.';
+          figure.replaceChildren(fallback, caption);
+          if (payload.persistent) {
+            const retry = document.createElement('button');
+            retry.type = 'button';
+            retry.className = 'repair-step__retry';
+            retry.dataset.retryGuide = guide.id;
+            retry.dataset.retryStep = String(index + 1);
+            retry.textContent = 'Retry illustration';
+            figure.append(retry);
+          }
+          return;
+        }
         const image = document.createElement('img');
         image.src = src;
         image.alt = `AI-generated illustrative drawing for step ${index + 1} of ${guide.title}`;
@@ -46,7 +65,9 @@ if (guidePage) {
         figure.replaceChildren(image, caption);
       });
       if (payload.visuals.every(src => !src)) throw Error('The guide is ready, but the illustrations could not be generated.');
-      status.textContent = 'Illustrations are ready. Use the written steps as your source of truth.';
+      status.textContent = payload.visuals.some(src => !src)
+        ? 'Some illustrations are missing. Use the written steps and retry the missing drawings if they are saved.'
+        : 'Illustrations are ready. Use the written steps as your source of truth.';
     } catch (error) {
       status.textContent = `${error.message} The written guide is still available below.`;
       document.querySelectorAll('.step-visual-loading').forEach(placeholder => {
