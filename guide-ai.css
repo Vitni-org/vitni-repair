@@ -85,4 +85,4 @@
 @media(max-width:800px){.guide-search form{grid-template-columns:1fr}.guide-search textarea,.guide-search label[for=guideSearchDescription],.guide-search__photo,.guide-search__photo-name,.guide-search button,.guide-search__status{grid-column:1}}
 @media(max-width:560px){.guide-detail-motion{min-height:200px}.guide-detail-motion canvas{width:132px;height:auto}.guide-detail-motion .guide-static-vitni{width:132px}}
 @media(prefers-reduced-motion:reduce){.guide-detail-motion:before,.guide-detail-motion:after{display:none!important}.guide-detail-motion canvas{display:none}.guide-static-vitni{display:block}}
-.guide-detail-motion.show-static-vitni canvas{display:none}.guide-detail-motion.show-static-vitni .guide-static-vitni{display:block}
+.guide-detail-motion.show-static-vitni canvas{display:none}.guide-detail-motion.show-static-vitni .guide-static-vitni,.guide-detail-motion.vitni-loading .guide-static-vitni{display:block}.guide-detail-motion.vitni-loading canvas{opacity:0}

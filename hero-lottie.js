@@ -12,21 +12,38 @@ const players = [];
 let startPromise = null;
 
 const getCanvas = selector => document.querySelector(selector);
-const staticFallback = canvas => canvas?.parentElement?.classList.add('show-static-vitni');
+const staticFallback = canvas => {
+  const wrapper = canvas?.parentElement;
+  wrapper?.classList.remove('vitni-loading');
+  wrapper?.classList.add('show-static-vitni');
+};
+const prepareAnimation = canvas => {
+  const wrapper = canvas?.parentElement;
+  wrapper?.classList.remove('show-static-vitni');
+  wrapper?.classList.add('vitni-loading');
+};
 const showAnimation = canvas => {
-  if (!reducedMotion.matches) canvas?.parentElement?.classList.remove('show-static-vitni');
+  if (!reducedMotion.matches) {
+    canvas?.parentElement?.classList.remove('show-static-vitni', 'vitni-loading');
+  }
 };
 
 function startVitniPlayers() {
-  specs.forEach(([selector]) => staticFallback(getCanvas(selector)));
-  if (reducedMotion.matches) return Promise.resolve();
+  if (reducedMotion.matches) {
+    specs.forEach(([selector]) => staticFallback(getCanvas(selector)));
+    return Promise.resolve();
+  }
 
   if (players.length) {
+    specs.forEach(([selector]) => prepareAnimation(getCanvas(selector)));
     players.forEach(player => player.play());
     return Promise.resolve();
   }
   if (startPromise) return startPromise;
 
+  // Keep the canvas laid out while its first frame renders. Hiding it with
+  // display:none prevents DotLottie from ever producing that first frame.
+  specs.forEach(([selector]) => prepareAnimation(getCanvas(selector)));
   startPromise = Promise.resolve().then(() => {
     for (const [selector, src] of specs) {
       const canvas = getCanvas(selector);
@@ -79,6 +96,7 @@ reducedMotion.addEventListener('change', event => {
     guideLoadingPlayer?.pause();
     specs.forEach(([selector]) => staticFallback(getCanvas(selector)));
   } else {
+    specs.forEach(([selector]) => prepareAnimation(getCanvas(selector)));
     void startVitniPlayers();
   }
 });

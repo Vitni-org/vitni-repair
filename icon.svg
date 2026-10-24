@@ -1,1 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none"><rect width="128" height="128" rx="28" fill="#194C42"/><path d="M63 25v13" stroke="#F7F8F3" stroke-width="7" stroke-linecap="round"/><path d="M63 23h10" stroke="#D9EF50" stroke-width="8" stroke-linecap="round"/><rect x="21" y="39" width="86" height="74" rx="28" fill="#F7F8F3" stroke="#142F2A" stroke-width="6"/><path d="M16 65h8m80 0h8" stroke="#D9EF50" stroke-width="8" stroke-linecap="round"/><rect x="34" y="52" width="60" height="42" rx="17" fill="#142F2A"/><ellipse cx="51" cy="69" rx="5.5" ry="7" fill="#D9EF50"/><ellipse cx="77" cy="69" rx="5.5" ry="7" fill="#D9EF50"/><path d="M51 83c3.6 3.3 7.7 5 12 5s8.4-1.7 12-5" stroke="#F7F8F3" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="105" r="3.5" fill="#E7674D"/><circle cx="96" cy="105" r="3.5" fill="#E7674D"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" role="img" aria-labelledby="title">
+  <title id="title">Vitni robot head</title>
+  <rect width="128" height="128" rx="28" fill="#194C42"/>
+  <g stroke="#142F2A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M53 29V18" stroke="#F7F8F3" stroke-width="7"/>
+    <path d="m53 17 6-10-2 8 8-4-9 12 2-8-5 2Z" fill="#D9EF50" stroke-width="3"/>
+    <rect x="21" y="37" width="86" height="80" rx="30" fill="#F7F8F3" stroke-width="6"/>
+    <path d="M15 64h8m82 0h8" stroke="#D9EF50" stroke-width="8"/>
+    <rect x="34" y="51" width="60" height="46" rx="18" fill="#194C42" stroke-width="4"/>
+    <ellipse cx="51" cy="68" rx="6" ry="8" fill="#F7F8F3" stroke="none"/>
+    <ellipse cx="77" cy="68" rx="6" ry="8" fill="#F7F8F3" stroke="none"/>
+    <circle cx="52" cy="70" r="2.5" fill="#142F2A" stroke="none"/>
+    <circle cx="78" cy="70" r="2.5" fill="#142F2A" stroke="none"/>
+    <path d="M48 83c4 4 9 6 16 6s12-2 16-6" stroke="#F7F8F3" stroke-width="4"/>
+    <path d="M41 79c-4-2-8-2-12 1m58 0c4-2 8-2 12 1" stroke="#E7674D" stroke-width="3"/>
+    <circle cx="31" cy="105" r="4" fill="#E7674D" stroke="none"/>
+    <circle cx="97" cy="105" r="4" fill="#E7674D" stroke="none"/>
+  </g>
+</svg>
