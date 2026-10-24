@@ -53,11 +53,12 @@
     <circle cx="117" cy="188" r="7" fill="#E7674D" stroke-width="3"/>
     <circle cx="203" cy="188" r="7" fill="#E7674D" stroke-width="3"/>
 
-    <!-- Slim segmented legs and coral-soled work boots. -->
+    <!-- Slim segmented legs and sturdy, rounded repair sneakers. -->
     <path d="M132 264v43m54-43v43" stroke-width="14"/>
     <path d="M132 273v31m54-31v31" stroke="#F7F8F3" stroke-width="7"/>
-    <path d="M125 306v20c0 6 5 10 11 10h18v-9h-14v-21m46 0v21h-14v9h18c6 0 11-4 11-10v-20" fill="#F7F8F3" stroke-width="6"/>
-    <path d="M128 334h28m26 0h28" stroke="#E7674D" stroke-width="9"/>
-    <path d="M123 326h30m31 0h25" stroke="#142F2A" stroke-width="4"/>
+    <path d="M125 300v14c0 5-5 8-9 11-5 4-2 12 5 12h27c7 0 10-5 7-11l-7-14h-10v-12Z" fill="#194C42" stroke-width="6"/>
+    <path d="M195 300v14c0 5 5 8 9 11 5 4 2 12-5 12h-27c-7 0-10-5-7-11l7-14h10v-12Z" fill="#194C42" stroke-width="6"/>
+    <path d="M128 318l12 5m-12 0 12 5m52-10-12 5m12 0-12 5" stroke="#D9EF50" stroke-width="3"/>
+    <path d="M116 333c7 4 28 4 38 0m12 0c10 4 31 4 38 0" stroke="#E7674D" stroke-width="7"/>
   </g>
 </svg>

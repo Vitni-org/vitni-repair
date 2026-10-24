@@ -2,8 +2,8 @@
   <title id="title">Vitni robot head</title>
   <rect width="128" height="128" rx="28" fill="#194C42"/>
   <g stroke="#142F2A" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M53 29V18" stroke="#F7F8F3" stroke-width="7"/>
-    <path d="m53 17 6-10-2 8 8-4-9 12 2-8-5 2Z" fill="#D9EF50" stroke-width="3"/>
+    <path d="M64 29V18" stroke="#F7F8F3" stroke-width="7"/>
+    <path d="m58 17 6-10-2 8 8-4-9 12 2-8-5 2Z" fill="#D9EF50" stroke-width="3"/>
     <rect x="21" y="37" width="86" height="80" rx="30" fill="#F7F8F3" stroke-width="6"/>
     <path d="M15 64h8m82 0h8" stroke="#D9EF50" stroke-width="8"/>
     <rect x="34" y="51" width="60" height="46" rx="18" fill="#194C42" stroke-width="4"/>
