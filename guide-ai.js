@@ -10,8 +10,8 @@ function renderGeneratedGuide(assessment) {
   guideSearchResult.hidden = false;
 }
 
-async function illustrateGeneratedGuide(assessment, category) {
-  const response = await fetch('/api/illustrate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: assessment.likely_issue, category, steps: assessment.steps }) });
+async function illustrateGeneratedGuide(assessment) {
+  const response = await fetch('/api/illustrate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: assessment.likely_issue, steps: assessment.steps }) });
   const payload = await response.json();
   if (!response.ok) throw Error(payload.error || 'Illustrations are unavailable right now.');
   payload.visuals.forEach((src, index) => {
@@ -31,7 +31,6 @@ async function illustrateGeneratedGuide(assessment, category) {
 guideSearchForm.addEventListener('submit', async event => {
   event.preventDefault();
   const description = document.querySelector('#guideSearchDescription').value.trim();
-  const category = document.querySelector('#guideSearchCategory').value;
   const file = guideSearchPhoto.files?.[0];
   if (!description) return;
   if (file && !['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) { guideSearchStatus.textContent = 'Choose a PNG, JPEG, or WebP photo.'; return; }
@@ -42,20 +41,23 @@ guideSearchForm.addEventListener('submit', async event => {
   document.dispatchEvent(new CustomEvent('repairlens:guide-loading', { detail: { active: true } }));
   try {
     const image = file ? await new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(file); }) : undefined;
-    const response = await fetch('/api/analyze', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ description, category, image }) });
+    const response = await fetch('/api/analyze', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ description, image }) });
     const assessment = await response.json();
     if (!response.ok) throw Error(assessment.error || 'Could not build this guide.');
     renderGeneratedGuide(assessment);
     guideSearchStatus.textContent = `Your repair plan is ready. Drawing ${assessment.steps.length} visual steps…`;
     guideSearchResult.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
-    await illustrateGeneratedGuide(assessment, category);
+    await illustrateGeneratedGuide(assessment);
     guideSearchStatus.textContent = 'Guide ready. Check the written instructions and safety notes before you start.';
   } catch (error) {
     guideSearchStatus.textContent = error.message;
     document.querySelectorAll('.step-visual-loading').forEach(placeholder => { placeholder.classList.remove('step-visual-loading'); placeholder.textContent = 'Illustration unavailable'; });
   } finally {
     guideSearchButton.disabled = false;
-    guideSearchButton.innerHTML = 'Make my illustrated guide <span aria-hidden="true">→</span>';
+    guideSearchButton.innerHTML = 'Get my repair steps <span aria-hidden="true">→</span>';
     document.dispatchEvent(new CustomEvent('repairlens:guide-loading', { detail: { active: false } }));
   }
 });
+
+const guideSearchPhotoName = document.querySelector('#guideSearchPhotoName');
+guideSearchPhoto.addEventListener('change', () => { guideSearchPhotoName.textContent = guideSearchPhoto.files?.[0]?.name || 'A clear close-up helps us spot the details.'; });

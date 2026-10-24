@@ -11,7 +11,7 @@ try {
   }
 } catch { /* Local environment files are optional. */ }
 const port = Number(process.env.PORT || 4174);
-const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.wasm': 'application/wasm' };
+const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.wasm': 'application/wasm' };
 const schema = { type: 'object', additionalProperties: false, required: ['likely_issue', 'confidence', 'safety', 'summary', 'steps', 'parts'], properties: { likely_issue: { type: 'string', maxLength: 100 }, confidence: { type: 'integer', minimum: 0, maximum: 100 }, safety: { type: 'string', enum: ['safe_diy', 'get_help', 'do_not_attempt'] }, summary: { type: 'string' }, steps: { type: 'array', minItems: 2, maxItems: 5, items: { type: 'object', additionalProperties: false, required: ['title', 'instruction'], properties: { title: { type: 'string' }, instruction: { type: 'string' } } } }, parts: { type: 'array', maxItems: 6, items: { type: 'object', additionalProperties: false, required: ['name', 'details'], properties: { name: { type: 'string' }, details: { type: 'string' } } } } } };
 const illustrationCache = new Map();
 function send(res, status, body) { res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8' }).end(JSON.stringify(body)); }

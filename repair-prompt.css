@@ -1,0 +1,38 @@
+.hero-animation:before,.hero-animation:after{display:none!important;content:none!important}
+.hero .hero-lottie{filter:none!important;opacity:1}
+.hero-animation>span{font-family:Manrope,system-ui,sans-serif;font-size:.75rem;font-weight:700;letter-spacing:0;background:transparent;border:0;color:var(--forest)}
+.hero-animation .motion-toggle{right:.5rem;bottom:.25rem}
+.hero-photo-cta{min-height:50px!important;max-width:max-content!important;padding:.7rem 1rem!important;font-size:1rem!important;letter-spacing:-.01em!important;box-shadow:4px 4px 0 var(--lime)!important}
+.hero-actions{align-items:center!important}
+.repair-prompt{display:grid;grid-template-columns:minmax(220px,.72fr) minmax(0,1.28fr);gap:1.5rem 3rem;align-items:start;background:#e8e4da;padding:clamp(1.25rem,4vw,3rem);margin-top:2rem;margin-bottom:3rem}
+.repair-prompt__intro h2{max-width:12ch;font-size:clamp(2rem,4vw,3.2rem);line-height:.98;letter-spacing:-.055em;margin:0 0 .7rem}
+.repair-prompt__intro p{max-width:34ch;color:#42524c;margin:0}
+.repair-prompt__fields{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(230px,.9fr);gap:1rem;align-items:stretch}
+.repair-prompt .description-field{align-content:start}
+.repair-prompt .description-field label{font-size:.86rem;font-weight:800}
+.repair-prompt .description-field textarea{min-height:170px;padding:.9rem;border-color:#b7bcb3;background:#fbfcf8;resize:vertical}
+.repair-prompt .description-field textarea:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+.repair-prompt .photo-box{margin:0;min-height:170px;padding:1rem;background:#fbfcf8;border:1px dashed #8a988f;align-items:center}
+.repair-prompt .photo-copy{min-width:0}
+.repair-prompt .photo-copy .overline{font-size:.62rem}
+.repair-prompt .photo-copy strong{font-size:1rem}
+.repair-prompt .photo-copy p{max-width:24ch;font-size:.8rem}
+.repair-prompt .photo-picker-actions{display:grid;grid-template-columns:1fr;gap:.3rem;align-items:start}
+.repair-prompt .upload-button{font-size:.78rem;text-align:center}
+.repair-prompt .remove-photo{font-size:.75rem}
+.repair-prompt .photo-box img{width:104px;height:130px;flex:0 0 auto;object-fit:cover}
+.repair-prompt__submit{grid-column:2;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-top:-.5rem}
+.repair-prompt__submit .button{min-height:50px;white-space:nowrap}
+.repair-prompt__submit>p:not(.suggestion){margin:0;color:#42524c;font-size:.78rem}
+.site-footer{display:grid;grid-template-columns:1.2fr 1.3fr 1fr;gap:1.5rem 3rem;align-items:start;padding:2.5rem var(--space);background:#142f2a;color:#eef1e8;font:inherit}
+.site-footer .brand{color:#fff}
+.site-footer .brand-mark{background:var(--lime);color:var(--forest)}
+.site-footer__brand p,.site-footer__scope p{max-width:35ch;margin:.75rem 0 0;color:#d7e3dc;font-size:.9rem}
+.site-footer__scope strong{display:block;margin:.45rem 0;color:#d9ef50;font-size:.85rem}
+.site-footer__links{display:grid;gap:.55rem;justify-items:start}
+.site-footer__links a,.site-footer__credit a{color:#eef1e8;text-underline-offset:4px}
+.site-footer__links a:hover,.site-footer__credit a:hover{color:#d9ef50}
+.site-footer__credit{grid-column:1/-1;margin:0;padding-top:1rem;border-top:1px solid rgb(238 241 232/.2);color:#d7e3dc;font-size:.78rem}
+@media(max-width:900px){.repair-prompt{grid-template-columns:1fr;gap:1.25rem}.repair-prompt__intro h2{max-width:20ch}.repair-prompt__submit{grid-column:1;margin-top:0}}
+@media(max-width:700px){.repair-prompt__fields{grid-template-columns:1fr}.repair-prompt .description-field textarea{min-height:125px}.repair-prompt .photo-box{min-height:130px}.repair-prompt .photo-picker-actions{grid-template-columns:1fr 1fr}.repair-prompt .photo-picker-actions>*{width:max-content!important}.repair-prompt .photo-picker-actions .upload-button{width:100%!important}.repair-prompt__submit{align-items:flex-start;flex-direction:column}.site-footer{grid-template-columns:1fr;gap:1.25rem;padding-top:2rem}.site-footer__credit{grid-column:auto}.hero-photo-cta{width:auto!important}}
+@media(prefers-reduced-motion:reduce){.hero-animation:before,.hero-animation:after{animation:none!important}}
