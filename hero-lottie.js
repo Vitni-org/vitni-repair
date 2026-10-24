@@ -5,12 +5,24 @@ const animations = [
   ['#heroLottie', '/animations/repair-orbit.json'],
   ['#repairFlowLottie', '/animations/repair-route.json']
 ];
-if (!reducedMotion.matches) {
-  DotLottie.setWasmUrl('/node_modules/@lottiefiles/dotlottie-web/dist/dotlottie-player.wasm');
-  animations.forEach(([selector, src]) => {
-    const canvas = document.querySelector(selector);
-    if (canvas) new DotLottie({ canvas, src, autoplay: true, loop: true, renderConfig: { autoResize: true, devicePixelRatio: 1.5 } });
+DotLottie.setWasmUrl('/node_modules/@lottiefiles/dotlottie-web/dist/dotlottie-player.wasm');
+const players = animations.flatMap(([selector, src]) => {
+  const canvas = document.querySelector(selector);
+  if (!canvas) return [];
+  return [new DotLottie({ canvas, src, autoplay: !reducedMotion.matches, loop: true, renderConfig: { autoResize: true, devicePixelRatio: 1.5 } })];
+});
+const motionToggle = document.querySelector('#motionToggle');
+if (motionToggle) {
+  let playing = !reducedMotion.matches;
+  const updateMotionControl = () => {
+    motionToggle.textContent = playing ? 'Pause animation' : 'Play animation';
+    motionToggle.setAttribute('aria-pressed', String(playing));
+    document.body.classList.toggle('animations-paused', !playing);
+  };
+  updateMotionControl();
+  motionToggle.addEventListener('click', () => {
+    playing = !playing;
+    players.forEach(player => playing ? player.play() : player.pause());
+    updateMotionControl();
   });
-} else {
-  animations.forEach(([selector]) => { const canvas = document.querySelector(selector); if (canvas) canvas.hidden = true; });
 }
