@@ -13,3 +13,28 @@ header{isolation:isolate}.site-menu{position:absolute;top:calc(100% + .5rem);rig
 .photo-box>.photo-tips{display:none!important}.photo-copy:after{content:"Best results: one close photo in good light, plus a wider view for context.";display:block;margin:.85rem 0 0;padding:.75rem .9rem;border-left:3px solid var(--lime);background:#edf4d7;color:var(--forest);font-size:.8rem;line-height:1.45}
 
 .hero-shape{z-index:0}.hero-animation{z-index:1!important}
+.hero-visual{position:relative;max-width:none!important;min-width:0}
+.hero-repair-card{display:none}
+@media(min-width:901px){
+  .hero{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);grid-template-rows:min-content min-content min-content auto;column-gap:clamp(1.5rem,3vw,3rem);align-content:center;min-height:660px;padding:clamp(3rem,6vw,5rem) var(--space)}
+  .hero>.eyebrow{grid-column:1;grid-row:1}
+  .hero>h1{grid-column:1;grid-row:2;width:100%;max-width:none;font-size:clamp(3.8rem,6.4vw,5.75rem);line-height:.93;margin:.85rem 0 1rem}
+  .hero>h1>span{white-space:nowrap}
+  .hero>p{grid-column:1;grid-row:3;max-width:44ch;margin-bottom:0}
+  .hero>.hero-actions{grid-column:1;grid-row:4;align-self:start;max-width:620px!important;margin-top:1.75rem}
+  .hero .hero-visual{grid-column:2;grid-row:1/5;align-self:center;width:100%;min-height:clamp(440px,38vw,510px);background:#e8e4da;border:1px solid var(--line);overflow:hidden}
+  .hero-repair-card{position:absolute;top:clamp(2rem,4vw,3rem);left:clamp(1rem,2vw,1.75rem);z-index:1;display:block;width:min(56%,260px);margin:0;padding:.45rem;background:#fbfcf8;border:1px solid var(--line)}
+  .hero-repair-card img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+  .hero-repair-card figcaption{display:grid;gap:.2rem;padding:.7rem .55rem .55rem}
+  .hero-repair-card figcaption span{font:500 .62rem "DM Mono",monospace;letter-spacing:.07em;color:var(--forest)}
+  .hero-repair-card figcaption strong{font-size:.9rem;letter-spacing:-.025em}
+  .hero-repair-card figcaption small{font-size:.74rem;color:var(--muted)}
+  .hero .hero-animation{top:auto;right:-.25rem;bottom:0;width:min(34vw,390px);height:auto;aspect-ratio:8/9;z-index:2!important}
+  .hero .hero-lottie{width:88%;height:88%}
+}
+@media(max-width:900px){
+  .hero .hero-visual{position:absolute;right:50%;bottom:.25rem;transform:translateX(50%);width:min(calc(100vw - 2 * var(--space)),340px);height:380px;min-height:0;background:transparent;border:0;overflow:visible}
+  .hero-repair-card{display:none}
+  .hero .hero-animation{top:auto;right:50%;bottom:0;width:min(300px,100%);height:auto;aspect-ratio:8/9;transform:translateX(50%);z-index:2!important}
+}
+@media(max-width:700px){.hero .hero-visual{height:300px}.hero .hero-animation{width:245px}}

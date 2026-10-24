@@ -39,3 +39,31 @@
 @media(max-width:900px){.repair-prompt{grid-template-columns:1fr;gap:1.25rem}.repair-prompt__intro h2{max-width:20ch}.repair-prompt__submit{grid-column:1;margin-top:0}}
 @media(max-width:700px){.repair-prompt__fields{grid-template-columns:1fr}.repair-prompt__intro{align-items:flex-start;gap:.75rem}.vitni-buddy--prompt{width:78px;flex-basis:78px}.repair-prompt .description-field textarea{min-height:125px}.repair-prompt .photo-box{min-height:130px}.repair-prompt .photo-picker-actions{grid-template-columns:1fr 1fr}.repair-prompt .photo-picker-actions>*{width:max-content!important}.repair-prompt .photo-picker-actions .upload-button{width:100%!important}.repair-prompt__submit{align-items:flex-start;flex-direction:column}.site-footer{grid-template-columns:1fr;gap:1.25rem;padding-top:2rem}.site-footer__credit{grid-column:auto}.hero-photo-cta{width:auto!important}}
 @media(prefers-reduced-motion:reduce){.hero-animation:before,.hero-animation:after{animation:none!important}}
+
+/* Keep the prompt title above the fields instead of squeezing it beside them. */
+.repair-prompt{display:block;padding:clamp(1.35rem,3vw,2.25rem);margin-top:clamp(1rem,2.5vw,2rem)}
+.repair-prompt__intro{display:grid;grid-template-columns:clamp(72px,8vw,104px) minmax(0,1fr);align-items:center;gap:clamp(.8rem,2vw,1.5rem);margin-bottom:clamp(1.25rem,2.5vw,2rem)}
+.repair-prompt__intro .vitni-buddy--prompt{width:100%;height:auto;flex:none}
+.repair-prompt__intro h2{max-width:none;font-size:clamp(2rem,4vw,3.25rem);line-height:1;letter-spacing:-.055em;margin:0 0 .65rem}
+.repair-prompt__intro p{max-width:58ch;color:#42524c;margin:0}
+.repair-prompt__form{display:grid;gap:1rem}
+.repair-prompt__fields{grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);gap:1rem;align-items:stretch}
+.repair-prompt .description-field small{display:block;margin-top:.55rem;max-width:58ch;color:var(--muted);font-size:.83rem}
+.repair-prompt .description-field textarea{min-height:210px;border-color:#b7bcb3;background:#fbfcf8}
+.repair-prompt .photo-box{min-height:100%;padding:1rem;background:#fbfcf8;border:1px dashed #8a988f;align-items:flex-start;flex-direction:column;justify-content:flex-start;gap:.55rem}
+.repair-prompt .photo-copy{width:100%}
+.repair-prompt .photo-copy strong{display:block;margin:.15rem 0;font-size:1.15rem}
+.repair-prompt .photo-copy p{max-width:38ch;margin:0;color:var(--muted);font-size:.86rem}
+.repair-prompt .photo-picker-actions{grid-template-columns:minmax(0,1fr) max-content;gap:.55rem;align-items:center}
+.repair-prompt .photo-picker-actions .upload-button{width:100%;min-height:46px;font-size:.8rem}
+.repair-prompt .photo-picker-actions .remove-photo{width:auto!important;min-height:44px;font-size:.78rem}
+.repair-prompt .photo-actions{display:flex;flex-wrap:wrap;gap:.5rem 1rem;margin-top:.55rem;font-size:.8rem}
+.repair-prompt .photo-actions a{color:var(--forest);font-weight:800;text-underline-offset:3px}
+.repair-prompt .photo-tips{display:grid!important;gap:.15rem;margin:.15rem 0 0;padding:.65rem .75rem;border-left:3px solid var(--lime);background:#edf4d7;color:var(--forest);font-size:.78rem;line-height:1.45}
+.repair-prompt .photo-tips strong{font-size:.75rem}
+.repair-prompt .photo-copy:after{display:none}
+.repair-prompt__submit{grid-column:auto;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin:.15rem 0 0;padding-top:1rem;border-top:1px solid #c8c3b9}
+.repair-prompt__submit .button{min-height:50px;white-space:nowrap}
+.repair-prompt__submit>p:not(.suggestion){margin:0;color:#42524c;font-size:.85rem}
+@media(max-width:820px){.repair-prompt__fields{grid-template-columns:1fr}.repair-prompt .description-field textarea{min-height:140px}.repair-prompt .photo-box{min-height:0}.repair-prompt .photo-picker-actions{grid-template-columns:minmax(0,1fr) max-content}}
+@media(max-width:700px){.repair-prompt__intro{grid-template-columns:68px minmax(0,1fr);align-items:start;gap:.75rem}.repair-prompt .vitni-buddy--prompt{width:68px}.repair-prompt__intro h2{font-size:clamp(1.8rem,7vw,2.2rem)}.repair-prompt .photo-picker-actions{grid-template-columns:1fr}.repair-prompt .photo-picker-actions .upload-button{width:100%!important}.repair-prompt__submit{align-items:flex-start;flex-direction:column}}
