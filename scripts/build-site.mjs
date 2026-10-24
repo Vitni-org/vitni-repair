@@ -87,7 +87,7 @@ function renderShareControls(canonical) {
 }
 
 function guideJsonLd(guide, path, origin) {
-  const totalTime = /^(\d+) min/.exec(guide.time);
+  const totalTime = /^(\d+) min$/.exec(guide.time);
   return {
     '@context': 'https://schema.org',
     '@type': 'HowTo',

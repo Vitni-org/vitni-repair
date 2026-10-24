@@ -22,3 +22,10 @@
 - `llms.txt` and `llms-full.txt` are optional discovery aids; they make no ranking or citation claims.
 - The guide `HowTo` data describes the page semantically and makes no promise about Google How-to rich-result display.
 - Generated `dist/` remains intentionally ignored. Deployments must run `npm run build` first (and `npm start` does so locally).
+
+## Review fix: truthful structured-data duration
+
+- Review identified that `Fill a small wall hole` showed `30 min + drying` but was serialized as `totalTime: PT30M`, which would omit its drying time.
+- Changed the `HowTo.totalTime` matcher to accept only an exact `N min` visible duration. Guides with added qualifiers, including `30 min + drying`, now omit `totalTime` while retaining their visible duration copy.
+- Verification command: `npm run build && rg -n '"totalTime"|Fill a small wall hole' dist/guides/wall-hole/index.html`.
+- Verification output: the rebuilt wall-hole JSON-LD has no `totalTime` property; the rendered page still displays `30 min + drying` in its visible metadata.
