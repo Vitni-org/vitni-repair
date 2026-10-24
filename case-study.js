@@ -1,2 +1,30 @@
-const cases={bike:{title:'Back on the road',tag:'BIKE · SAFE DIY',time:'5 MINUTES',image:'/images/generated/bike-chain-story.jpg',situation:'A chain slipped during the morning commute. The frame and chain looked intact, so this was a safe, low-risk reset.',tools:['Cloth or disposable glove','Optional bike stand'],safety:'Stop if the chain is bent, badly rusted, or keeps slipping after the reset.',steps:[['Create slack','Shift to the smallest front gear, then pull the rear derailleur arm forward.'],['Reseat the chain','Place the chain back onto the front chainring and guide it onto the rear cog.'],['Turn slowly','Rotate the pedal backwards by hand until the chain runs smoothly.'],['Check before riding','Spin the wheel and make one gentle gear change before setting off.']],outcome:'€0 spent · one bike ride saved'},denim:{title:'Favourite jeans, repaired',tag:'CLOTHES · SAFE DIY',time:'20 MINUTES',image:'/images/generated/denim-seam-story.jpg',situation:'A short inner-seam tear appeared on a favourite pair of jeans. The fabric around it was still strong enough for a simple repair.',tools:['Needle','Matching thread','Pins or clips','Small scissors'],safety:'Choose a tailor or repair café if the denim is thin, stretched, or torn across a large area.',steps:[['Prepare the seam','Turn the jeans inside out and align the original seam edges.'],['Hold it steady','Use pins or clips so the edges do not shift as you sew.'],['Backstitch','Make short, strong backstitches along the old seam line.'],['Finish neatly','Knot the thread, trim it, and check the seam with a gentle stretch.']],outcome:'€3 in supplies · one garment kept in use'},lamp:{title:'A lamp gets a second life',tag:'HOME · REPAIR CAFÉ',time:'GET HELP',image:'/images/generated/lamp-repair-story.jpg',situation:'A family lamp stopped working. Because electrical faults can be dangerous, it went to a repair café rather than being opened at home.',tools:['No DIY electrical tools','A repair café or qualified technician'],safety:'Unplug the lamp. Do not open the plug, cord, switch, or fitting yourself.',steps:[['Make it safe','Unplug the lamp and note heat, smell, sparking, or visible damage.'],['Bring the right context','Tell the volunteer when it stopped working and whether the issue was sudden or intermittent.'],['Let a trained helper inspect it','The cord, plug, switch, bulb holder, and insulation should be checked with appropriate tools.'],['Use only after testing','Return the lamp to use only once it has been safely inspected and tested.']],outcome:'A sentimental item restored safely'},window:{title:'Window sitting right again',tag:'HOME · SAFE DIY',time:'15 MINUTES',image:'/images/generated/window-hinge-story.jpg',situation:'A loose hinge made a window sit unevenly and let in a draught. The glass and frame were sound.',tools:['Correct screwdriver','Replacement screws if needed','Helper for heavy sash'],safety:'Stop if the glass is cracked, the frame is rotten, or the window feels too heavy to support.',steps:[['Support the sash','Keep the window supported so it cannot drop or twist.'],['Find the loose point','Check the hinge screws and look for stripped holes or missing hardware.'],['Tighten and align','Tighten evenly, then make small alignment adjustments.'],['Test the close','Open and close slowly, confirming the latch and seal meet cleanly.']],outcome:'€5 in hardware · a draught reduced'}};
-const key=new URLSearchParams(location.search).get('story')||'bike';const item=cases[key]||cases.bike;document.title=`${item.title} — RepairLens`;document.querySelector('#casePage').innerHTML=`<section class="case-hero"><div><p class="overline">SUCCESS STORY · ${item.tag}</p><div class="case-meta"><span>${item.time}</span><span>PHOTO CASE STUDY</span></div><h1>${item.title}</h1><p>${item.situation}</p></div><img src="${item.image}" alt="Generated repair story photo for ${item.title}" /></section><section class="case-layout"><div><p class="overline">THE REPAIR PATH</p><ol class="case-steps">${item.steps.map(([title,copy])=>`<li><div><strong>${title}</strong><p>${copy}</p></div></li>`).join('')}</ol></div><aside class="case-aside"><h2>Before you start</h2><ul>${item.tools.map(tool=>`<li>${tool}</li>`).join('')}</ul><div class="safety-card"><strong>Safety first</strong><br>${item.safety}</div><div class="outcome-card">${item.outcome}</div></aside></section>`;
+import { stories } from './site-data.js';
+
+const storyPage = document.querySelector('[data-story-id]');
+if (storyPage) {
+  // Keep legacy query URLs usable on static hosts that do not provide redirects.
+  if (!storyPage.dataset.storyId) {
+    storyPage.dataset.storyId = new URLSearchParams(location.search).get('story') || '';
+  }
+  const story = stories[storyPage.dataset.storyId];
+  if (new URLSearchParams(location.search).has('story')) {
+    location.replace(story ? `/stories/${storyPage.dataset.storyId}/` : '/');
+  }
+  const shareButton = document.querySelector('[data-share-button]');
+  const shareStatus = document.querySelector('[data-share-status]');
+
+  if (story && shareButton) {
+    shareButton.addEventListener('click', async () => {
+      const shareData = { title: `${story.title} — RepairLens`, url: location.href };
+      try {
+        if (navigator.share) await navigator.share(shareData);
+        else {
+          await navigator.clipboard.writeText(shareData.url);
+          if (shareStatus) shareStatus.textContent = 'Story link copied.';
+        }
+      } catch (error) {
+        if (error.name !== 'AbortError' && shareStatus) shareStatus.textContent = 'Could not share this story right now.';
+      }
+    });
+  }
+}
