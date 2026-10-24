@@ -6,7 +6,7 @@
   <link rel="manifest" href="/manifest.webmanifest" /><link rel="icon" href="/icon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css" /><title>RepairLens — Fix, wear, ride.</title>
+  <link rel="stylesheet" href="/styles.css" /><link rel="stylesheet" href="/camera.css" /><title>RepairLens — Fix, wear, ride.</title>
 </head>
 <body>
   <a class="skip" href="#content">Skip to content</a>
@@ -14,11 +14,12 @@
   <main id="content">
     <section class="hero" id="top"><div class="eyebrow"><i></i>YOUR POCKET REPAIR GUIDE</div><h1>Keep good things<br><em>going.</em></h1><p>Tell us what is broken. Get a safe, practical repair plan in minutes.</p><div class="hero-actions"><a class="button primary" href="#diagnose">Start a repair <svg aria-hidden="true"><use href="#arrow" /></svg></a><button class="button quiet" id="howButton">How it works</button></div><div class="hero-shape" aria-hidden="true"><div class="wheel"></div><div class="thread"></div></div></section>
 
-    <section class="diagnose" id="diagnose" aria-labelledby="diagnose-title"><div class="section-heading"><span class="step">01</span><div><h2 id="diagnose-title">What needs fixing?</h2><p>Pick a category to start your repair check.</p></div></div><div class="category-grid" role="list">
-      <button class="category selected" data-category="bike" role="listitem"><svg aria-hidden="true"><use href="#bike" /></svg><span>Bike</span><small>Tyres, chains, brakes</small></button>
-      <button class="category" data-category="clothes" role="listitem"><svg aria-hidden="true"><use href="#shirt" /></svg><span>Clothes</span><small>Zips, seams, buttons</small></button>
-      <button class="category" data-category="home" role="listitem"><svg aria-hidden="true"><use href="#home" /></svg><span>Home</span><small>Furniture, fixtures</small></button>
+    <section class="diagnose" id="diagnose" aria-labelledby="diagnose-title"><div class="section-heading"><span class="step">01</span><div><h2 id="diagnose-title">What needs fixing?</h2><p>Add a photo for context, then pick the closest repair.</p></div></div><div class="category-grid">
+      <button class="category selected" data-category="bike" aria-pressed="true"><svg aria-hidden="true"><use href="#bike" /></svg><span>Bike</span><small>Tyres, chains, brakes</small></button>
+      <button class="category" data-category="clothes" aria-pressed="false"><svg aria-hidden="true"><use href="#shirt" /></svg><span>Clothes</span><small>Zips, seams, buttons</small></button>
+      <button class="category" data-category="home" aria-pressed="false"><svg aria-hidden="true"><use href="#home" /></svg><span>Home</span><small>Furniture, fixtures</small></button>
     </div>
+    <div class="photo-box"><div class="photo-copy"><span class="overline">OPTIONAL, BUT HELPFUL</span><strong>Show us the problem</strong><p id="photoStatus">Add a clear photo so your repair guide has context.</p><label class="upload-button" for="photoInput">Add a photo</label><input id="photoInput" type="file" accept="image/*" capture="environment" /><button id="removePhoto" class="remove-photo" hidden>Remove photo</button></div><img id="photoPreview" alt="Your repair item preview" hidden /></div>
     <div class="case-picker"><label for="issue">Choose the closest issue</label><select id="issue"><option value="flat">A flat bike tyre</option><option value="chain">A slipped bike chain</option><option value="zip">A stuck clothing zipper</option><option value="seam">A torn seam</option><option value="chair">A wobbly chair</option><option value="hinge">A loose cabinet hinge</option></select><button id="diagnoseButton" class="button primary">Check my repair <svg aria-hidden="true"><use href="#arrow" /></svg></button></div>
     </section>
 
