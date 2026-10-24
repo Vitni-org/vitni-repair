@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#194c42" /><meta name="description" content="A practical repair guide for the things you use every day." />
+  <link rel="manifest" href="/manifest.webmanifest" /><link rel="icon" href="/icon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" /><title>RepairLens — Fix, wear, ride.</title>
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header><a class="brand" href="#top" aria-label="RepairLens home"><span class="brand-mark" aria-hidden="true">R</span>RepairLens</a><button class="text-button" id="installButton" hidden>Install app</button><button class="menu-button" aria-label="Open menu" aria-expanded="false" id="menuButton"><span></span><span></span></button></header>
+  <main id="content">
+    <section class="hero" id="top"><div class="eyebrow"><i></i>YOUR POCKET REPAIR GUIDE</div><h1>Keep good things<br><em>going.</em></h1><p>Tell us what is broken. Get a safe, practical repair plan in minutes.</p><div class="hero-actions"><a class="button primary" href="#diagnose">Start a repair <svg aria-hidden="true"><use href="#arrow" /></svg></a><button class="button quiet" id="howButton">How it works</button></div><div class="hero-shape" aria-hidden="true"><div class="wheel"></div><div class="thread"></div></div></section>
+
+    <section class="diagnose" id="diagnose" aria-labelledby="diagnose-title"><div class="section-heading"><span class="step">01</span><div><h2 id="diagnose-title">What needs fixing?</h2><p>Pick a category to start your repair check.</p></div></div><div class="category-grid" role="list">
+      <button class="category selected" data-category="bike" role="listitem"><svg aria-hidden="true"><use href="#bike" /></svg><span>Bike</span><small>Tyres, chains, brakes</small></button>
+      <button class="category" data-category="clothes" role="listitem"><svg aria-hidden="true"><use href="#shirt" /></svg><span>Clothes</span><small>Zips, seams, buttons</small></button>
+      <button class="category" data-category="home" role="listitem"><svg aria-hidden="true"><use href="#home" /></svg><span>Home</span><small>Furniture, fixtures</small></button>
+    </div>
+    <div class="case-picker"><label for="issue">Choose the closest issue</label><select id="issue"><option value="flat">A flat bike tyre</option><option value="chain">A slipped bike chain</option><option value="zip">A stuck clothing zipper</option><option value="seam">A torn seam</option><option value="chair">A wobbly chair</option><option value="hinge">A loose cabinet hinge</option></select><button id="diagnoseButton" class="button primary">Check my repair <svg aria-hidden="true"><use href="#arrow" /></svg></button></div>
+    </section>
+
+    <section class="result" id="result" aria-live="polite" hidden><div class="section-heading"><span class="step">02</span><div><p class="overline">REPAIR ASSESSMENT</p><h2 id="resultTitle">Flat bike tyre</h2></div></div><div class="assessment"><div class="safe"><span class="status-dot"></span><div><strong>Safe to try yourself</strong><p id="safetyCopy">A straightforward repair with basic tools.</p></div></div><div class="facts" id="facts"></div></div><div class="guide"><div><p class="overline">YOUR PLAN</p><h3 id="guideTitle">Replace or patch the inner tube</h3><ol id="steps"></ol></div><aside><h4>Before you start</h4><ul id="tools"></ul><button id="helpButton" class="button secondary">I need local help</button></aside></div><div class="impact" id="impact"></div></section>
+
+    <section class="help" id="help" hidden><div class="section-heading"><span class="step">03</span><div><p class="overline">LOCAL FALLBACK</p><h2>You do not have to fix it alone.</h2></div></div><div class="help-card"><div><strong>Canal Repair Café</strong><p>Next session: Saturday, 10:00–14:00 · 1.2 km away</p><span>Bike tools · Sewing machines · Volunteer help</span></div><button class="button primary" id="saveHelp">Save details</button></div></section>
+
+    <section class="promise"><p>RepairLens prioritizes safety. If a repair risks injury or damage, we will say so—and point you towards the right help.</p></section>
+  </main>
+  <footer><span>RepairLens</span><span>Fix · wear · ride</span></footer>
+  <svg class="sprite" aria-hidden="true"><symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h13M14 7l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="bike" viewBox="0 0 24 24"><circle cx="5.5" cy="17.5" r="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="18.5" cy="17.5" r="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m5.5 17.5 4-9h4l5 9m-9-9 5 9m-2.5-9L10 5H7m6 3.5 2-3h2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="shirt" viewBox="0 0 24 24"><path d="m8 4 4 2 4-2 4 3-2.5 4-1.5-1v10H8V10l-1.5 1L4 7l4-3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol><symbol id="home" viewBox="0 0 24 24"><path d="m3 11 9-7 9 7v9h-6v-5H9v5H3v-9Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol></svg>
+  <script src="/app.js"></script>
+</body></html>
