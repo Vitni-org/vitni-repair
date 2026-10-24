@@ -3,5 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "scripts": { "start": "node server.mjs" }
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "@lottiefiles/dotlottie-web": "^0.81.0"
+  }
 }
