@@ -1,10 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Camera, Check, MapPin, Recycle, Sparkles, Wrench } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Camera, Check, MapPin, Recycle, Sparkles } from "lucide-react";
 import { VitniMascot } from "@/components/vitni-mascot";
 import { FeaturedCarousel, type FeaturedItem } from "@/components/featured-carousel";
-import { RepairRequest } from "@/components/repair-request";
+import { DeferredRepairRequest } from "@/components/deferred-repair-request";
 import { buttonVariants } from "@/components/ui/button";
+
+const parisRepairSpots = [
+  { name: "Repair Café Centre", venue: "Ressourcerie l’Alternative", address: "13 rue Léopold Bellan, 75002 Paris" },
+  { name: "Repair Café Paris 5e", venue: "", address: "13 rue Santeuil, 75005 Paris" },
+  { name: "Repair Café Paris 10e", venue: "Le Pari’s des Faubourgs", address: "12 rue Léon Schwartzenberg, 75010 Paris" },
+  { name: "Repair Café Paris 11e", venue: "Le Picoulet", address: "59 rue de la Fontaine au Roi, 75011 Paris" },
+  { name: "Repair Café Paris 14e", venue: "Florimont", address: "5–9 place Marcel Paul, 75014 Paris" },
+  { name: "Repair Café Paris 18e", venue: "Le Poulpe", address: "4 bis rue d’Oran, 75018 Paris" },
+];
+
+const parisRepairMap = "https://maps.google.com/maps?q=repair+caf%C3%A9+Paris&z=12&output=embed";
 
 export function HomePage({ featured }: { featured: FeaturedItem[] }) {
   return (
@@ -105,7 +116,7 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
           </h2>
           <p>Share the change you noticed. Add a photo if you can. Vitni will look for the likely issue and suggest a safe next step.</p>
         </div>
-        <RepairRequest />
+        <DeferredRepairRequest />
       </section>
 
       <section aria-labelledby="guides-title" className="guide-promo">
@@ -117,9 +128,9 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
           <p>Browse illustrated starting points for bikes, windows, doors, kitchens, walls, clothes, and everyday household items.</p>
         </div>
         <div className="guide-promo__action">
-        <Link className={buttonVariants({ size: "lg" })} href="/guides/">
+          <Link className={buttonVariants({ size: "lg" })} href="/guides/">
             Explore repair guides <ArrowRight aria-hidden="true" />
-        </Link>
+          </Link>
           <span>Clear steps · safety notes · parts to check</span>
         </div>
       </section>
@@ -131,28 +142,59 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
             Repair is better together.
           </h2>
           <p>Some fixes need another pair of hands or a specialist tool. Find a repair café, shared workshop, or local bricolage space near you.</p>
-          <div className="community-links">
-            <a href="https://www.google.com/maps/search/repair+caf%C3%A9+Paris" rel="noreferrer" target="_blank">
-              <MapPin aria-hidden="true" />
-              Repair cafés near Paris <ArrowUpRight aria-hidden="true" />
-            </a>
-            <a href="https://www.google.com/maps/search/atelier+bricolage+Paris" rel="noreferrer" target="_blank">
-              <Wrench aria-hidden="true" />
-              Bricolage workshops in Paris <ArrowUpRight aria-hidden="true" />
-            </a>
-          </div>
-          <p className="community-note">Map searches open with Paris as a starting point. Search your own area to find nearby help.</p>
+          <a className="community-directory-link" href="https://www.repaircafeparis.fr/rc-quartier/" rel="noreferrer" target="_blank">
+            <MapPin aria-hidden="true" />
+            Explore the Paris Repair Café network <ArrowUpRight aria-hidden="true" />
+          </a>
+          <p className="community-note">Starting in Paris. Search Google Maps for repair cafés and check with each organizer before visiting.</p>
         </div>
         <div className="community-map">
           <iframe
             loading="lazy"
-            referrerPolicy="no-referrer"
-            title="Map centred on Paris, France"
-            src="https://www.openstreetmap.org/export/embed.html?bbox=2.275%2C48.815%2C2.42%2C48.89&layer=mapnik&marker=48.8566%2C2.3522"
+            referrerPolicy="strict-origin-when-cross-origin"
+            title="Google Maps search for repair cafés in Paris"
+            src={parisRepairMap}
           />
-          <a href="https://www.openstreetmap.org/?mlat=48.8566&mlon=2.3522#map=13/48.8566/2.3522" rel="noreferrer" target="_blank">
-            View the Paris map <ArrowUpRight aria-hidden="true" />
+          <a
+            className="community-map__open"
+            href="https://www.google.com/maps/search/?api=1&query=repair+caf%C3%A9+Paris"
+            rel="noreferrer"
+            target="_blank"
+          >
+            Open repair cafés in Google Maps <ArrowUpRight aria-hidden="true" />
           </a>
+          <ul aria-label="Repair cafés in Paris" className="community-venues">
+            {parisRepairSpots.map((spot, index) => {
+              const destination = encodeURIComponent(`${spot.name}${spot.venue ? `, ${spot.venue}` : ""}, ${spot.address}`);
+              return (
+                <li key={spot.name}>
+                  <a href={`https://www.google.com/maps/search/?api=1&query=${destination}`} rel="noreferrer" target="_blank">
+                    <span aria-hidden="true" className="community-venue__number">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="community-venue__details">
+                      <strong>{spot.name}</strong>
+                      <span>
+                        {spot.venue ? `${spot.venue} · ` : ""}
+                        {spot.address}
+                      </span>
+                    </span>
+                    <ArrowUpRight aria-hidden="true" />
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+          <p className="community-map__source">
+            Location directory:{" "}
+            <a href="https://www.repaircafeparis.fr/rc-quartier/" rel="noreferrer" target="_blank">
+              Repair Café Paris
+            </a>{" "}
+            ·{" "}
+            <a href="https://www.paris.fr/pages/apprendre-a-reparer-a-paris-c-est-facile-31096" rel="noreferrer" target="_blank">
+              Ville de Paris
+            </a>
+          </p>
         </div>
       </section>
 
