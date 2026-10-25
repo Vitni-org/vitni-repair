@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, HeartHandshake } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, HeartHandshake, Pause, Play } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
@@ -21,8 +21,11 @@ export type FeaturedItem = {
 
 export function FeaturedCarousel({ items }: { items: FeaturedItem[] }) {
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
+  const [pausedByVisitor, setPausedByVisitor] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(true);
+  const [announcement, setAnnouncement] = useState("");
   const item = items[active];
 
   useEffect(() => {
@@ -34,32 +37,41 @@ export function FeaturedCarousel({ items }: { items: FeaturedItem[] }) {
   }, []);
 
   useEffect(() => {
-    if (paused || reducedMotion || items.length < 2) return;
+    if (pausedByVisitor || hovered || focused || reducedMotion || items.length < 2) return;
     const timer = window.setInterval(() => setActive((index) => (index + 1) % items.length), 3000);
     return () => window.clearInterval(timer);
-  }, [items.length, paused, reducedMotion]);
+  }, [items.length, pausedByVisitor, hovered, focused, reducedMotion]);
 
   if (!item) return null;
 
-  const move = (direction: number) => setActive((index) => (index + direction + items.length) % items.length);
+  const move = (direction: number) => {
+    const next = (active + direction + items.length) % items.length;
+    setActive(next);
+    setAnnouncement(`Slide ${next + 1} of ${items.length}: ${items[next].title}`);
+  };
 
   return (
     <section
       aria-label="Repair inspiration"
       className="feature-carousel"
+      aria-roledescription="carousel"
       onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false);
+        if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false);
       }}
-      onFocus={() => setPaused(true)}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setFocused(true)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      <Link className="feature-card" href={item.href}>
+      <Link
+        aria-label={`${item.title}, ${item.kind === "story" ? "illustrative repair scenario" : "repair guide"}`}
+        className="feature-card"
+        href={item.href}
+      >
         <div className="feature-card__image">
           <Image alt={item.alt} className="size-full object-cover" fill priority sizes="(max-width: 800px) 85vw, 480px" src={item.image} />
           <span className="feature-card__kind">
             {item.kind === "story" ? <HeartHandshake aria-hidden="true" /> : <BookOpen aria-hidden="true" />}
-            {item.kind === "story" ? "A repair story" : "A guide to try"}
+            {item.kind === "story" ? "Illustrative repair scenario" : "A guide to try"}
           </span>
         </div>
         <div className="feature-card__copy">
@@ -75,17 +87,26 @@ export function FeaturedCarousel({ items }: { items: FeaturedItem[] }) {
         </div>
       </Link>
       {items.length > 1 && (
-        <div className="feature-carousel__controls" aria-label="Choose featured repair">
+        <div className="feature-carousel__controls" aria-label="Choose featured repair" role="group">
           <Button aria-label="Previous repair" size="icon" variant="outline" onClick={() => move(-1)}>
             <ArrowLeft aria-hidden="true" />
+          </Button>
+          <Button
+            aria-label={pausedByVisitor ? "Resume automatic rotation" : "Pause automatic rotation"}
+            aria-pressed={pausedByVisitor}
+            onClick={() => setPausedByVisitor((paused) => !paused)}
+            size="icon"
+            variant="outline"
+          >
+            {pausedByVisitor ? <Play aria-hidden="true" /> : <Pause aria-hidden="true" />}
           </Button>
           <div className="feature-carousel__dots" aria-hidden="true">
             {items.slice(0, 8).map((entry, index) => (
               <span className={index === active % 8 ? "is-active" : ""} key={entry.id} />
             ))}
           </div>
-          <span className="sr-only" aria-live="polite">
-            Featured {item.kind}: {item.title}
+          <span className="sr-only" aria-live="polite" role="status">
+            {announcement}
           </span>
           <Button aria-label="Next repair" size="icon" variant="outline" onClick={() => move(1)}>
             <ArrowRight aria-hidden="true" />

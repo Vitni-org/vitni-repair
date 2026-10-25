@@ -9,6 +9,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { trackAnalyticsEvent } from "@/lib/analytics";
 import type { RepairAssessment, RepairGuide } from "@/lib/content";
+import { RepairOutcomeFeedback } from "@/components/repair-outcome-feedback";
 
 type GuideResponse = {
   assessment: RepairAssessment;
@@ -17,6 +18,7 @@ type GuideResponse = {
   href?: string;
   saved: boolean;
   reused?: boolean;
+  sharedPublicly?: boolean;
   message?: string;
   persistence?: string;
 };
@@ -26,9 +28,11 @@ export function RepairRequest() {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const [imageName, setImageName] = useState("");
+  const [sharePublicly, setSharePublicly] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<GuideResponse | null>(null);
+  const [resultVersion, setResultVersion] = useState(0);
 
   const chooseImage = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -83,7 +87,7 @@ export function RepairRequest() {
       const response = await fetch("/api/repair-guide", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ description: description.trim(), ...(image ? { image } : {}) }),
+        body: JSON.stringify({ description: description.trim(), sharePublicly, ...(image ? { image } : {}) }),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "We could not make your repair plan yet.");
@@ -94,9 +98,11 @@ export function RepairRequest() {
           saved: Boolean(guideResult.saved),
           reused: Boolean(guideResult.reused),
           has_photo: Boolean(image),
+          shared_publicly: Boolean(guideResult.sharedPublicly),
         });
       }
       setResult(guideResult);
+      setResultVersion((version) => version + 1);
     } catch (issue) {
       trackAnalyticsEvent("repair_guide_failed", { stage: "request" });
       setError(issue instanceof Error ? issue.message : "We could not make your repair plan yet.");
@@ -112,6 +118,13 @@ export function RepairRequest() {
   };
 
   const guide = result?.guide;
+  const confidenceLabel = result
+    ? result.assessment.confidence >= 80
+      ? "Strong match"
+      : result.assessment.confidence >= 55
+        ? "Likely match"
+        : "Possible match"
+    : "";
   const steps =
     guide?.steps ||
     result?.assessment.steps.map((step, index) => ({
@@ -163,6 +176,9 @@ export function RepairRequest() {
               <p className="eyebrow">Photo helps us see the details</p>
               <h3>Add a photo if you have one</h3>
               <p className="text-muted-foreground">Take a clear close-up, or use words alone.</p>
+              <p className="repair-data-note">
+                Vitni sends your description and optional photo to OpenAI to prepare the guide. The original photo is not saved with it.
+              </p>
             </div>
             <input
               accept="image/png,image/jpeg,image/webp"
@@ -203,6 +219,17 @@ export function RepairRequest() {
           </div>
         </div>
 
+        <label className="repair-share-choice">
+          <input checked={sharePublicly} onChange={(event) => setSharePublicly(event.target.checked)} type="checkbox" />
+          <span>
+            <strong>Add this guide to the public library</strong>
+            <span>
+              Your original photo and wording are not published. Leave unchecked to keep a new guide link-only; Vitni may point you to an existing
+              public match.
+            </span>
+          </span>
+        </label>
+
         {error && (
           <Alert variant="destructive">
             <ShieldAlert aria-hidden="true" />
@@ -240,9 +267,12 @@ export function RepairRequest() {
         <section aria-labelledby="result-title" className="repair-result" id="repair-result">
           <div className="repair-result__top">
             <div>
-              <p className="eyebrow">Vitni’s repair plan · {result.assessment.confidence}% match</p>
+              <p className="eyebrow">Vitni’s repair plan · {confidenceLabel}</p>
               <h3 id="result-title">{result.assessment.likely_issue}</h3>
               <p>{result.assessment.summary}</p>
+              <p className="confidence-note">
+                This is an AI-assisted suggestion based on the details you shared. Check each step and stop if the repair feels unsafe.
+              </p>
             </div>
             <span className={`safety-pill safety-pill--${result.assessment.safety}`}>
               {result.assessment.safety === "safe_diy" ? <Check aria-hidden="true" /> : <ShieldAlert aria-hidden="true" />}
@@ -320,7 +350,19 @@ export function RepairRequest() {
             )}
             {!result.saved && <p>{result.message || "This plan is ready for you, but the shared guide library is not connected yet."}</p>}
             {result.reused && <p>This matches a guide already in the shared library.</p>}
+            {result.saved && !result.reused && (
+              <p className="repair-share-status">
+                {result.sharedPublicly
+                  ? "You chose to add this general guide to the public library."
+                  : sharePublicly
+                    ? "This repair was kept link-only because it was not suitable for the public library."
+                    : result.href?.startsWith("/repairs/")
+                      ? "Saved as an unlisted guide. Anyone with its link can open it."
+                      : "This opens a matching guide that was already in the public library."}
+              </p>
+            )}
           </div>
+          <RepairOutcomeFeedback key={resultVersion} />
           <p className="result-nearby">
             <MapPin aria-hidden="true" />
             Need a hand?{" "}

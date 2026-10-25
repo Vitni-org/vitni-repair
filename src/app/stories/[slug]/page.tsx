@@ -14,17 +14,17 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const story = getStory(slug);
   if (!story) return { title: "Story not found | Vitni", robots: { index: false, follow: false } };
   return {
-    title: `${story.title} | Vitni repair story`,
-    description: story.situation,
+    title: `Illustrative repair scenario: ${story.title} | Vitni`,
+    description: `An illustrative repair scenario. ${story.situation}`,
     alternates: { canonical: `/stories/${slug}/` },
     openGraph: {
       type: "article",
       url: `/stories/${slug}/`,
-      title: story.title,
-      description: story.situation,
+      title: `Illustrative scenario: ${story.title}`,
+      description: `Illustrative repair scenario. ${story.situation}`,
       images: [{ url: story.image, alt: story.alt }],
     },
-    twitter: { card: "summary_large_image", title: story.title, description: story.situation, images: [story.image] },
+    twitter: { card: "summary_large_image", title: `Illustrative scenario: ${story.title}`, description: story.situation, images: [story.image] },
   };
 }
 
@@ -36,8 +36,8 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
   const jsonLd = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: story.title,
-    description: story.situation,
+    headline: `Illustrative repair scenario: ${story.title}`,
+    description: `Illustrative scenario, not a customer testimonial. ${story.situation}`,
     image: `${origin}${story.image}`,
     url: `${origin}/stories/${slug}/`,
   }).replace(/</g, "\\u003c");
@@ -53,13 +53,14 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
       </nav>
       <section className="story-hero">
         <div>
-          <p className="eyebrow">A repair story · {story.tag}</p>
+          <p className="eyebrow">Illustrative scenario · {story.tag}</p>
           <h1>{story.title}</h1>
           <p>{story.situation}</p>
-          <span className="story-outcome">{story.outcome}</span>
+          <span className="story-outcome">Illustrative outcome: {story.outcome}</span>
         </div>
         <div className="story-hero__image">
           <Image alt={story.alt} fill priority sizes="(max-width: 800px) 92vw, 45vw" src={story.image} unoptimized />
+          <span className="story-image-caption">Generated artwork · This is an example scenario, not a customer testimonial.</span>
         </div>
       </section>
       <div className="guide-detail-layout story-detail-layout">

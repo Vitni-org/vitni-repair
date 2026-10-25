@@ -209,8 +209,8 @@ export function GoogleAnalytics() {
       {showBanner && (
         <section aria-label="Analytics preferences" className="analytics-consent" id="analytics-preferences" role="region">
           <div className="analytics-consent__copy">
-            <strong>Help us make Vitni more useful?</strong>
-            <p>Optional Google Analytics shows which pages and features people use. Repair descriptions and photos are never sent.</p>
+            <strong>Optional analytics</strong>
+            <p>Help improve Vitni. Repair descriptions and photos are never sent to Google Analytics.</p>
           </div>
           <div className="analytics-consent__actions">
             {preferencesOpen && consent !== "unknown" && (
@@ -219,7 +219,7 @@ export function GoogleAnalytics() {
               </button>
             )}
             <button className="analytics-consent__reject" onClick={() => chooseConsent("denied")} type="button">
-              Reject optional analytics
+              Reject analytics
             </button>
             <button className="analytics-consent__accept" onClick={() => chooseConsent("granted")} type="button">
               Accept analytics

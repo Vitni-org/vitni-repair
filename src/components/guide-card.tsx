@@ -2,8 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Clock3, Wrench } from "lucide-react";
 import type { RepairGuide } from "@/lib/content";
+import { guideArtwork } from "@/lib/guide-artwork";
 
 export function GuideCard({ guide }: { guide: RepairGuide }) {
+  const artwork = guideArtwork(guide);
   return (
     <article className="guide-card">
       <Link
@@ -13,16 +15,17 @@ export function GuideCard({ guide }: { guide: RepairGuide }) {
         href={`/guides/${guide.slug}/`}
       >
         <Image
-          alt={guide.alt}
+          alt={artwork.alt}
           className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           fill
           sizes="(max-width: 700px) 92vw, (max-width: 1100px) 46vw, 30vw"
-          src={guide.image || guide.steps.find((step) => step.image)?.image || "/images/og/repairlens-share.png"}
+          src={artwork.src}
           unoptimized
         />
         <span className="guide-card__category">
           {guide.area} · {guide.level}
         </span>
+        {artwork.isFallback && <span className="guide-card__artwork-label">Category artwork</span>}
       </Link>
       <div className="guide-card__copy">
         <p className="guide-card__eyebrow">

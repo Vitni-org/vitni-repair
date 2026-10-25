@@ -1,6 +1,7 @@
 import "server-only";
 import { cache } from "react";
 import { curatedGuides, getStoryEntries, getCuratedGuide, localGuideList, type RepairGuide } from "@/lib/content";
+import { guideArtwork } from "@/lib/guide-artwork";
 import {
   getPublicGuideBySlug,
   getUnlistedGuideByToken,
@@ -55,7 +56,7 @@ export async function getFeaturedRepairs() {
     tag: story.tag,
     title: story.title,
     description: story.situation,
-    outcome: story.outcome,
+    outcome: `Example outcome · ${story.outcome}`,
     image: story.image,
     alt: story.alt,
     href: `/stories/${story.id}/`,
@@ -86,8 +87,8 @@ export async function getFeaturedRepairs() {
       title: guide.title,
       description: guide.desc,
       outcome: `${guide.steps.length} repair steps`,
-      image: guide.image || guide.steps.find((step) => step.image)?.image || "/images/og/repairlens-share.png",
-      alt: guide.alt,
+      image: guideArtwork(guide).src,
+      alt: guideArtwork(guide).alt,
       href: `/guides/${guide.slug}/`,
       stepCount: guide.steps.length,
     }));

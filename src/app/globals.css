@@ -1330,6 +1330,21 @@ p {
   font-weight: 600;
   text-transform: uppercase;
 }
+.guide-card__artwork-label,
+.guide-detail-hero__artwork-label {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  background: rgb(23 33 30 / 84%);
+  padding: 0.4rem 0.6rem;
+  color: white;
+  font-size: 0.67rem;
+  font-weight: 750;
+}
+.guide-detail-hero__artwork-label {
+  left: 0.75rem;
+  right: auto;
+}
 .guide-card__copy {
   padding: 1.1rem 1.2rem;
 }
@@ -2230,5 +2245,274 @@ p {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+.analytics-consent {
+  inset-inline-start: auto;
+  inset-inline-end: max(var(--page-gutter), calc((100vw - 1450px) / 2));
+  width: min(43rem, calc(100vw - 2 * var(--page-gutter)));
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.8rem 0.9rem;
+}
+.analytics-consent__copy {
+  max-width: 22rem;
+}
+.analytics-consent__actions button {
+  min-height: 2.5rem;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+.story-hero__image {
+  position: relative;
+}
+.story-image-caption {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  background: rgb(23 33 30 / 82%);
+  padding: 0.55rem 0.7rem;
+  color: white;
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+.repair-share-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  border: 1px solid var(--line);
+  background: #f3f5ed;
+  padding: 0.9rem 1rem;
+  cursor: pointer;
+}
+.repair-share-choice input {
+  flex: 0 0 auto;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0.15rem 0 0;
+  accent-color: var(--forest);
+}
+.repair-share-choice > span,
+.repair-share-choice > span > span {
+  display: grid;
+  gap: 0.25rem;
+}
+.repair-share-choice strong {
+  font-size: 0.9rem;
+}
+.repair-share-choice > span > span {
+  color: var(--quiet);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+.confidence-note {
+  margin-top: 0.55rem !important;
+  color: var(--quiet) !important;
+  font-size: 0.83rem !important;
+}
+.repair-share-status {
+  max-width: 50ch;
+  color: var(--forest);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+.repair-data-note {
+  max-width: 38rem;
+  margin: 0.55rem 0 0;
+  color: var(--quiet);
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+.repair-outcome {
+  min-width: 0;
+  margin: 1rem 0 0;
+  border: 1px solid var(--line);
+  background: #fff;
+  padding: 1rem;
+}
+.repair-outcome legend {
+  padding: 0 0.3rem;
+  font-weight: 800;
+}
+.repair-outcome__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.repair-outcome__options button {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  padding: 0.55rem 0.75rem;
+  color: var(--forest);
+  font-size: 0.8rem;
+  font-weight: 750;
+}
+.repair-outcome__options button:hover,
+.repair-outcome__options button:focus-visible,
+.repair-outcome__options button.is-selected {
+  border-color: var(--forest);
+  background: #eaf1dd;
+}
+.repair-outcome__options button svg {
+  width: 1rem;
+  height: 1rem;
+}
+.repair-outcome__thanks {
+  min-height: 1.25rem;
+  margin: 0.65rem 0 0;
+  color: var(--quiet);
+  font-size: 0.75rem;
+}
+.offline-guide-action {
+  display: grid;
+  justify-items: start;
+  gap: 0.35rem;
+  margin-top: 0.8rem;
+}
+.offline-guide-action > button,
+.install-vitni-button {
+  display: inline-flex;
+  min-height: 2.7rem;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--forest);
+  background: transparent;
+  padding: 0.55rem 0.8rem;
+  color: var(--forest);
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.offline-guide-action > button:hover,
+.install-vitni-button:hover {
+  background: #eaf1dd;
+}
+.offline-guide-action > button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+.offline-guide-action > button svg,
+.install-vitni-button svg {
+  width: 1rem;
+  height: 1rem;
+}
+.offline-guide-action__remove {
+  margin-left: 0.3rem;
+  opacity: 0.7;
+}
+.offline-guide-action__note {
+  max-width: 33rem;
+  color: var(--quiet);
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+.offline-guide-action__status {
+  min-height: 1.1rem;
+  color: var(--forest);
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+.install-vitni-button {
+  min-height: 2rem;
+  border: 0;
+  padding: 0.25rem 0;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.install-vitni-dialog {
+  width: min(28rem, calc(100vw - 2rem));
+  border: 1px solid var(--line);
+  background: var(--paper);
+  padding: 1.4rem;
+  color: var(--ink);
+  box-shadow: 0 1rem 3rem rgb(23 33 30 / 22%);
+}
+.install-vitni-dialog::backdrop {
+  background: rgb(23 33 30 / 55%);
+}
+.install-vitni-dialog h2 {
+  margin: 0.45rem 0;
+  font-size: 1.5rem;
+  letter-spacing: -0.05em;
+}
+.install-vitni-dialog p:not(.eyebrow) {
+  color: var(--quiet);
+  line-height: 1.55;
+}
+.install-vitni-dialog button {
+  min-height: 2.75rem;
+  border: 0;
+  background: var(--forest);
+  padding: 0.6rem 1rem;
+  color: white;
+  font-weight: 800;
+}
+.guide-step__placeholder {
+  display: grid;
+  min-height: 11rem;
+  grid-template-columns: 3rem auto 1fr;
+  justify-items: start;
+  gap: 0.8rem;
+  align-content: center;
+  border-style: solid;
+  background: radial-gradient(circle at 88% 20%, rgb(217 239 80 / 28%), transparent 26%), #f5f5ed;
+}
+.guide-step__placeholder-number {
+  display: grid;
+  width: 2.6rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: white;
+  color: var(--forest);
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+.guide-step__placeholder > svg {
+  width: 1.2rem;
+  color: var(--coral);
+}
+.guide-step__placeholder > span:last-child {
+  display: grid;
+  gap: 0.25rem;
+  align-self: center;
+}
+.guide-step__placeholder strong {
+  color: var(--ink);
+  font-size: 0.9rem;
+}
+.guide-step__placeholder small {
+  color: var(--quiet);
+  font-size: 0.78rem;
+}
+
+@media (max-width: 760px) {
+  .analytics-consent {
+    inset-inline: 0.75rem;
+    width: auto;
+    gap: 0.7rem;
+    padding: 0.75rem;
+  }
+  .analytics-consent__actions button {
+    min-width: 0;
+    white-space: normal;
+  }
+  .guide-step__placeholder {
+    min-height: 8.5rem;
+    grid-template-columns: 2.4rem auto 1fr;
+    gap: 0.55rem;
+    padding: 0.8rem;
+  }
+  .guide-step__placeholder-number {
+    width: 2rem;
   }
 }

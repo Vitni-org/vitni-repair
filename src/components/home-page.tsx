@@ -8,9 +8,9 @@ import { buttonVariants } from "@/components/ui/button";
 
 const parisRepairSpots = [
   { name: "Repair Café Centre", venue: "Ressourcerie l’Alternative", address: "13 rue Léopold Bellan, 75002 Paris" },
-  { name: "Repair Café Paris 5e", venue: "", address: "13 rue Santeuil, 75005 Paris" },
   { name: "Repair Café Paris 10e", venue: "Le Pari’s des Faubourgs", address: "12 rue Léon Schwartzenberg, 75010 Paris" },
   { name: "Repair Café Paris 11e", venue: "Le Picoulet", address: "59 rue de la Fontaine au Roi, 75011 Paris" },
+  { name: "Repair Café Paris 12e", venue: "Centre Reuilly", address: "19 rue Antoine-Julien Hénard, 75012 Paris" },
   { name: "Repair Café Paris 14e", venue: "Florimont", address: "5–9 place Marcel Paul, 75014 Paris" },
   { name: "Repair Café Paris 18e", venue: "Le Poulpe", address: "4 bis rue d’Oran, 75018 Paris" },
 ];
@@ -173,7 +173,7 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
             <MapPin aria-hidden="true" />
             Explore the Paris Repair Café network <ArrowUpRight aria-hidden="true" />
           </a>
-          <p className="community-note">Starting in Paris. Search Google Maps for repair cafés and check with each organizer before visiting.</p>
+          <p className="community-note">Starting in Paris. Check each organizer’s next session, accepted items, and visitor details before you go.</p>
         </div>
         <div className="community-map">
           <iframe
@@ -221,7 +221,7 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
             })}
           </ul>
           <p className="community-map__source">
-            Location directory:{" "}
+            Addresses checked 25 Oct 2026 · Source:{" "}
             <a href="https://www.repaircafeparis.fr/rc-quartier/" rel="noreferrer" target="_blank">
               Repair Café Paris
             </a>{" "}

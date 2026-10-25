@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { AnalyticsPreferencesButton } from "@/components/google-analytics";
+import { InstallVitniButton } from "@/components/install-vitni-button";
 
 export function SiteFooter() {
   return (
@@ -49,6 +50,7 @@ export function SiteFooter() {
             Find a repair café
           </Link>
           <AnalyticsPreferencesButton />
+          <InstallVitniButton />
         </nav>
       </div>
       <div className="border-border text-muted-foreground mx-auto mt-8 flex max-w-[1450px] flex-wrap justify-between gap-3 border-t pt-5 font-mono text-xs">

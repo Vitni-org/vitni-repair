@@ -27,6 +27,7 @@ const repairRequestSchema = z.object({
   image: z.string().max(11_200_000).optional(),
   description: z.string().trim().min(1).max(1000),
   category: z.enum(["Bike", "Home", "Clothes", "Other"]).optional(),
+  sharePublicly: z.boolean().optional().default(false),
 });
 
 const stepSchema = z.object({
@@ -257,7 +258,7 @@ function assessmentFromGuide(guide: RepairGuide): RepairAssessment {
   };
 }
 
-async function persistRepairGuide(originalAssessment: RepairAssessment) {
+async function persistRepairGuide(originalAssessment: RepairAssessment, sharePublicly = false) {
   const assessment = safeAssessment(originalAssessment);
   const area: RepairArea = ["Bike", "Home", "Clothes"].includes(assessment.area) ? assessment.area : "Other";
   const reusable = publicRepairGuide(assessment);
@@ -265,18 +266,26 @@ async function persistRepairGuide(originalAssessment: RepairAssessment) {
   const existing = matchKey ? await findGuideByMatchKey(matchKey) : null;
   if (existing && ["published", "needs_illustrations"].includes(existing.status)) {
     const guide = (await toPublicGuide(existing)) as RepairGuide;
-    return { assessment: assessmentFromGuide(guide), guide, saved: true, reused: true, href: `/guides/${guide.slug}/` };
+    return {
+      assessment: assessmentFromGuide(guide),
+      guide,
+      saved: true,
+      reused: true,
+      sharedPublicly: false,
+      href: `/guides/${guide.slug}/`,
+    };
   }
   if (existing) throw new Error("A matching guide is already being saved. Please try again shortly.");
 
-  const shareToken = reusable ? null : randomBytes(32).toString("base64url");
-  const slug = reusable ? `${slugify(assessment.likely_issue)}-${shortHash(matchKey || assessment.likely_issue)}` : null;
+  const publishToLibrary = sharePublicly && reusable;
+  const shareToken = publishToLibrary ? null : randomBytes(32).toString("base64url");
+  const slug = publishToLibrary ? `${slugify(assessment.likely_issue)}-${shortHash(matchKey || assessment.likely_issue)}` : null;
   const parts = assessment.safety === "do_not_attempt" ? [] : assessment.parts.map((part) => ({ ...part, url: shoppingUrl(part) }));
   const created = await createGuideRecord(
     {
       slug,
       shareToken,
-      matchKey,
+      matchKey: publishToLibrary ? matchKey : null,
       title: assessment.likely_issue,
       description: assessment.summary,
       area,
@@ -288,7 +297,7 @@ async function persistRepairGuide(originalAssessment: RepairAssessment) {
       tools: assessment.safety === "do_not_attempt" ? [] : assessment.tools,
       coverPath: "",
       coverAlt: `Repair illustration for ${assessment.likely_issue}`,
-      visibility: reusable ? "public" : "unlisted",
+      visibility: publishToLibrary ? "public" : "unlisted",
     },
     assessment.steps,
     parts,
@@ -303,6 +312,7 @@ async function persistRepairGuide(originalAssessment: RepairAssessment) {
       guide,
       saved: true,
       reused: true,
+      sharedPublicly: false,
       href: guide.visibility === "unlisted" ? `/repairs/${guide.shareToken}/` : `/guides/${guide.slug}/`,
     };
   }
@@ -339,7 +349,8 @@ async function persistRepairGuide(originalAssessment: RepairAssessment) {
     guide,
     saved: true,
     reused: false,
-    href: reusable ? `/guides/${guide.slug}/` : `/repairs/${guide.shareToken}/`,
+    sharedPublicly: publishToLibrary && guide.visibility === "public",
+    href: guide.visibility === "public" ? `/guides/${guide.slug}/` : `/repairs/${guide.shareToken}/`,
   };
 }
 
@@ -359,7 +370,7 @@ export async function generateRepairGuide(input: RepairInput) {
       message: "This result is not saved yet. Configure Supabase on the server to add it to the shared guide library.",
     };
   }
-  return { ...(await persistRepairGuide(originalAssessment)), persistence: "saved" };
+  return { ...(await persistRepairGuide(originalAssessment, input.sharePublicly)), persistence: "saved" };
 }
 
 export async function analyzeRepair(input: RepairInput) {

@@ -83,15 +83,22 @@ export function GuideIllustrations({
                 <Image
                   alt={step.imageAlt || `${title}: ${step.title}`}
                   className="guide-step__image"
+                  data-offline-guide-image=""
                   height={720}
                   src={image}
                   unoptimized
                   width={960}
                 />
               ) : (
-                <div className="guide-step__placeholder" aria-label={`Illustration for ${step.title} is not ready`}>
+                <div className="guide-step__placeholder">
+                  <span aria-hidden="true" className="guide-step__placeholder-number">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
                   <Sparkles aria-hidden="true" />
-                  <span>{loading ? "Vitni is drawing this step…" : "Illustration not available yet"}</span>
+                  <span>
+                    <strong>{loading ? "Vitni is drawing this step" : "Illustration coming soon"}</strong>
+                    <small>{loading ? "Your written step is ready to follow." : "Use the written instruction above as your guide."}</small>
+                  </span>
                 </div>
               )}
               {step.illustrationStatus === "failed" && !image && (

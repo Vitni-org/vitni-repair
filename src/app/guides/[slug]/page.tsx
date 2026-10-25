@@ -4,6 +4,8 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight, Clock3, ShieldCheck, ShoppingBag, Wrench } from "lucide-react";
 import { notFound } from "next/navigation";
 import { GuideIllustrations } from "@/components/guide-illustrations";
+import { SaveGuideOffline } from "@/components/save-guide-offline";
+import { guideArtwork } from "@/lib/guide-artwork";
 import { buttonVariants } from "@/components/ui/button";
 import { getGuide, curatedGuidePaths } from "@/lib/guide-repository";
 
@@ -36,6 +38,7 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ sl
   const { slug } = await params;
   const guide = await getGuide(slug);
   if (!guide) notFound();
+  const artwork = guideArtwork(guide);
   const origin = (process.env.PUBLIC_SITE_URL || "https://vitni.cc").replace(/\/$/, "");
   const structuredData =
     guide.safety === "safe_diy"
@@ -87,16 +90,11 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ sl
               ? "Every step has an illustration. Follow the written instructions and safety notes as your guide."
               : "Vitni can draw missing steps; the written instructions and safety notes are the source of truth."}
           </p>
+          <SaveGuideOffline slug={guide.slug} />
         </div>
         <div className="guide-detail-hero__image">
-          <Image
-            alt={guide.alt}
-            fill
-            priority
-            sizes="(max-width: 800px) 92vw, 44vw"
-            src={guide.image || "/images/og/repairlens-share.png"}
-            unoptimized
-          />
+          <Image alt={artwork.alt} fill priority sizes="(max-width: 800px) 92vw, 44vw" src={artwork.src} data-offline-guide-image="" unoptimized />
+          {artwork.isFallback && <span className="guide-detail-hero__artwork-label">Category illustration</span>}
         </div>
       </section>
 

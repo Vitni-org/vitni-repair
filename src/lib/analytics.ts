@@ -23,8 +23,10 @@ export type AnalyticsEventPayloads = {
     saved: boolean;
     reused: boolean;
     has_photo: boolean;
+    shared_publicly: boolean;
   };
   repair_guide_failed: { stage: "request" };
+  repair_outcome_reported: { outcome: "fixed" | "in_progress" | "referred" };
   parts_link_opened: { page_context: "guide_detail" | "generated_plan" };
 };
 
