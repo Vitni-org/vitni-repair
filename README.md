@@ -23,6 +23,21 @@ pnpm dev
 
 Open [http://localhost:4174](http://localhost:4174). The app works with curated guides without external credentials. Copy `.env.example` to `.env.local` for AI generation and shared guide storage.
 
+## Deploy to Cloudflare Workers
+
+The Cloudflare deployment uses [vinext](https://developers.cloudflare.com/workers/framework-guides/web-apps/nextjs/) with Cloudflare's Vite plugin. The existing Next.js dev and build scripts remain available. Cloudflare currently marks vinext as beta, so run the Cloudflare build and preview before publishing changes.
+
+```bash
+nvm use
+corepack enable
+pnpm install
+pnpm build:vinext
+pnpm exec vite preview
+pnpm deploy:vinext
+```
+
+Sign in first with `cf auth login`. Before attaching `vitni.cc`, configure the Worker secrets `OPENAI_API_KEY`, `SUPABASE_URL`, and `SUPABASE_SERVICE_ROLE_KEY` in Cloudflare. Add `PUBLIC_SITE_URL=https://vitni.cc` as a Worker variable. The local `.env` is not uploaded by these commands; never commit secret values. If Supabase isn't configured, the site falls back to its curated guides and generated guides are not saved to the shared library.
+
 ## Environment
 
 ```dotenv
