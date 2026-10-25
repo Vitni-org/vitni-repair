@@ -31,13 +31,28 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
           </h1>
           <p className="home-hero__lede">I’m Vitni. Show me what changed, and I’ll help you find a safe, practical next step.</p>
           <div className="home-hero__actions">
-            <Link className={buttonVariants({ className: "primary-action", size: "lg" })} href="#diagnose">
+            <Link
+              className={buttonVariants({ className: "primary-action", size: "lg" })}
+              data-analytics-event="repair_flow_opened"
+              data-analytics-location="home_hero"
+              href="#diagnose"
+            >
               Get my repair steps <ArrowRight aria-hidden="true" />
             </Link>
-            <Link className={buttonVariants({ className: "secondary-action", size: "lg", variant: "outline" })} href="/guides/">
+            <Link
+              className={buttonVariants({ className: "secondary-action", size: "lg", variant: "outline" })}
+              data-analytics-event="guide_library_opened"
+              data-analytics-location="home_hero"
+              href="/guides/"
+            >
               Browse our guides
             </Link>
-            <Link className={buttonVariants({ className: "community-action", size: "lg", variant: "outline" })} href="#help">
+            <Link
+              className={buttonVariants({ className: "community-action", size: "lg", variant: "outline" })}
+              data-analytics-event="community_help_opened"
+              data-analytics-link-type="cta"
+              href="#help"
+            >
               Get help from our community
             </Link>
           </div>
@@ -128,7 +143,12 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
           <p>Browse illustrated starting points for bikes, windows, doors, kitchens, walls, clothes, and everyday household items.</p>
         </div>
         <div className="guide-promo__action">
-          <Link className={buttonVariants({ size: "lg" })} href="/guides/">
+          <Link
+            className={buttonVariants({ size: "lg" })}
+            data-analytics-event="guide_library_opened"
+            data-analytics-location="home_promo"
+            href="/guides/"
+          >
             Explore repair guides <ArrowRight aria-hidden="true" />
           </Link>
           <span>Clear steps · safety notes · parts to check</span>
@@ -142,7 +162,14 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
             Repair is better together.
           </h2>
           <p>Some fixes need another pair of hands or a specialist tool. Find a repair café, shared workshop, or local bricolage space near you.</p>
-          <a className="community-directory-link" href="https://www.repaircafeparis.fr/rc-quartier/" rel="noreferrer" target="_blank">
+          <a
+            className="community-directory-link"
+            data-analytics-event="community_help_opened"
+            data-analytics-link-type="directory"
+            href="https://www.repaircafeparis.fr/rc-quartier/"
+            rel="noreferrer"
+            target="_blank"
+          >
             <MapPin aria-hidden="true" />
             Explore the Paris Repair Café network <ArrowUpRight aria-hidden="true" />
           </a>
@@ -157,6 +184,8 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
           />
           <a
             className="community-map__open"
+            data-analytics-event="community_help_opened"
+            data-analytics-link-type="map"
             href="https://www.google.com/maps/search/?api=1&query=repair+caf%C3%A9+Paris"
             rel="noreferrer"
             target="_blank"
@@ -168,7 +197,13 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
               const destination = encodeURIComponent(`${spot.name}${spot.venue ? `, ${spot.venue}` : ""}, ${spot.address}`);
               return (
                 <li key={spot.name}>
-                  <a href={`https://www.google.com/maps/search/?api=1&query=${destination}`} rel="noreferrer" target="_blank">
+                  <a
+                    data-analytics-event="community_help_opened"
+                    data-analytics-link-type="venue"
+                    href={`https://www.google.com/maps/search/?api=1&query=${destination}`}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
                     <span aria-hidden="true" className="community-venue__number">
                       {String(index + 1).padStart(2, "0")}
                     </span>

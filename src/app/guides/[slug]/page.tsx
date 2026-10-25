@@ -143,12 +143,20 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ sl
                 {guide.parts.map((part) => (
                   <li key={part.name}>
                     {part.url ? (
-                      <a href={part.url} rel="noreferrer" target="_blank">
+                      <a
+                        data-analytics-event="parts_link_opened"
+                        data-analytics-page-context="guide_detail"
+                        href={part.url}
+                        rel="noreferrer"
+                        target="_blank"
+                      >
                         {part.name}
                         {part.details ? ` — ${part.details}` : ""}
                       </a>
                     ) : (
                       <a
+                        data-analytics-event="parts_link_opened"
+                        data-analytics-page-context="guide_detail"
                         href={`https://www.google.com/search?tbm=shop&q=${encodeURIComponent(`${part.name} ${part.details}`)}`}
                         rel="noreferrer"
                         target="_blank"
@@ -166,7 +174,7 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ sl
             <Link href="/guides/">
               Browse all repair guides <ArrowRight aria-hidden="true" />
             </Link>
-            <Link href="/#help">
+            <Link data-analytics-event="community_help_opened" data-analytics-link-type="cta" href="/#help">
               Find nearby repair help <ArrowRight aria-hidden="true" />
             </Link>
             <Link className={buttonVariants({ variant: "outline" })} href="/#diagnose">

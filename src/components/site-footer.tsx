@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AnalyticsPreferencesButton } from "@/components/google-analytics";
 
 export function SiteFooter() {
   return (
@@ -23,15 +24,31 @@ export function SiteFooter() {
           </p>
         </div>
         <nav aria-label="Footer" className="flex flex-col items-start gap-2 text-sm font-bold">
-          <Link className="underline-offset-4 hover:underline" href="/#diagnose">
+          <Link
+            className="underline-offset-4 hover:underline"
+            data-analytics-event="repair_flow_opened"
+            data-analytics-location="footer"
+            href="/#diagnose"
+          >
             Get repair steps
           </Link>
-          <Link className="underline-offset-4 hover:underline" href="/guides/">
+          <Link
+            className="underline-offset-4 hover:underline"
+            data-analytics-event="guide_library_opened"
+            data-analytics-location="footer"
+            href="/guides/"
+          >
             Explore common guides
           </Link>
-          <Link className="underline-offset-4 hover:underline" href="/#help">
+          <Link
+            className="underline-offset-4 hover:underline"
+            data-analytics-event="community_help_opened"
+            data-analytics-link-type="cta"
+            href="/#help"
+          >
             Find a repair café
           </Link>
+          <AnalyticsPreferencesButton />
         </nav>
       </div>
       <div className="border-border text-muted-foreground mx-auto mt-8 flex max-w-[1450px] flex-wrap justify-between gap-3 border-t pt-5 font-mono text-xs">

@@ -6,7 +6,12 @@ import type { RepairGuide } from "@/lib/content";
 export function GuideCard({ guide }: { guide: RepairGuide }) {
   return (
     <article className="guide-card">
-      <Link aria-label={`Open guide: ${guide.title}`} className="guide-card__media" href={`/guides/${guide.slug}/`}>
+      <Link
+        aria-label={`Open guide: ${guide.title}`}
+        className="guide-card__media"
+        data-analytics-event="guide_opened"
+        href={`/guides/${guide.slug}/`}
+      >
         <Image
           alt={guide.alt}
           className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
@@ -24,7 +29,9 @@ export function GuideCard({ guide }: { guide: RepairGuide }) {
           <Wrench aria-hidden="true" /> {guide.steps.length} clear steps
         </p>
         <h2>
-          <Link href={`/guides/${guide.slug}/`}>{guide.title}</Link>
+          <Link data-analytics-event="guide_opened" href={`/guides/${guide.slug}/`}>
+            {guide.title}
+          </Link>
         </h2>
         <p>{guide.desc}</p>
         <div className="guide-card__meta">
@@ -32,7 +39,7 @@ export function GuideCard({ guide }: { guide: RepairGuide }) {
             <Clock3 aria-hidden="true" />
             {guide.time}
           </span>
-          <Link aria-label={`Read ${guide.title}`} href={`/guides/${guide.slug}/`}>
+          <Link aria-label={`Read ${guide.title}`} data-analytics-event="guide_opened" href={`/guides/${guide.slug}/`}>
             <ArrowUpRight aria-hidden="true" />
           </Link>
         </div>

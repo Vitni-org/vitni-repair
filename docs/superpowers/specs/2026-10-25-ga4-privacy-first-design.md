@@ -16,7 +16,7 @@ Give RepairLens a useful view of how visitors move through the site and reach a 
 ## Non-goals
 
 - Advertising pixels, Google Ads conversions, user IDs, session replay, or a Tag Manager container.
-- Sending photos, prompts, form values, personal data, full URLs, or generated content to Analytics.
+- Sending photos, prompts, form values, personal data, unsanitized browser URLs, or generated content to Analytics. Page location is rebuilt from the site origin and a fixed route template.
 - Creating a legal privacy policy or configuring a GA4 property on the user's behalf.
 
 ## Approaches considered
@@ -29,20 +29,22 @@ The user requested main-journey tracking. Use approach 1 and the events below.
 
 ## Events
 
-| Event | Trigger | Properties |
-|---|---|---|
-| `page_view` | Initial load and App Router path change | sanitized `page_type`, sanitized path/title |
-| `repair_flow_opened` | Repair CTA click | static `location` |
-| `guide_library_opened` | Guide CTA click | static `location` |
-| `community_help_opened` | Community CTA, map, directory, or venue link click | static `link_type` |
-| `guide_search_submitted` | Guide search form submit | static area filter, `has_query` boolean |
-| `guide_opened` | Guide card/detail navigation | static `source`; no slug/title |
-| `repair_request_started` | Valid repair form submit | `has_photo` boolean |
-| `repair_guide_completed` | Successful response | safety enum, saved/reused booleans, `has_photo` |
-| `repair_guide_failed` | Failed response | static failure stage only |
-| `parts_link_opened` | Part search/link click | static page context only |
+| Event                    | Trigger                                            | Properties                                      |
+| ------------------------ | -------------------------------------------------- | ----------------------------------------------- |
+| `page_view`              | Initial load and App Router path change            | sanitized `page_type`, sanitized path/title     |
+| `repair_flow_opened`     | Repair CTA click                                   | static `location`                               |
+| `guide_library_opened`   | Guide CTA click                                    | static `location`                               |
+| `community_help_opened`  | Community CTA, map, directory, or venue link click | static `link_type`                              |
+| `guide_search_submitted` | Guide search form submit                           | static area filter, `has_query` boolean         |
+| `guide_opened`           | Guide card/detail navigation                       | static `source`; no slug/title                  |
+| `repair_request_started` | Valid repair form submit                           | `has_photo` boolean                             |
+| `repair_guide_completed` | Successful response                                | safety enum, saved/reused booleans, `has_photo` |
+| `repair_guide_failed`    | Failed response                                    | static failure stage only                       |
+| `parts_link_opened`      | Part search/link click                             | static page context only                        |
 
-Do not enable automatic enhanced-measurement click or site-search events: their URLs could contain dynamic query or generated part text. Page views will be manual, with query strings and dynamic slugs removed.
+Do not enable automatic enhanced-measurement page-history, outbound-click, or site-search events: they could include raw query strings, dynamic destinations, or generated part text. Page views will be manual, with query strings and dynamic slugs removed. Dynamic guide and story routes use fixed templates; all other routes use `/[page]/`.
+
+The event API uses an event-specific TypeScript payload map rather than a general property record. Each static data attribute is validated against the corresponding fixed enum before dispatch.
 
 ## Consent and loading
 
@@ -59,5 +61,5 @@ The Measurement ID is not configured in the local environment. Add the variable 
 ## Validation
 
 - With no Measurement ID, confirm there is no Google tag or consent prompt.
-- With a test Measurement ID, confirm there are no Google requests before opt-in or after rejection, and that route/page events do not include search queries or dynamic slugs.
-- Confirm consent acceptance enables events, the preference control can revoke it, and the event properties contain no user-entered content.
+- With the owner's configured Measurement ID, confirm there are no Google requests before opt-in or after rejection, and that route/page events do not include search queries or dynamic slugs.
+- Confirm consent acceptance enables events, the preference control can revoke it, and the event properties contain no user-entered content. Do not use a fake Measurement ID that could deliver data to an unrelated GA4 property.

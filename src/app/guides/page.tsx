@@ -58,7 +58,7 @@ export default async function GuidesPage({ searchParams }: { searchParams: Promi
             {page.total} {page.total === 1 ? "guide" : "guides"}
           </span>
         </div>
-        <form action="/guides/" className="library-search">
+        <form action="/guides/" className="library-search" data-analytics-form="guide-search">
           <label className="sr-only" htmlFor="guide-query">
             Search repair guides
           </label>

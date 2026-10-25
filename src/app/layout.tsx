@@ -3,6 +3,7 @@ import "@fontsource-variable/manrope";
 import "@fontsource/dm-mono";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { GoogleAnalytics } from "@/components/google-analytics";
 import { PwaRegistrar } from "@/components/pwa-registrar";
 import "./globals.css";
 
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SiteHeader />
         {children}
         <SiteFooter />
+        <GoogleAnalytics />
         <PwaRegistrar />
       </body>
     </html>

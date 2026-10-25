@@ -8,9 +8,9 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/#diagnose", label: "Get repair steps" },
-  { href: "/guides/", label: "Repair guides" },
-  { href: "/#help", label: "Community help" },
+  { href: "/#diagnose", label: "Get repair steps", analyticsEvent: "repair_flow_opened", analyticsLocation: "site_nav" },
+  { href: "/guides/", label: "Repair guides", analyticsEvent: "guide_library_opened", analyticsLocation: "site_nav" },
+  { href: "/#help", label: "Community help", analyticsEvent: "community_help_opened", analyticsLinkType: "cta" },
 ];
 
 export function SiteHeader() {
@@ -35,6 +35,9 @@ export function SiteHeader() {
           {navItems.map((item) => (
             <Link
               className="text-muted-foreground hover:bg-muted hover:text-foreground rounded-md px-3 py-2 text-sm font-bold transition-colors"
+              data-analytics-event={item.analyticsEvent}
+              data-analytics-location={"analyticsLocation" in item ? item.analyticsLocation : undefined}
+              data-analytics-link-type={"analyticsLinkType" in item ? item.analyticsLinkType : undefined}
               href={item.href}
               key={item.href}
             >
@@ -43,6 +46,8 @@ export function SiteHeader() {
           ))}
           <Link
             className="bg-primary text-primary-foreground hover:bg-primary/90 ml-2 inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-extrabold transition-colors"
+            data-analytics-event="guide_library_opened"
+            data-analytics-location="site_nav"
             href="/guides/"
           >
             <Wrench aria-hidden="true" data-icon="inline-start" />
@@ -74,6 +79,9 @@ export function SiteHeader() {
         {navItems.map((item) => (
           <Link
             className="text-foreground hover:bg-muted rounded-md px-3 py-3 font-bold transition-colors"
+            data-analytics-event={item.analyticsEvent}
+            data-analytics-location={"analyticsLocation" in item ? item.analyticsLocation : undefined}
+            data-analytics-link-type={"analyticsLinkType" in item ? item.analyticsLinkType : undefined}
             href={item.href}
             key={item.href}
             onClick={() => setMenuOpen(false)}

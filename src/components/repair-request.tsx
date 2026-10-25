@@ -7,6 +7,7 @@ import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { trackAnalyticsEvent } from "@/lib/analytics";
 import type { RepairAssessment, RepairGuide } from "@/lib/content";
 
 type GuideResponse = {
@@ -70,9 +71,14 @@ export function RepairRequest() {
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (description.trim().length < 4) {
+      setError("Add a few words about what changed so Vitni can help.");
+      return;
+    }
     setError("");
     setResult(null);
     setLoading(true);
+    trackAnalyticsEvent("repair_request_started", { has_photo: Boolean(image) });
     try {
       const response = await fetch("/api/repair-guide", {
         method: "POST",
@@ -81,8 +87,18 @@ export function RepairRequest() {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "We could not make your repair plan yet.");
-      setResult(data as GuideResponse);
+      const guideResult = data as GuideResponse;
+      if (["safe_diy", "get_help", "do_not_attempt"].includes(guideResult.assessment.safety)) {
+        trackAnalyticsEvent("repair_guide_completed", {
+          safety: guideResult.assessment.safety,
+          saved: Boolean(guideResult.saved),
+          reused: Boolean(guideResult.reused),
+          has_photo: Boolean(image),
+        });
+      }
+      setResult(guideResult);
     } catch (issue) {
+      trackAnalyticsEvent("repair_guide_failed", { stage: "request" });
       setError(issue instanceof Error ? issue.message : "We could not make your repair plan yet.");
     } finally {
       setLoading(false);
@@ -254,6 +270,8 @@ export function RepairRequest() {
                   <strong>Parts to check</strong>
                   {result.assessment.parts.map((part) => (
                     <a
+                      data-analytics-event="parts_link_opened"
+                      data-analytics-page-context="generated_plan"
                       href={`https://www.google.com/search?tbm=shop&q=${encodeURIComponent(`${part.name} ${part.details}`)}`}
                       key={part.name}
                       rel="noreferrer"
@@ -305,7 +323,10 @@ export function RepairRequest() {
           </div>
           <p className="result-nearby">
             <MapPin aria-hidden="true" />
-            Need a hand? <Link href="/#help">Find a repair café or community workshop nearby.</Link>
+            Need a hand?{" "}
+            <Link data-analytics-event="community_help_opened" data-analytics-link-type="cta" href="/#help">
+              Find a repair café or community workshop nearby.
+            </Link>
           </p>
         </section>
       )}
