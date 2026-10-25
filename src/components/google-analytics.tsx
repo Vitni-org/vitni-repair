@@ -209,7 +209,7 @@ export function GoogleAnalytics() {
       {showBanner && (
         <section aria-label="Analytics preferences" className="analytics-consent" id="analytics-preferences" role="region">
           <div className="analytics-consent__copy">
-            <strong>Help us make RepairLens more useful?</strong>
+            <strong>Help us make Vitni more useful?</strong>
             <p>Optional Google Analytics shows which pages and features people use. Repair descriptions and photos are never sent.</p>
           </div>
           <div className="analytics-consent__actions">

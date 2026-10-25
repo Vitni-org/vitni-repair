@@ -16,9 +16,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const guide = await getGuide(slug);
-  if (!guide) return { title: "Guide not found | RepairLens", robots: { index: false, follow: false } };
+  if (!guide) return { title: "Guide not found | Vitni", robots: { index: false, follow: false } };
   return {
-    title: `${guide.title} | RepairLens repair guide`,
+    title: `${guide.title} | Vitni repair guide`,
     description: guide.desc,
     alternates: { canonical: `/guides/${guide.slug}/` },
     openGraph: {
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       url: `/guides/${guide.slug}/`,
       title: guide.title,
       description: guide.desc,
-      images: [{ url: "/images/og/repairlens-share.png", width: 1200, height: 630, alt: "RepairLens · Vitni helps you make repairs" }],
+      images: [{ url: "/images/og/repairlens-share.png", width: 1200, height: 630, alt: "Vitni, your repair sidekick, helps you make repairs" }],
     },
     twitter: { card: "summary_large_image", title: guide.title, description: guide.desc, images: ["/images/og/repairlens-share.png"] },
   };

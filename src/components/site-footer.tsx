@@ -11,7 +11,7 @@ export function SiteFooter() {
             <span className="bg-primary grid size-9 place-items-center overflow-hidden rounded-full">
               <Image src="/images/vitni-mark.svg" alt="" width={36} height={36} className="size-full object-contain" />
             </span>
-            RepairLens
+            Vitni
           </Link>
           <p className="text-muted-foreground mt-3 max-w-sm text-sm">
             Make more of the things you already own. Vitni helps you find a safe, practical way to repair them.
@@ -52,7 +52,7 @@ export function SiteFooter() {
         </nav>
       </div>
       <div className="border-border text-muted-foreground mx-auto mt-8 flex max-w-[1450px] flex-wrap justify-between gap-3 border-t pt-5 font-mono text-xs">
-        <span>RepairLens</span>
+        <span>Vitni</span>
         <span>Fix · wear · ride</span>
       </div>
     </footer>

@@ -21,7 +21,7 @@ export async function GET() {
   const storyText = getStoryEntries()
     .map((story) => `## ${story.title}\nURL: ${base}/stories/${story.id}/\n${story.situation}\nSafety: ${story.safety}\nOutcome: ${story.outcome}`)
     .join("\n\n");
-  return new Response(`# RepairLens expanded content\n\n${guideText}\n\n# Repair stories\n\n${storyText}\n`, {
+  return new Response(`# Vitni expanded content\n\n${guideText}\n\n# Repair stories\n\n${storyText}\n`, {
     headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600" },
   });
 }

@@ -22,13 +22,13 @@ export function SiteHeader() {
         <Link
           className="text-foreground flex shrink-0 items-center gap-2.5 text-[1.22rem] font-extrabold tracking-[-0.06em] no-underline"
           href="/"
-          aria-label="RepairLens home"
+          aria-label="Vitni home"
           onClick={() => setMenuOpen(false)}
         >
           <span className="bg-primary grid size-10 place-items-center overflow-hidden rounded-full">
             <Image src="/images/vitni-mark.svg" alt="" width={40} height={40} priority className="size-full object-contain" />
           </span>
-          RepairLens
+          Vitni
         </Link>
 
         <nav aria-label="Main menu" className="hidden items-center gap-1 md:flex">

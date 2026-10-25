@@ -7,9 +7,11 @@ Make **Vitni** the product name visitors see throughout the RepairLens website a
 ## Goals
 
 - Replace the public-facing RepairLens name with Vitni across site navigation, footer, page titles, metadata, social previews, the PWA manifest, machine-readable site descriptions, and visible assistant language.
+- Update current product and analytics operating docs to use the Vitni name; retain the old name only in historical design records.
 - Refresh the Open Graph artwork so shared links say Vitni and continue to feature the existing Vitni character.
 - Preserve existing routes and `vitni.cc` canonicals so current links and search indexing remain valid.
 - Preserve local analytics-consent storage, service-worker caches, database/schema names, API routes, and filenames to avoid data or offline-cache migration.
+- Let the normal service-worker update refresh the changed social image within the existing cache names so installed copies receive current branding.
 
 ## Non-goals
 
@@ -30,6 +32,7 @@ The selected scope is approach 1, confirmed by the user on 2026-10-25.
 - Header brand text and accessible home label; footer brand and end mark; not-found and other page copy.
 - Root and route metadata, Open Graph/Twitter site name and titles, and public machine-readable descriptions (`llms.txt`, `llms-full.txt`, README product overview).
 - PWA manifest name and short name, with the existing Vitni icon retained.
+- Current GA4 tracking-plan document and README product overview.
 - Open Graph vector and 1200×630 PNG artwork, keeping the current palette, composition, character, and canonical image URL.
 - The assistant's user-visible system identity and any public error copy that currently names RepairLens.
 
@@ -38,6 +41,7 @@ The selected scope is approach 1, confirmed by the user on 2026-10-25.
 - Use concise “Vitni” page titles and the existing tagline **Keep good things going** where a descriptive title is needed.
 - Preserve canonical and sitemap URLs on `https://vitni.cc`.
 - Keep the old social image filename and icon asset paths so metadata consumers and caches do not encounter broken references.
+- Update the service-worker script so its existing install-time `cache.addAll(CORE_ASSETS)` refreshes the modified artwork in place; do not rename the cache keys.
 - After export, verify the PNG dimensions remain 1200×630 and inspect the image before committing.
 
 ## Acceptance criteria

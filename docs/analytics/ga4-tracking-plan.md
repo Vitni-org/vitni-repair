@@ -1,11 +1,11 @@
-# RepairLens GA4 tracking plan
+# Vitni GA4 tracking plan
 
 ## Operating rules
 
 - GA4 is optional and loads only after a visitor accepts analytics.
 - If `NEXT_PUBLIC_GA_MEASUREMENT_ID` is missing or does not match `G-...`, the app renders no consent prompt and makes no Google Analytics request.
 - Visitors can reject or later change their choice with **Analytics preferences** in the footer. A rejection or revocation stops app events and sets Google Analytics consent to denied.
-- Advertising storage and personalization signals remain denied. Do not enable GA4 enhanced-measurement page history, outbound-click, or site-search events; RepairLens sends its own sanitized page views and journey events.
+- Advertising storage and personalization signals remain denied. Do not enable GA4 enhanced-measurement page history, outbound-click, or site-search events; Vitni sends its own sanitized page views and journey events.
 - The app sends only fixed event names, enumerated values, and booleans. Event payloads are event-specific in `src/lib/analytics.ts`.
 
 ## Events

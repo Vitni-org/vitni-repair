@@ -13,7 +13,7 @@ export default function NotFound() {
           <Search aria-hidden="true" /> Browse the guide library
         </Link>
         <Link className={buttonVariants()} href="/">
-          <ArrowLeft aria-hidden="true" /> Back to RepairLens
+          <ArrowLeft aria-hidden="true" /> Back to Vitni
         </Link>
       </div>
     </main>

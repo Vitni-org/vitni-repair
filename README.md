@@ -1,6 +1,6 @@
-# RepairLens
+# Vitni
 
-RepairLens is a responsive, installable repair guide app. Vitni helps people understand everyday repairs, follow illustrated steps, and find community support when a job needs an extra hand.
+Vitni is a responsive, installable repair guide app. It helps people understand everyday repairs, follow illustrated steps, and find community support when a job needs an extra hand.
 
 ## Stack
 
@@ -39,9 +39,9 @@ Keep `OPENAI_API_KEY` and `SUPABASE_SERVICE_ROLE_KEY` server-side. Do not use a 
 
 To enable optional usage analytics, create or choose a GA4 web data stream and put its `G-...` Measurement ID in `NEXT_PUBLIC_GA_MEASUREMENT_ID` in `.env.local` and your deployment environment, then restart or redeploy. With the variable unset or invalid, the app loads no Google tag and shows no analytics-consent prompt.
 
-RepairLens asks visitors to opt in before loading GA4. After opt-in it records sanitized page views and the main repair, guide-search, guide-open, parts-link, and community-help journey. Descriptions, photos, filenames, search text, guide slugs, generated part names, and error text are excluded. See [the tracking plan](docs/analytics/ga4-tracking-plan.md).
+Vitni asks visitors to opt in before loading GA4. After opt-in it records sanitized page views and the main repair, guide-search, guide-open, parts-link, and community-help journey. Descriptions, photos, filenames, search text, guide slugs, generated part names, and error text are excluded. See [the tracking plan](docs/analytics/ga4-tracking-plan.md).
 
-In the GA4 property, turn off enhanced-measurement events for page changes based on browser history, outbound clicks, and site search. RepairLens sends manual page views with fixed route templates; these automatic events could otherwise include raw query strings or generated part-search text. After configuring your Measurement ID, opt in on the site and use GA4 DebugView to inspect event names and the approved coarse properties.
+In the GA4 property, turn off enhanced-measurement events for page changes based on browser history, outbound clicks, and site search. Vitni sends manual page views with fixed route templates; these automatic events could otherwise include raw query strings or generated part-search text. After configuring your Measurement ID, opt in on the site and use GA4 DebugView to inspect event names and the approved coarse properties.
 
 ## Supabase guide library
 
@@ -69,7 +69,7 @@ pnpm seed:guides
 
 ## Routes
 
-- `/` RepairLens home and photo-based repair request
+- `/` Vitni home and photo-based repair request
 - `/guides/` searchable, paginated repair guide library
 - `/guides/[slug]/` individual illustrated repair guides
 - `/stories/[slug]/` repair stories and steps taken

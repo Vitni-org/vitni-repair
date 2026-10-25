@@ -41,6 +41,7 @@
 - Modify: `src/app/llms-full.txt/route.ts`
 - Modify: `public/manifest.webmanifest`
 - Modify: `README.md`
+- Modify: `docs/analytics/ga4-tracking-plan.md`
 
 **Interfaces:**
 
@@ -48,17 +49,17 @@
 - Page titles and social site name use `Vitni`; generic metadata uses `Vitni — Keep good things going`.
 - `getSafePageView()` continues to return the same path and page-type values; only its fixed page titles change to Vitni.
 
-- [ ] **Step 1: Replace visitor-facing brand labels and assistant identity**
+- [x] **Step 1: Replace visitor-facing brand labels and assistant identity**
 
 Change header/footer text and accessible labels, not-found copy, consent-banner copy, and PWA error copy from RepairLens to Vitni. Update the repair assistant system prompt to identify as Vitni. Keep all analytics `repairlens.*` keys, script IDs, service-worker cache names, and asset paths unchanged.
 
-- [ ] **Step 2: Update page, social, and install metadata**
+- [x] **Step 2: Update page, social, and install metadata**
 
 Set `metadata.title`, `applicationName`, Open Graph `siteName` and title, Twitter title, route-specific guide/story/shared-repair title suffixes, and the homepage title to Vitni. Replace metadata image alt text with Vitni wording. Set manifest `name` to `Vitni — Keep good things going` and `short_name` to `Vitni`; retain existing icon and manifest paths.
 
-- [ ] **Step 3: Update machine-readable public descriptions and README**
+- [x] **Step 3: Update machine-readable public descriptions and current operations docs**
 
-Change the generated `llms.txt` and `llms-full.txt` site heading and description to Vitni. Update README title/product overview and GA4 wording to use Vitni as the product name. Keep historical design records and old technical identifiers untouched.
+Change the generated `llms.txt` and `llms-full.txt` site heading and description to Vitni. Update README title/product overview and GA4 wording, plus the current `docs/analytics/ga4-tracking-plan.md`, to use Vitni as the product name. Keep historical design records and old technical identifiers untouched.
 
 ### Task 2: Refresh and inspect the social preview image
 
@@ -66,19 +67,21 @@ Change the generated `llms.txt` and `llms-full.txt` site heading and description
 
 - Modify: `public/images/og/repairlens-share.svg`
 - Modify: `public/images/og/repairlens-share.png`
+- Modify: `public/sw.js`
 
 **Interfaces:**
 
 - Existing Open Graph image URL stays `/images/og/repairlens-share.png`, so published metadata and social integrations do not break.
 - SVG remains the editable source and PNG remains exactly 1200×630.
+- The changed service-worker script prompts an install that refreshes the existing `CORE_ASSETS` entries in the same cache names.
 
-- [ ] **Step 1: Update the vector card text and accessibility description**
+- [x] **Step 1: Update the vector card text and accessibility description**
 
 Change the SVG title, description, and visible product label from RepairLens to Vitni. Preserve the existing 1200×630 viewbox, tagline, palette, Vitni art, composition, and embedded artwork.
 
-- [ ] **Step 2: Export the existing PNG path and inspect it**
+- [x] **Step 2: Export the existing PNG path and inspect it**
 
-Run `sips -s format png public/images/og/repairlens-share.svg --out public/images/og/repairlens-share.png`. Confirm dimensions with `sips -g pixelWidth -g pixelHeight public/images/og/repairlens-share.png` and visually inspect the PNG. The dimensions must be 1200×630 and the rendered product label must read Vitni.
+Run `sips -s format png public/images/og/repairlens-share.svg --out public/images/og/repairlens-share.png`. Add a comment above `CORE_ASSETS` in `public/sw.js` explaining that its existing install-time `cache.addAll(CORE_ASSETS)` refreshes changed core artwork in place; changing the worker source prompts the install. Do not change `CACHE_PREFIX`, `SHELL_CACHE`, or `PAGE_CACHE`. Confirm dimensions with `sips -g pixelWidth -g pixelHeight public/images/og/repairlens-share.png` and visually inspect the PNG. The dimensions must be 1200×630 and the rendered product label must read Vitni.
 
 ### Task 3: Validate, document, and commit the public rebrand
 
@@ -87,14 +90,14 @@ Run `sips -s format png public/images/og/repairlens-share.svg --out public/image
 - Inspect: all Task 1 and Task 2 files
 - Modify: `docs/superpowers/specs/2026-10-25-vitni-public-brand-design.md`
 
-- [ ] **Step 1: Search for remaining public RepairLens branding**
+- [x] **Step 1: Search for remaining public RepairLens branding**
 
-Run `rg -n -i 'RepairLens|RepairLens' src public README.md`. Update any visitor-facing or crawler-facing product-name occurrence. Keep only the approved internal identifiers, preserved asset paths, and the historical project directory/package name.
+Run `rg -n -i 'RepairLens' src public README.md docs/analytics`. Update any visitor-facing or crawler-facing product-name occurrence. Keep only the approved internal identifiers, preserved asset paths, and the historical project directory/package name.
 
-- [ ] **Step 2: Run non-test checks**
+- [x] **Step 2: Run non-test checks**
 
 Run `./node_modules/.bin/tsc --noEmit`, `./node_modules/.bin/eslint .`, and `git diff --check`. Inspect the rendered home and guide metadata in the open browser. Do not run automated tests.
 
-- [ ] **Step 3: Record completion and commit**
+- [x] **Step 3: Record completion and commit**
 
 Mark completed steps in the plan. Stage the public branding, artwork, and plan/spec files. Commit with `feat(brand): rename public app identity to Vitni`.

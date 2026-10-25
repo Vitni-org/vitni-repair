@@ -12,9 +12,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const story = getStory(slug);
-  if (!story) return { title: "Story not found | RepairLens", robots: { index: false, follow: false } };
+  if (!story) return { title: "Story not found | Vitni", robots: { index: false, follow: false } };
   return {
-    title: `${story.title} | RepairLens repair story`,
+    title: `${story.title} | Vitni repair story`,
     description: story.situation,
     alternates: { canonical: `/stories/${slug}/` },
     openGraph: {

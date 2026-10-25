@@ -1,6 +1,7 @@
 const CACHE_PREFIX = "repairlens-next-";
 const SHELL_CACHE = `${CACHE_PREFIX}shell-v1`;
 const PAGE_CACHE = `${CACHE_PREFIX}pages-v1`;
+// Keep this install-time refresh in place when core artwork changes; addAll replaces cached responses without renaming these caches.
 const CORE_ASSETS = [
   "/manifest.webmanifest",
   "/icon.svg",

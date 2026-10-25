@@ -93,7 +93,7 @@ export function getSafePageView(pathname: string): SafePageView {
   const path = normalized === "/" ? "/" : `${normalized.replace(/\/+$/, "")}/`;
 
   if (path === "/") {
-    return { page_path: "/", page_title: "RepairLens", page_type: "home" };
+    return { page_path: "/", page_title: "Vitni", page_type: "home" };
   }
   if (path === "/guides/") {
     return { page_path: "/guides/", page_title: "Repair library", page_type: "guide_library" };
@@ -105,7 +105,7 @@ export function getSafePageView(pathname: string): SafePageView {
     return { page_path: "/stories/[story]/", page_title: "Repair story", page_type: "story_detail" };
   }
 
-  return { page_path: "/[page]/", page_title: "RepairLens page", page_type: "other" };
+  return { page_path: "/[page]/", page_title: "Vitni page", page_type: "other" };
 }
 
 export function getSafePageReferrer(referrer: string, currentOrigin: string): string {

@@ -9,22 +9,22 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.PUBLIC_SITE_URL || "https://vitni.cc"),
-  title: "RepairLens — Keep good things going",
+  title: "Vitni — Keep good things going",
   description: "Get a safe, practical repair plan for everyday things you want to keep.",
-  applicationName: "RepairLens",
+  applicationName: "Vitni",
   manifest: "/manifest.webmanifest",
   icons: { icon: "/icon.svg?v=3", apple: "/images/vitni-mark.svg?v=3" },
   openGraph: {
     type: "website",
-    siteName: "RepairLens",
-    title: "RepairLens — Keep good things going",
+    siteName: "Vitni",
+    title: "Vitni — Keep good things going",
     description: "Get a safe, practical repair plan for everyday things you want to keep.",
     url: "/",
-    images: [{ url: "/images/og/repairlens-share.png", width: 1200, height: 630, alt: "RepairLens with Vitni, your repair sidekick" }],
+    images: [{ url: "/images/og/repairlens-share.png", width: 1200, height: 630, alt: "Vitni, your repair sidekick" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "RepairLens — Keep good things going",
+    title: "Vitni — Keep good things going",
     description: "Get a safe, practical repair plan for everyday things you want to keep.",
     images: ["/images/og/repairlens-share.png"],
   },

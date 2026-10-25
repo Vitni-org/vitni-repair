@@ -6,7 +6,7 @@ export function PwaRegistrar() {
   useEffect(() => {
     if ("serviceWorker" in navigator) {
       void navigator.serviceWorker.register("/sw.js").catch((error: unknown) => {
-        console.warn("RepairLens offline cache could not be enabled.", error);
+        console.warn("Vitni offline cache could not be enabled.", error);
       });
     }
   }, []);

@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { searchGuides } from "@/lib/guide-repository";
 
 export const metadata: Metadata = {
-  title: "Repair guide library | RepairLens",
+  title: "Repair guide library | Vitni",
   description: "Meet Vitni, your repair sidekick, and browse practical guides for bicycles, home fixtures, furniture, and clothes.",
   alternates: { canonical: "/guides/" },
 };

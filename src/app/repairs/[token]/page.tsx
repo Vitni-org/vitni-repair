@@ -8,7 +8,7 @@ export const runtime = "nodejs";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Shared repair guide | RepairLens",
+    title: "Shared repair guide | Vitni",
     robots: { index: false, follow: false, googleBot: { index: false, follow: false, noimageindex: true } },
   };
 }
