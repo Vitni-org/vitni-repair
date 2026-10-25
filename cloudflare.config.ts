@@ -6,6 +6,7 @@ export default defineConfig({
     entrypoint: "vinext/server/fetch-handler",
     compatibilityDate: "2026-10-25",
     compatibilityFlags: ["nodejs_compat"],
+    domains: ["vitni.cc"],
     assets: {
       htmlHandling: "none",
       notFoundHandling: "none",
@@ -13,6 +14,7 @@ export default defineConfig({
     },
     env: {
       ASSETS: bindings.assets(),
+      PUBLIC_SITE_URL: bindings.text("https://vitni.cc"),
     },
   }),
 });
