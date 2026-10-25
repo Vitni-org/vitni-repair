@@ -1,12 +1,17 @@
 import type { MetadataRoute } from "next";
 import { getStoryEntries } from "@/lib/content";
-import { searchGuides } from "@/lib/guide-repository";
+import { curatedGuidePaths, searchGuides } from "@/lib/guide-repository";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = (process.env.PUBLIC_SITE_URL || "https://vitni.cc").replace(/\/$/, "");
-  const guides: MetadataRoute.Sitemap = [];
+  const guideUrls = new Map<string, MetadataRoute.Sitemap[number]>();
+  for (const path of curatedGuidePaths()) {
+    const slug = path.split("/")[2];
+    if (slug) guideUrls.set(slug, { url: `${base}/guides/${encodeURIComponent(slug)}/`, changeFrequency: "monthly", priority: 0.7 });
+  }
   try {
     let cursor: string | null = null;
     let pages = 0;
@@ -14,7 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       const page = await searchGuides({ limit: 24, cursor });
       for (const guide of page.items)
         if (guide.slug && guide.visibility === "public")
-          guides.push({ url: `${base}/guides/${encodeURIComponent(guide.slug)}/`, changeFrequency: "monthly", priority: 0.7 });
+          guideUrls.set(guide.slug, { url: `${base}/guides/${encodeURIComponent(guide.slug)}/`, changeFrequency: "monthly", priority: 0.7 });
       cursor = page.nextCursor;
       pages += 1;
     } while (cursor && pages < 40);
@@ -27,5 +32,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/`, changeFrequency: "weekly", priority: 1 },
     { url: `${base}/guides/`, changeFrequency: "weekly", priority: 0.85 },
   ];
-  return [...staticPages, ...guides, ...stories];
+  return [...staticPages, ...guideUrls.values(), ...stories];
 }
