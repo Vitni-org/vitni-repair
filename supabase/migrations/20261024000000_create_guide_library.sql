@@ -122,11 +122,5 @@ revoke all on public.guides, public.guide_steps, public.guide_parts from anon, a
 grant all on public.guides, public.guide_steps, public.guide_parts to service_role;
 grant usage, select on all sequences in schema public to service_role;
 
-insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-values ('guide-illustrations', 'guide-illustrations', false, 10485760, array['image/jpeg', 'image/png', 'image/webp'])
-on conflict (id) do update set public = false, file_size_limit = excluded.file_size_limit, allowed_mime_types = excluded.allowed_mime_types;
-
-alter table storage.objects enable row level security;
-drop policy if exists "Guide media is server managed" on storage.objects;
-create policy "Guide media is server managed" on storage.objects
-  for all to service_role using (bucket_id = 'guide-illustrations') with check (bucket_id = 'guide-illustrations');
+-- Storage buckets and object policies are managed through the Supabase Storage API.
+-- The app accesses this private bucket only with its server-side service role key.
