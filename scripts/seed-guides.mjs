@@ -15,7 +15,15 @@ try {
 const client = getGuideStore();
 if (!client) throw new Error("Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY before seeding guides.");
 
-for (const guide of guides) {
+const requestedIds = new Set(process.argv.slice(2).flatMap((arg) => arg.split(",").filter(Boolean)));
+const guidesToSeed = requestedIds.size ? guides.filter((guide) => requestedIds.has(guide.id)) : guides;
+if (guidesToSeed.length !== requestedIds.size && requestedIds.size) {
+  const foundIds = new Set(guidesToSeed.map((guide) => guide.id));
+  const missing = [...requestedIds].filter((id) => !foundIds.has(id));
+  throw new Error(`Unknown guide IDs: ${missing.join(", ")}`);
+}
+
+for (const guide of guidesToSeed) {
   const payload = {
     slug: guide.id,
     match_key: makeGuideMatchKey(guide.area, guide.title),
@@ -45,7 +53,7 @@ for (const guide of guides) {
     illustration_alt: `Illustration for ${guide.title}, step ${index + 1}`,
     illustration_status: "pending",
   }));
-  const stepResult = await client.from("guide_steps").upsert(stepRows, { onConflict: "guide_id,ordinal" });
+  const stepResult = await client.from("guide_steps").upsert(stepRows, { onConflict: "guide_id,ordinal", ignoreDuplicates: true });
   if (stepResult.error) throw new Error(`Could not seed steps for ${guide.id}: ${stepResult.error.message}`);
   const partRows = guide.parts.map((name, index) => ({ guide_id: id, ordinal: index + 1, name, details: "" }));
   if (partRows.length) {
@@ -54,4 +62,4 @@ for (const guide of guides) {
   }
 }
 
-console.log(`Seeded ${guides.length} curated RepairLens guides.`);
+console.log(`Seeded ${guidesToSeed.length} curated guides${requestedIds.size ? ` (${[...requestedIds].join(", ")})` : ""}.`);

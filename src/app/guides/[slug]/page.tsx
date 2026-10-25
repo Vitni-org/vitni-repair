@@ -82,7 +82,11 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ sl
           </div>
           <h1>{guide.title}</h1>
           <p className="guide-detail-hero__desc">{guide.desc}</p>
-          <p className="guide-detail-hero__hint">Illustrations are being prepared where needed. Use the written steps as your source of truth.</p>
+          <p className="guide-detail-hero__hint">
+            {guide.steps.length > 0 && guide.steps.every((step) => Boolean(step.image))
+              ? "Every step has an illustration. Follow the written instructions and safety notes as your guide."
+              : "Vitni can draw missing steps; the written instructions and safety notes are the source of truth."}
+          </p>
         </div>
         <div className="guide-detail-hero__image">
           <Image
