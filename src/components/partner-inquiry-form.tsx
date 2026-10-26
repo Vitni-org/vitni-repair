@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-type FormState = "idle" | "sending" | "sent" | "saved" | "error";
+type FormState = "idle" | "sending" | "sent" | "emailed" | "saved" | "error";
 const partnerInbox = "miki.lombi+vitni@gmail.com";
 
 export function PartnerInquiryForm() {
@@ -50,6 +50,13 @@ export function PartnerInquiryForm() {
         setManualEmail(makeManualEmail(formData));
         return;
       }
+      if (result.saved === false && result.emailSent) {
+        form.reset();
+        setState("emailed");
+        setMessage(result.message || "Your enquiry was emailed to the Vitni team, but could not be added to the shared enquiry list.");
+        setManualEmail("");
+        return;
+      }
       if (!response.ok) throw new Error(result.error || "We could not send your message right now.");
       form.reset();
       setState("sent");
@@ -58,6 +65,7 @@ export function PartnerInquiryForm() {
     } catch (error) {
       setState("error");
       setMessage(error instanceof Error ? error.message : "We could not send your message right now. Please try again.");
+      setManualEmail(makeManualEmail(formData));
     }
   }
 
@@ -120,8 +128,8 @@ export function PartnerInquiryForm() {
       </div>
       <div className="partner-form__submit">
         <Button disabled={state === "sending" || state === "saved"} type="submit">
-          {state === "sending" ? <LoaderCircle aria-hidden="true" className="animate-spin" /> : state === "sent" ? <Check aria-hidden="true" /> : <ArrowRight aria-hidden="true" />}
-          {state === "sending" ? "Sending…" : state === "sent" ? "Message sent" : state === "saved" ? "Enquiry saved" : "Start a conversation"}
+          {state === "sending" ? <LoaderCircle aria-hidden="true" className="animate-spin" /> : state === "sent" || state === "emailed" ? <Check aria-hidden="true" /> : <ArrowRight aria-hidden="true" />}
+          {state === "sending" ? "Sending…" : state === "sent" ? "Message sent" : state === "emailed" ? "Email sent · not saved" : state === "saved" ? "Enquiry saved" : "Start a conversation"}
         </Button>
         <p aria-live="polite" className={`partner-form__status partner-form__status--${state}`} role={state === "error" ? "alert" : "status"}>
           {message}

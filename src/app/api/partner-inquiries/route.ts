@@ -97,19 +97,47 @@ export async function POST(request: Request) {
       }
     }
 
-    await savePartnerInquiry({
-      name: input.name,
-      email: input.email.toLowerCase(),
-      partnerType: input.partnerType,
-      organization: input.organization,
-      city: input.city,
-      website,
-      message: input.message,
-    });
+    let saved = false;
+    try {
+      await savePartnerInquiry({
+        name: input.name,
+        email: input.email.toLowerCase(),
+        partnerType: input.partnerType,
+        organization: input.organization,
+        city: input.city,
+        website,
+        message: input.message,
+      });
+      saved = true;
+    } catch (error) {
+      // Keep email delivery available if the partner table is missing or the database is temporarily unavailable.
+      console.error("Partner enquiry could not be saved.", error instanceof Error ? error.message : "Unknown database error");
+    }
+
     const emailSent = await emailPartnerInquiry(input, website).catch((error) => {
-      console.error("Partner enquiry was saved, but email delivery failed.", error instanceof Error ? error.message : "Unknown email error");
+      console.error("Partner enquiry email delivery failed.", error instanceof Error ? error.message : "Unknown email error");
       return false;
     });
+
+    if (!saved && emailSent) {
+      return NextResponse.json(
+        {
+          ok: true,
+          saved: false,
+          emailSent: true,
+          message: "Your enquiry was emailed to the Vitni team, but could not be added to the shared enquiry list.",
+        },
+        { status: 202, headers: { "Cache-Control": "no-store" } },
+      );
+    }
+
+    if (!saved && !emailSent) {
+      return NextResponse.json(
+        { error: "We couldn't save or email your enquiry. Please email the Vitni team directly." },
+        { status: 503, headers: { "Cache-Control": "no-store" } },
+      );
+    }
+
     if (!emailSent) {
       return NextResponse.json(
         {
@@ -125,7 +153,7 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof ZodError)
       return NextResponse.json({ error: "Check the required fields and try again." }, { status: 400 });
-    console.error("Partner enquiry could not be saved.", error);
+    console.error("Partner enquiry request failed.", error instanceof Error ? error.message : "Unknown request error");
     return NextResponse.json({ error: "The partner inbox is temporarily unavailable. Please try again later." }, { status: 503 });
   }
 }
