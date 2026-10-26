@@ -21,7 +21,7 @@ export function SiteFooter() {
         <div>
           <p className="mb-2 font-extrabold">Everyday repairs</p>
           <p className="text-muted-foreground max-w-md text-sm">
-            Bikes, clothes, furniture, fixtures, kitchen bits, and the useful things that make a home.
+            Bikes, clothing, furniture, appliances, garden tools, home fixtures, personal gear, and the useful things people rely on.
           </p>
         </div>
         <nav aria-label="Footer" className="flex flex-col items-start gap-2 text-sm font-bold">
@@ -48,6 +48,9 @@ export function SiteFooter() {
             href="/#help"
           >
             Find a repair café
+          </Link>
+          <Link className="underline-offset-4 hover:underline" href="/partners/">
+            Partner with Vitni
           </Link>
           <AnalyticsPreferencesButton />
           <InstallVitniButton />

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-labelledby="title">
+  <title id="title">Garden hose connector with a replacement washer</title>
+  <rect width="960" height="640" fill="#f7f4eb"/>
+  <circle cx="232" cy="200" r="102" fill="#edf4d4"/>
+  <g stroke="#163b34" stroke-width="12" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M102 393c0-66 50-116 116-116h91v142h-91c-66 0-116-11-116-26z" fill="#83b8a8"/>
+    <path d="M293 300h146v154H293z" fill="#194c42"/>
+    <path d="M318 300v-32h96v32M318 454v34h96v-34" fill="#e8e4da"/>
+    <path d="M473 298h61v160h-61z" fill="#fffdf8"/>
+    <ellipse cx="535" cy="378" rx="30" ry="80" fill="#d9ef50"/>
+    <ellipse cx="535" cy="378" rx="13" ry="52" fill="#f7f4eb"/>
+    <path d="M604 378h178" fill="none" stroke="#66716b" stroke-dasharray="16 18"/>
+    <path d="M747 340l44 38-44 38" fill="none" stroke="#e7674d" stroke-width="15"/>
+    <path d="M705 240c22-42 49-62 79-70M784 170l30 3-13 27" fill="none" stroke="#83b8a8" stroke-width="10"/>
+  </g>
+  <circle cx="671" cy="208" r="14" fill="#e7674d"/>
+</svg>

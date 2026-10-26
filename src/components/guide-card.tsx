@@ -23,7 +23,7 @@ export function GuideCard({ guide }: { guide: RepairGuide }) {
           unoptimized
         />
         <span className="guide-card__category">
-          {guide.area} · {guide.level}
+          {guide.sector} · {guide.level}
         </span>
         {artwork.isFallback && <span className="guide-card__artwork-label">Category artwork</span>}
       </Link>

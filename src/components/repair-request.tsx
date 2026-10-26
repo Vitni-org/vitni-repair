@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Check, ExternalLink, LoaderCircle, MapPin, ShieldAlert, Sparkles, Upload, Wrench } from "lucide-react";
+import { ArrowRight, Check, LoaderCircle, MapPin, ShieldAlert, Sparkles, Upload, Wrench } from "lucide-react";
 import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { trackAnalyticsEvent } from "@/lib/analytics";
 import type { RepairAssessment, RepairGuide } from "@/lib/content";
 import { RepairOutcomeFeedback } from "@/components/repair-outcome-feedback";
+import { PartSourcingLinks, PartSourcingNote } from "@/components/part-sourcing-links";
 
 type GuideResponse = {
   assessment: RepairAssessment;
@@ -267,7 +268,7 @@ export function RepairRequest() {
         <section aria-labelledby="result-title" className="repair-result" id="repair-result">
           <div className="repair-result__top">
             <div>
-              <p className="eyebrow">Vitni’s repair plan · {confidenceLabel}</p>
+              <p className="eyebrow">Vitni’s repair plan · {result.assessment.sector} · {confidenceLabel}</p>
               <h3 id="result-title">{result.assessment.likely_issue}</h3>
               <p>{result.assessment.summary}</p>
               <p className="confidence-note">
@@ -288,33 +289,28 @@ export function RepairRequest() {
               <AlertDescription>Vitni found a possible safety risk. Follow only the safe observation and referral advice below.</AlertDescription>
             </Alert>
           )}
-          {!!result.assessment.tools.length && (
+          {!!result.assessment.tools.length && result.assessment.safety !== "do_not_attempt" && (
             <div className="result-tools">
               <h4>
                 <Wrench aria-hidden="true" />
                 Before you begin
               </h4>
               <p>{result.assessment.tools.join(" · ")}</p>
-              {!!result.assessment.parts.length && (
-                <div className="parts-list">
-                  <strong>Parts to check</strong>
-                  {result.assessment.parts.map((part) => (
-                    <a
-                      data-analytics-event="parts_link_opened"
-                      data-analytics-page-context="generated_plan"
-                      href={`https://www.google.com/search?tbm=shop&q=${encodeURIComponent(`${part.name} ${part.details}`)}`}
-                      key={part.name}
-                      rel="noreferrer"
-                      target="_blank"
-                    >
-                      {part.name}
-                      {part.details ? ` — ${part.details}` : ""}
-                      <ExternalLink aria-hidden="true" />
-                    </a>
-                  ))}
-                </div>
-              )}
             </div>
+          )}
+          {!!result.assessment.parts.length && result.assessment.safety === "safe_diy" && (
+            <section aria-label="Parts to check" className="parts-list">
+              <strong>Parts to check</strong>
+              <div className="parts-sourcing-list">
+                {result.assessment.parts.map((part) => (
+                  <PartSourcingLinks context="generated_plan" key={part.name} part={part} />
+                ))}
+              </div>
+              <PartSourcingNote />
+              <Link className="parts-partner-link" href="/partners/">
+                Know a local parts source? Tell us about it <ArrowRight aria-hidden="true" />
+              </Link>
+            </section>
           )}
           <ol className="result-steps">
             {steps.map((step, index) => (

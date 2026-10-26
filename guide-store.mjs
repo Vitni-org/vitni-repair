@@ -41,58 +41,169 @@ function sortEmbedded(row) {
   };
 }
 
-/** @param {{ query?: string, area?: string, limit?: number | string, cursor?: string | null }} options */
+const legacySectorAreas = {
+  "Bikes & mobility": "Bike",
+  "Clothing & textiles": "Clothes",
+  "Home fixtures": "Home",
+  "Furniture & upholstery": "Home",
+  "Appliances & electronics": "Other",
+  "Kitchen & household": "Home",
+  "Garden & outdoor": "Other",
+  "Personal gear": "Other",
+  "Toys & leisure": "Other",
+  "Vehicles & powered equipment": "Other",
+  "Other everyday objects": "Other",
+};
+
+function inferredLegacySector(row = {}) {
+  const text = `${row.slug || ""} ${row.title || ""}`.toLowerCase();
+  if (row.area === "Bike" || /bike|bicycle|tyre|tire|mudguard|saddle|chain|handlebar/.test(text)) return "Bikes & mobility";
+  if (/bag|backpack|luggage|suitcase|wallet|personal-gear/.test(text)) return "Personal gear";
+  if (row.area === "Clothes" || /clothes|textile|seam|sock|trouser|hem|button|zipper|fabric|darn|garment/.test(text)) return "Clothing & textiles";
+  if (/chair|furniture|upholster|table|stool|veneer/.test(text)) return "Furniture & upholstery";
+  if (/remote|vacuum|appliance|electronic|laptop|computer|lamp|battery/.test(text)) return "Appliances & electronics";
+  if (/garden|hose|pruner|shears|outdoor|plant/.test(text)) return "Garden & outdoor";
+  if (/toy|plush|teddy|board-game|leisure|badminton|racket|overgrip/.test(text)) return "Toys & leisure";
+  if (/vehicle|car-|wiper|engine|motor|powered-equipment/.test(text)) return "Vehicles & powered equipment";
+  if (/kitchen|cabinet|drawer|cookware|pan-handle|bottle-lid|gasket/.test(text)) return "Kitchen & household";
+  if (row.area === "Home" || /door|window|wall|hinge|latch|fixture/.test(text)) return "Home fixtures";
+  return "Other everyday objects";
+}
+
+function isMissingSectorColumn(error) {
+  const message = String(error?.message || error || "").toLowerCase();
+  return message.includes("sector") && (message.includes("does not exist") || message.includes("schema cache") || message.includes("could not find"));
+}
+
+function decodeOffset(cursor) {
+  if (!cursor) return 0;
+  try {
+    const decoded = JSON.parse(Buffer.from(cursor, "base64url").toString("utf8"));
+    return Number.isInteger(decoded.offset) && decoded.offset >= 0 ? decoded.offset : 0;
+  } catch {
+    return 0;
+  }
+}
+
+function encodeOffset(offset) {
+  return Buffer.from(JSON.stringify({ offset })).toString("base64url");
+}
+
+/** @param {{ query?: string, area?: string, sector?: string, limit?: number | string, cursor?: string | null }} options */
 export async function listPublishedGuides(options = {}) {
-  const { query = "", area = "All", limit = 6, cursor = null } = options;
+  const { query = "", area = "All", sector = "All", limit = 6, cursor = null } = options;
   const client = getGuideStore();
   if (!client) return null;
   const pageSize = Math.max(1, Math.min(Number(limit) || 6, 24));
-  let request = client
-    .from("guides")
-    .select(
-      "id,slug,title,description,area,level,estimated_time,safety,safety_notes,tools,cover_path,created_at,guide_steps(ordinal,title,instruction,illustration_path,illustration_alt,illustration_status),guide_parts(ordinal,name,details,retailer,url)",
-      { count: "exact" },
-    )
-    .in("status", ["published", "needs_illustrations"])
-    .eq("visibility", "public");
-  if (area && area !== "All") request = request.eq("area", area);
-  const normalizedQuery = String(query).trim().slice(0, 160);
-  if (normalizedQuery) request = request.textSearch("search_vector", normalizedQuery, { config: "simple", type: "websearch" });
-  let direction = "after";
-  if (cursor) {
-    try {
-      const decoded = JSON.parse(Buffer.from(cursor, "base64url").toString("utf8"));
-      direction = decoded.direction === "before" ? "before" : "after";
-      const createdAt = new Date(decoded.createdAt).toISOString();
-      const id = Number(decoded.id);
-      if (Number.isFinite(id)) {
-        request =
-          direction === "before"
-            ? request.or(`created_at.gt.${createdAt},and(created_at.eq.${createdAt},id.gt.${id})`)
-            : request.or(`created_at.lt.${createdAt},and(created_at.eq.${createdAt},id.lt.${id})`);
+  try {
+    let request = client
+      .from("guides")
+      .select(
+        "id,slug,title,description,area,sector,level,estimated_time,safety,safety_notes,tools,cover_path,created_at,guide_steps(ordinal,title,instruction,illustration_path,illustration_alt,illustration_status),guide_parts(ordinal,name,details,retailer,url)",
+        { count: "exact" },
+      )
+      .in("status", ["published", "needs_illustrations"])
+      .eq("visibility", "public");
+    if (area && area !== "All") request = request.eq("area", area);
+    if (sector && sector !== "All") request = request.eq("sector", sector);
+    const normalizedQuery = String(query).trim().slice(0, 160);
+    if (normalizedQuery) request = request.textSearch("search_vector", normalizedQuery, { config: "simple", type: "websearch" });
+    let direction = "after";
+    if (cursor) {
+      try {
+        const decoded = JSON.parse(Buffer.from(cursor, "base64url").toString("utf8"));
+        direction = decoded.direction === "before" ? "before" : "after";
+        const createdAt = new Date(decoded.createdAt).toISOString();
+        const id = Number(decoded.id);
+        if (Number.isFinite(id)) {
+          request =
+            direction === "before"
+              ? request.or(`created_at.gt.${createdAt},and(created_at.eq.${createdAt},id.gt.${id})`)
+              : request.or(`created_at.lt.${createdAt},and(created_at.eq.${createdAt},id.lt.${id})`);
+        }
+      } catch {
+        /* Invalid cursor starts at the first page. */
       }
-    } catch {
-      /* Invalid cursor starts at the first page. */
     }
+    request = request.order("created_at", { ascending: direction === "before" }).order("id", { ascending: direction === "before" });
+    const { data, error, count } = await request.limit(pageSize + 1);
+    throwIfError(error);
+    const rows = data || [];
+    const hasMore = rows.length > pageSize;
+    let items = rows.slice(0, pageSize).map(sortEmbedded);
+    if (direction === "before") items = items.reverse();
+    const encodeCursor = (cursorDirection, row) =>
+      row ? Buffer.from(JSON.stringify({ direction: cursorDirection, createdAt: row.created_at, id: row.id })).toString("base64url") : null;
+    const nextCursor = direction === "before" ? encodeCursor("after", items.at(-1)) : hasMore ? encodeCursor("after", items.at(-1)) : null;
+    const previousCursor = !cursor
+      ? null
+      : direction === "before"
+        ? hasMore
+          ? encodeCursor("before", items[0])
+          : null
+        : encodeCursor("before", items[0]);
+    return { items, nextCursor, previousCursor, total: count || 0 };
+  } catch (error) {
+    if (!isMissingSectorColumn(error)) throw error;
+
+    // Keep the old guide table usable during rollout; the migration adds sector and refreshes search.
+    let request = client
+      .from("guides")
+      .select(
+        "id,slug,title,description,area,level,estimated_time,safety,safety_notes,tools,cover_path,created_at,guide_steps(ordinal,title,instruction,illustration_path,illustration_alt,illustration_status),guide_parts(ordinal,name,details,retailer,url)",
+        { count: "exact" },
+      )
+      .in("status", ["published", "needs_illustrations"])
+      .eq("visibility", "public");
+    const requestedSector = sector && sector !== "All";
+    const broadArea = requestedSector ? legacySectorAreas[sector] : area;
+    if (broadArea && broadArea !== "All") request = request.eq("area", broadArea);
+    const normalizedQuery = String(query).trim().slice(0, 160);
+    if (normalizedQuery && !requestedSector) request = request.textSearch("search_vector", normalizedQuery, { config: "simple", type: "websearch" });
+    let direction = "after";
+    if (!requestedSector && cursor) {
+      try {
+        const decoded = JSON.parse(Buffer.from(cursor, "base64url").toString("utf8"));
+        direction = decoded.direction === "before" ? "before" : "after";
+        const createdAt = new Date(decoded.createdAt).toISOString();
+        const id = Number(decoded.id);
+        if (Number.isFinite(id)) {
+          request =
+            direction === "before"
+              ? request.or(`created_at.gt.${createdAt},and(created_at.eq.${createdAt},id.gt.${id})`)
+              : request.or(`created_at.lt.${createdAt},and(created_at.eq.${createdAt},id.lt.${id})`);
+        }
+      } catch {
+        /* Invalid cursor starts at the first page. */
+      }
+    }
+    request = request.order("created_at", { ascending: requestedSector ? false : direction === "before" }).order("id", { ascending: requestedSector ? false : direction === "before" });
+    const { data, error: legacyError, count } = requestedSector ? await request.range(0, 999) : await request.limit(pageSize + 1);
+    throwIfError(legacyError);
+    let rows = (data || []).map((row) => ({ ...sortEmbedded(row), sector: inferredLegacySector(row) }));
+    if (requestedSector) rows = rows.filter((row) => row.sector === sector);
+    if (normalizedQuery && requestedSector) {
+      const needle = normalizedQuery.toLowerCase();
+      rows = rows.filter((row) => [row.title, row.description, row.area, row.sector, ...(row.tools || []), ...(row.guide_steps || []).flatMap((step) => [step.title, step.instruction]), ...(row.guide_parts || []).flatMap((part) => [part.name, part.details])].join(" ").toLowerCase().includes(needle));
+    }
+    const total = requestedSector ? rows.length : count || 0;
+    const offset = requestedSector ? decodeOffset(cursor) : 0;
+    const hasMore = rows.length > pageSize;
+    let items = rows.slice(0, pageSize);
+    if (!requestedSector && direction === "before") items = items.reverse();
+    const encodeCursor = (cursorDirection, row) =>
+      row ? Buffer.from(JSON.stringify({ direction: cursorDirection, createdAt: row.created_at, id: row.id })).toString("base64url") : null;
+    return {
+      items,
+      nextCursor: requestedSector
+        ? offset + pageSize < total ? encodeOffset(offset + pageSize) : null
+        : direction === "before" ? encodeCursor("after", items.at(-1)) : hasMore ? encodeCursor("after", items.at(-1)) : null,
+      previousCursor: requestedSector
+        ? offset > 0 ? encodeOffset(Math.max(0, offset - pageSize)) : null
+        : !cursor ? null : direction === "before" ? hasMore ? encodeCursor("before", items[0]) : null : encodeCursor("before", items[0]),
+      total,
+    };
   }
-  request = request.order("created_at", { ascending: direction === "before" }).order("id", { ascending: direction === "before" });
-  const { data, error, count } = await request.limit(pageSize + 1);
-  throwIfError(error);
-  const rows = data || [];
-  const hasMore = rows.length > pageSize;
-  let items = rows.slice(0, pageSize).map(sortEmbedded);
-  if (direction === "before") items = items.reverse();
-  const encodeCursor = (cursorDirection, row) =>
-    row ? Buffer.from(JSON.stringify({ direction: cursorDirection, createdAt: row.created_at, id: row.id })).toString("base64url") : null;
-  const nextCursor = direction === "before" ? encodeCursor("after", items.at(-1)) : hasMore ? encodeCursor("after", items.at(-1)) : null;
-  const previousCursor = !cursor
-    ? null
-    : direction === "before"
-      ? hasMore
-        ? encodeCursor("before", items[0])
-        : null
-      : encodeCursor("before", items[0]);
-  return { items, nextCursor, previousCursor, total: count || 0 };
 }
 
 export async function getPublicGuideBySlug(slug) {
@@ -146,6 +257,7 @@ export async function createGuideRecord(guide, steps, parts) {
     title: guide.title,
     description: guide.description || "",
     area: guide.area || "Other",
+    sector: guide.sector || "Other everyday objects",
     level: guide.level || "Easy",
     estimated_time: guide.estimatedTime || "",
     confidence: Math.max(0, Math.min(100, Number(guide.confidence) || 0)),
@@ -159,6 +271,11 @@ export async function createGuideRecord(guide, steps, parts) {
     visibility: guide.visibility || "public",
   };
   let { data, error } = await client.from("guides").insert(guidePayload).select("id,slug,share_token,match_key,status,visibility").single();
+  if (isMissingSectorColumn(error)) {
+    const legacyPayload = { ...guidePayload };
+    delete legacyPayload.sector;
+    ({ data, error } = await client.from("guides").insert(legacyPayload).select("id,slug,share_token,match_key,status,visibility").single());
+  }
   if (error?.code === "23505" && guide.matchKey) {
     const existing = await findGuideByMatchKey(guide.matchKey);
     if (existing && ["published", "needs_illustrations"].includes(existing.status)) return { configured: true, created: false, guide: existing };
@@ -301,6 +418,7 @@ export async function toPublicGuides(rows, { signImages = true } = {}) {
     title: row.title,
     desc: row.description,
     area: row.area,
+    sector: row.sector || inferredLegacySector(row),
     level: row.level,
     time: row.estimated_time,
     confidence: row.confidence || 0,
@@ -332,4 +450,22 @@ export async function toPublicGuides(rows, { signImages = true } = {}) {
 export async function toPublicGuide(row, options) {
   if (!row) return null;
   return (await toPublicGuides([row], options))[0];
+}
+
+export async function savePartnerInquiry(inquiry) {
+  const client = getGuideStore();
+  if (!client) return { configured: false };
+  const website = inquiry.website ? validPurchaseUrl(inquiry.website) : null;
+  const { error } = await client.from("partner_inquiries").insert({
+    name: inquiry.name,
+    email: inquiry.email,
+    organization: inquiry.organization || null,
+    partner_type: inquiry.partnerType,
+    city: inquiry.city || null,
+    website,
+    message: inquiry.message,
+    consented_at: new Date().toISOString(),
+  });
+  throwIfError(error);
+  return { configured: true };
 }

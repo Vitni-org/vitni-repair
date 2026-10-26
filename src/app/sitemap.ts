@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getStoryEntries } from "@/lib/content";
 import { curatedGuidePaths, searchGuides } from "@/lib/guide-repository";
+import { repairSectors } from "@/lib/repair-sectors";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -31,6 +32,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
     { url: `${base}/`, changeFrequency: "weekly", priority: 1 },
     { url: `${base}/guides/`, changeFrequency: "weekly", priority: 0.85 },
+    { url: `${base}/partners/`, changeFrequency: "monthly", priority: 0.65 },
+    ...repairSectors.map(({ slug }) => ({
+      url: `${base}/guides/sector/${slug}/`,
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    })),
   ];
   return [...staticPages, ...guideUrls.values(), ...stories];
 }

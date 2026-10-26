@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-labelledby="title">
+  <title id="title">Precision screwdriver at an intact glasses hinge</title>
+  <rect width="960" height="640" fill="#f7f4eb"/>
+  <circle cx="770" cy="148" r="94" fill="#edf4d4"/>
+  <g fill="none" stroke="#163b34" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M148 312h225l52 89-55 79H167l-48-77z" stroke-width="20"/>
+    <path d="M587 312h225l44 91-50 77H612l-49-79z" stroke-width="20"/>
+    <path d="M377 354h194" stroke-width="17"/>
+    <path d="M414 370l-49-132M546 370l54-132" stroke-width="17"/>
+    <path d="M510 466l45-44 74 28-46 49z" fill="#e8e4da" stroke-width="11"/>
+    <circle cx="548" cy="456" r="12" fill="#d9ef50" stroke-width="8"/>
+    <path d="M538 430l-74-195M462 235l-24-22" stroke-width="18"/>
+    <path d="M462 235l40-17-22-29" stroke-width="10"/>
+  </g>
+  <path d="M681 512c31-28 63-37 95-29" fill="none" stroke="#e7674d" stroke-width="10" stroke-dasharray="2 18" stroke-linecap="round"/>
+</svg>

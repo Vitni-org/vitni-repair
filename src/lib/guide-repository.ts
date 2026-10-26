@@ -1,6 +1,7 @@
 import "server-only";
 import { cache } from "react";
 import { curatedGuides, getStoryEntries, getCuratedGuide, localGuideList, type RepairGuide } from "@/lib/content";
+import { inferRepairSector } from "@/lib/repair-sectors";
 import { guideArtwork } from "@/lib/guide-artwork";
 import {
   getPublicGuideBySlug,
@@ -32,7 +33,7 @@ export const getUnlistedGuide = cache(async (token: string): Promise<RepairGuide
   return row ? ((await toPublicGuide(row)) as RepairGuide) : null;
 });
 
-export async function searchGuides(options: { query?: string; area?: string; cursor?: string | null; limit?: number | string }) {
+export async function searchGuides(options: { query?: string; area?: string; sector?: string; cursor?: string | null; limit?: number | string }) {
   if (!isGuideStoreConfigured()) return localGuideList(options);
   try {
     const page = await listPublishedGuides(options);
@@ -66,7 +67,7 @@ export async function getFeaturedRepairs() {
   const localGuideCards = curatedGuides.slice(0, 6).map((guide) => ({
     id: guide.id,
     kind: "guide" as const,
-    tag: `${guide.area.toUpperCase()} · ${guide.level.toUpperCase()}`,
+    tag: `${(guide.sector || inferRepairSector({ id: guide.id, title: guide.title, area: guide.area })).toUpperCase()} · ${guide.level.toUpperCase()}`,
     title: guide.title,
     description: guide.desc,
     outcome: `${guide.steps.length} illustrated steps`,
@@ -83,7 +84,7 @@ export async function getFeaturedRepairs() {
     const guideCards = guides.map((guide) => ({
       id: guide.slug,
       kind: "guide" as const,
-      tag: `${guide.area.toUpperCase()} · ${guide.level.toUpperCase()}`,
+      tag: `${guide.sector.toUpperCase()} · ${guide.level.toUpperCase()}`,
       title: guide.title,
       description: guide.desc,
       outcome: `${guide.steps.length} repair steps`,

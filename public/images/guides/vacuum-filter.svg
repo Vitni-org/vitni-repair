@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-labelledby="title">
+  <title id="title">Removable vacuum filter beside an unplugged vacuum</title>
+  <rect width="960" height="640" fill="#f7f4eb"/>
+  <path d="M66 470c170-36 307-35 438 0s254 37 390 0" fill="none" stroke="#d6d7cb" stroke-width="12"/>
+  <g stroke="#163b34" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M140 477h190l48-54 25 16-27 65H126z" fill="#194c42"/>
+    <path d="M239 435c-2-83 41-132 105-142l58 21c-35 30-48 78-45 128" fill="#e8e4da"/>
+    <path d="M298 292l34-70 68 30-18 72" fill="#194c42"/>
+    <path d="M296 431h94M170 488l-30 50M298 487l18 48" fill="none"/>
+    <path d="M566 180h198l-25 74v194c0 24-18 43-42 43H636c-24 0-42-19-42-43V254z" fill="#fffdf8"/>
+    <path d="M596 253h138M610 284l110 0M610 314h110M610 344h110M610 374h110" fill="none" stroke="#d2d8cb" stroke-width="8"/>
+    <path d="M661 131v37M640 149h42" fill="none" stroke="#e7674d"/>
+    <path d="M518 422l28 29-28 29M800 422l-28 29 28 29" fill="none" stroke="#8bc34a" stroke-width="14"/>
+  </g>
+  <circle cx="478" cy="211" r="18" fill="#d9ef50"/>
+</svg>

@@ -1,5 +1,7 @@
 import "server-only";
 import { guides as rawGuides, stories as rawStories } from "../../site-data.js";
+import { extendedGuides } from "../../site-data-extended.js";
+import { inferRepairSector, type RepairSector } from "@/lib/repair-sectors";
 
 export type RepairArea = "Bike" | "Home" | "Clothes" | "Other";
 
@@ -26,6 +28,7 @@ export type RepairGuide = {
   title: string;
   desc: string;
   area: RepairArea;
+  sector: RepairSector;
   level: string;
   time: string;
   confidence: number;
@@ -58,6 +61,7 @@ export type RepairAssessment = {
   likely_issue: string;
   confidence: number;
   area: RepairArea;
+  sector: RepairSector;
   level: string;
   estimated_time: string;
   safety: "safe_diy" | "get_help" | "do_not_attempt";
@@ -71,6 +75,8 @@ export type RepairAssessment = {
 type CuratedGuide = {
   id: string;
   area: RepairArea;
+  sector?: RepairSector;
+  stepTitles?: string[];
   title: string;
   desc: string;
   image: string;
@@ -80,11 +86,20 @@ type CuratedGuide = {
   steps: string[];
   safety: string;
   tools: string[];
-  parts: string[];
+  parts: (string | { name: string; details: string })[];
 };
 
-export const curatedGuides = rawGuides as CuratedGuide[];
+export const curatedGuides = [...rawGuides, ...extendedGuides] as CuratedGuide[];
 export const repairStories = rawStories as unknown as Record<string, RepairStory>;
+
+export function titleForRepairStep(instruction: string, ordinal: number) {
+  const clean = instruction.replace(/\s+/g, " ").trim().replace(/[.!?]+$/, "");
+  if (!clean) return `Step ${ordinal}`;
+  const action = clean.split(/[,;]|\bthen\b/i)[0]?.trim() || clean;
+  const words = action.split(" ").slice(0, 6);
+  const title = words.join(" ");
+  return title.length > 58 ? `${title.slice(0, 55).trimEnd()}…` : title;
+}
 
 export function localGuideView(guide: CuratedGuide): RepairGuide {
   return {
@@ -93,6 +108,7 @@ export function localGuideView(guide: CuratedGuide): RepairGuide {
     title: guide.title,
     desc: guide.desc,
     area: guide.area,
+    sector: guide.sector || inferRepairSector({ id: guide.id, title: guide.title, area: guide.area }),
     level: guide.level,
     time: guide.time,
     confidence: 100,
@@ -103,13 +119,13 @@ export function localGuideView(guide: CuratedGuide): RepairGuide {
     alt: guide.alt,
     steps: guide.steps.map((instruction, index) => ({
       ordinal: index + 1,
-      title: `Step ${index + 1}`,
+      title: guide.stepTitles?.[index] || titleForRepairStep(instruction, index + 1),
       instruction,
       image: "",
       imageAlt: `${guide.title}, step ${index + 1}`,
       illustrationStatus: "pending",
     })),
-    parts: guide.parts.map((name) => ({ name, details: "" })),
+    parts: guide.parts.map((part) => (typeof part === "string" ? { name: part, details: "" } : part)),
     visibility: "public",
     status: "published",
     source: "curated",
@@ -141,14 +157,15 @@ function decodeLocalCursor(cursor: string | null): number {
   return 0;
 }
 
-export type LocalGuideListOptions = { query?: string; area?: string; cursor?: string | null; limit?: number | string };
+export type LocalGuideListOptions = { query?: string; area?: string; sector?: string; cursor?: string | null; limit?: number | string };
 
 export function localGuideList(options: LocalGuideListOptions = {}) {
-  const { query = "", area = "All", cursor = null, limit = 6 } = options;
+  const { query = "", area = "All", sector = "All", cursor = null, limit = 6 } = options;
   const normalizedQuery = query.trim().toLowerCase();
   const matches = curatedGuides.filter((guide) => {
-    const text = [guide.title, guide.desc, guide.area, ...guide.tools, ...guide.steps].join(" ").toLowerCase();
-    return (area === "All" || !area || guide.area === area) && (!normalizedQuery || text.includes(normalizedQuery));
+    const repairSector = guide.sector || inferRepairSector({ id: guide.id, title: guide.title, area: guide.area });
+    const text = [guide.title, guide.desc, guide.area, repairSector, ...guide.tools, ...guide.steps].join(" ").toLowerCase();
+    return (sector === "All" || !sector ? area === "All" || !area || guide.area === area : repairSector === sector) && (!normalizedQuery || text.includes(normalizedQuery));
   });
   const offset = decodeLocalCursor(cursor);
   const pageSize = Math.max(1, Math.min(Number(limit) || 6, 24));

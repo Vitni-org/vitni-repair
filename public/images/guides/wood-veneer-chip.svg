@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-labelledby="title">
+  <title id="title">Small tabletop finish chip being touched up with repair wax</title>
+  <rect width="960" height="640" fill="#f7f4eb"/>
+  <path d="M104 202h752v269H104z" fill="#d5a56e" stroke="#163b34" stroke-width="14" stroke-linejoin="round"/>
+  <path d="M127 260c119-53 217 33 330-13s237-30 475 11M130 339c140-44 210 23 330-17s238-40 390 0M140 416c150-31 246 7 368-26s198-16 326 7" fill="none" stroke="#b1794d" stroke-width="8" stroke-linecap="round"/>
+  <path d="M551 315l38-22 35 34-23 43-46-3-20-25z" fill="#f7f4eb" stroke="#163b34" stroke-width="10" stroke-linejoin="round"/>
+  <g stroke="#163b34" stroke-width="11" stroke-linejoin="round">
+    <rect x="695" y="108" width="70" height="210" rx="14" transform="rotate(22 695 108)" fill="#e7674d"/>
+    <path d="M685 106l52-21 19 46-50 19z" fill="#d9ef50"/>
+  </g>
+  <circle cx="204" cy="144" r="65" fill="#edf4d4"/>
+  <path d="M182 146l16 16 33-40" fill="none" stroke="#194c42" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

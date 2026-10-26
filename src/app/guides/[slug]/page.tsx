@@ -5,9 +5,11 @@ import { ArrowLeft, ArrowRight, Clock3, ShieldCheck, ShoppingBag, Wrench } from 
 import { notFound } from "next/navigation";
 import { GuideIllustrations } from "@/components/guide-illustrations";
 import { SaveGuideOffline } from "@/components/save-guide-offline";
+import { PartSourcingLinks, PartSourcingNote } from "@/components/part-sourcing-links";
 import { guideArtwork } from "@/lib/guide-artwork";
 import { buttonVariants } from "@/components/ui/button";
 import { getGuide, curatedGuidePaths } from "@/lib/guide-repository";
+import { repairSectorByLabel } from "@/lib/repair-sectors";
 
 export const runtime = "nodejs";
 
@@ -22,6 +24,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${guide.title} | Vitni repair guide`,
     description: guide.desc,
+    category: guide.sector,
+    keywords: [guide.title, `${guide.sector} repair`, "repair guide", "Vitni"],
     alternates: { canonical: `/guides/${guide.slug}/` },
     openGraph: {
       type: "article",
@@ -47,7 +51,8 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ sl
           "@type": "HowTo",
           name: guide.title,
           description: guide.desc,
-          totalTime: guide.time,
+          category: guide.sector,
+          totalTime: Number.parseInt(guide.time, 10) > 0 ? `PT${Number.parseInt(guide.time, 10)}M` : undefined,
           image: `${origin}/images/og/repairlens-share.png`,
           tool: guide.tools.map((name) => ({ "@type": "HowToTool", name })),
           supply: guide.parts.map((part) => ({ "@type": "HowToSupply", name: part.name, description: part.details })),
@@ -76,7 +81,7 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ sl
       <section className="guide-detail-hero">
         <div className="guide-detail-hero__copy">
           <div className="guide-labels">
-            <span>{guide.area}</span>
+            <span>{guide.sector}</span>
             <span>{guide.level}</span>
             <span>
               <Clock3 aria-hidden="true" />
@@ -105,7 +110,7 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ sl
             <h2 id="steps-title">Repair steps</h2>
           </div>
           <GuideIllustrations
-            area={guide.area}
+            area={guide.sector}
             canGenerate={Boolean(process.env.OPENAI_API_KEY)}
             slug={guide.slug}
             steps={guide.steps}
@@ -141,43 +146,28 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ sl
               <h2>
                 <ShoppingBag aria-hidden="true" /> Parts to check
               </h2>
-              <ul className="parts-links">
+              <div className="parts-sourcing-list">
                 {guide.parts.map((part) => (
-                  <li key={part.name}>
-                    {part.url ? (
-                      <a
-                        data-analytics-event="parts_link_opened"
-                        data-analytics-page-context="guide_detail"
-                        href={part.url}
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        {part.name}
-                        {part.details ? ` — ${part.details}` : ""}
-                      </a>
-                    ) : (
-                      <a
-                        data-analytics-event="parts_link_opened"
-                        data-analytics-page-context="guide_detail"
-                        href={`https://www.google.com/search?tbm=shop&q=${encodeURIComponent(`${part.name} ${part.details}`)}`}
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        {part.name}
-                        {part.details ? ` — ${part.details}` : ""}
-                      </a>
-                    )}
-                  </li>
+                  <PartSourcingLinks context="guide_detail" key={part.name} part={part} />
                 ))}
-              </ul>
+              </div>
+              <PartSourcingNote />
             </div>
           )}
           <div className="guide-aside-links">
             <Link href="/guides/">
               Browse all repair guides <ArrowRight aria-hidden="true" />
             </Link>
+            {repairSectorByLabel(guide.sector) && (
+              <Link href={`/guides/sector/${repairSectorByLabel(guide.sector)!.slug}/`}>
+                More {guide.sector.toLowerCase()} guides <ArrowRight aria-hidden="true" />
+              </Link>
+            )}
             <Link data-analytics-event="community_help_opened" data-analytics-link-type="cta" href="/#help">
               Find nearby repair help <ArrowRight aria-hidden="true" />
+            </Link>
+            <Link href="/partners/">
+              Suggest a local partner or parts source <ArrowRight aria-hidden="true" />
             </Link>
             <Link className={buttonVariants({ variant: "outline" })} href="/#diagnose">
               <ArrowLeft aria-hidden="true" /> Ask Vitni about your item

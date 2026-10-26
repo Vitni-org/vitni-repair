@@ -14,7 +14,9 @@ import {
   trackAnalyticsEvent,
   type AnalyticsConsent,
   type GuideArea,
+  type GuideSector,
 } from "@/lib/analytics";
+import { repairSectors } from "@/lib/repair-sectors";
 
 const OPEN_PREFERENCES_EVENT = "repairlens:open-analytics-preferences";
 
@@ -26,7 +28,8 @@ const CONSENT_DEFAULTS = {
 };
 
 const SAFE_LOCATIONS = ["home_hero", "home_promo", "site_nav", "footer"] as const;
-const SAFE_AREAS = ["All", "Bike", "Home", "Clothes"] as const;
+const SAFE_AREAS = ["All", "Bike", "Home", "Clothes", "Other"] as const;
+const SAFE_SECTORS = ["All", ...repairSectors.map(({ label }) => label)] as const;
 
 function getInlineBootstrap(pathname: string, consent: AnalyticsConsent | "loading"): string {
   const page = getSafePageView(pathname);
@@ -139,9 +142,12 @@ export function GoogleAnalytics() {
       const formData = new FormData(form);
       const rawArea = formData.get("area");
       const area: GuideArea = SAFE_AREAS.includes(rawArea as GuideArea) ? (rawArea as GuideArea) : "All";
+      const rawSector = formData.get("sector");
+      const sector: GuideSector = SAFE_SECTORS.includes(rawSector as GuideSector) ? (rawSector as GuideSector) : "All";
       const query = formData.get("q");
       trackAnalyticsEvent("guide_search_submitted", {
         area,
+        sector,
         has_query: typeof query === "string" && query.trim().length > 0,
       });
     };

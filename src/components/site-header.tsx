@@ -11,6 +11,7 @@ const navItems = [
   { href: "/#diagnose", label: "Get repair steps", analyticsEvent: "repair_flow_opened", analyticsLocation: "site_nav" },
   { href: "/guides/", label: "Repair guides", analyticsEvent: "guide_library_opened", analyticsLocation: "site_nav" },
   { href: "/#help", label: "Community help", analyticsEvent: "community_help_opened", analyticsLinkType: "cta" },
+  { href: "/partners/", label: "Partner with us", analyticsEvent: undefined },
 ];
 
 export function SiteHeader() {
@@ -31,7 +32,7 @@ export function SiteHeader() {
           Vitni
         </Link>
 
-        <nav aria-label="Main menu" className="hidden items-center gap-1 md:flex">
+        <nav aria-label="Main menu" className="hidden items-center gap-1 lg:flex">
           {navItems.map((item) => (
             <Link
               className="text-muted-foreground hover:bg-muted hover:text-foreground rounded-md px-3 py-2 text-sm font-bold transition-colors"
@@ -59,7 +60,7 @@ export function SiteHeader() {
           aria-controls="mobile-site-menu"
           aria-expanded={menuOpen}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
-          className="size-11 md:hidden"
+          className="size-11 lg:hidden"
           onClick={() => setMenuOpen((open) => !open)}
           size="icon"
           variant="outline"
@@ -71,7 +72,7 @@ export function SiteHeader() {
       <nav
         aria-label="Mobile menu"
         className={cn(
-          "border-border bg-background absolute inset-x-0 top-full grid gap-1 border-b px-[var(--page-gutter)] py-3 shadow-lg md:hidden",
+          "border-border bg-background absolute inset-x-0 top-full grid gap-1 border-b px-[var(--page-gutter)] py-3 shadow-lg lg:hidden",
           menuOpen ? "" : "hidden",
         )}
         id="mobile-site-menu"

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-labelledby="title">
+  <title id="title">Windscreen wiper arm with a replacement blade</title>
+  <rect width="960" height="640" fill="#f7f4eb"/>
+  <path d="M92 480c60-180 184-277 356-292 170-14 286 80 420 289" fill="#dfe8e1" stroke="#163b34" stroke-width="14" stroke-linejoin="round"/>
+  <path d="M130 467c168-122 443-132 668 10" fill="none" stroke="#a5bbb1" stroke-width="10"/>
+  <g stroke="#163b34" stroke-width="13" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M267 418l394-91 22 39-399 93z" fill="#194c42"/>
+    <path d="M632 323l53-33 32 45-49 36" fill="#e8e4da"/>
+    <path d="M201 503h509" fill="none" stroke="#e7674d" stroke-width="24"/>
+    <path d="M418 466v-38h97v38" fill="#d9ef50"/>
+    <path d="M443 421l24-60 28 60" fill="#fffdf8"/>
+    <path d="M723 154v84M681 196h84" fill="none" stroke="#8bc34a" stroke-width="14"/>
+  </g>
+  <circle cx="172" cy="183" r="14" fill="#e7674d"/>
+</svg>

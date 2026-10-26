@@ -35,7 +35,7 @@ export default async function SharedRepairPage({ params }: { params: Promise<{ t
             <p className="eyebrow">Take it one step at a time</p>
             <h2>Repair steps</h2>
           </div>
-          <GuideIllustrations area={guide.area} canGenerate={Boolean(process.env.OPENAI_API_KEY)} slug="" steps={guide.steps} title={guide.title} />
+          <GuideIllustrations area={guide.sector} canGenerate={Boolean(process.env.OPENAI_API_KEY)} slug="" steps={guide.steps} title={guide.title} />
         </section>
         <aside className="guide-detail-aside">
           <div className="guide-aside-card">

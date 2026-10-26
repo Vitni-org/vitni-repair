@@ -2,12 +2,25 @@ export const ANALYTICS_CONSENT_KEY = "repairlens.analytics-consent.v1";
 const ANALYTICS_CONSENT_CHANGE_EVENT = "repairlens:analytics-consent-change";
 
 export type AnalyticsConsent = "granted" | "denied" | "unknown";
-export type GuideArea = "All" | "Bike" | "Home" | "Clothes";
+export type GuideArea = "All" | "Bike" | "Home" | "Clothes" | "Other";
+export type GuideSector =
+  | "All"
+  | "Bikes & mobility"
+  | "Clothing & textiles"
+  | "Home fixtures"
+  | "Furniture & upholstery"
+  | "Appliances & electronics"
+  | "Kitchen & household"
+  | "Garden & outdoor"
+  | "Personal gear"
+  | "Toys & leisure"
+  | "Vehicles & powered equipment"
+  | "Other everyday objects";
 
 export type SafePageView = {
   page_path: string;
   page_title: string;
-  page_type: "home" | "guide_library" | "guide_detail" | "story_detail" | "other";
+  page_type: "home" | "guide_library" | "guide_detail" | "story_detail" | "partner_page" | "other";
 };
 
 export type AnalyticsEventPayloads = {
@@ -15,7 +28,7 @@ export type AnalyticsEventPayloads = {
   repair_flow_opened: { location: "home_hero" | "site_nav" | "footer" };
   guide_library_opened: { location: "home_hero" | "home_promo" | "site_nav" | "footer" };
   community_help_opened: { link_type: "cta" | "map" | "directory" | "venue" };
-  guide_search_submitted: { area: GuideArea; has_query: boolean };
+  guide_search_submitted: { area: GuideArea; sector: GuideSector; has_query: boolean };
   guide_opened: { source: "guide_library" };
   repair_request_started: { has_photo: boolean };
   repair_guide_completed: {
@@ -100,11 +113,17 @@ export function getSafePageView(pathname: string): SafePageView {
   if (path === "/guides/") {
     return { page_path: "/guides/", page_title: "Repair library", page_type: "guide_library" };
   }
+  if (/^\/guides\/sector\/[^/]+\/$/.test(path)) {
+    return { page_path: "/guides/sector/[sector]/", page_title: "Repair sector", page_type: "guide_library" };
+  }
   if (/^\/guides\/[^/]+\/$/.test(path)) {
     return { page_path: "/guides/[guide]/", page_title: "Repair guide", page_type: "guide_detail" };
   }
   if (/^\/stories\/[^/]+\/$/.test(path)) {
     return { page_path: "/stories/[story]/", page_title: "Repair story", page_type: "story_detail" };
+  }
+  if (path === "/partners/") {
+    return { page_path: "/partners/", page_title: "Partner with Vitni", page_type: "partner_page" };
   }
 
   return { page_path: "/[page]/", page_title: "Vitni page", page_type: "other" };

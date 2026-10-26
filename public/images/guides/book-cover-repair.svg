@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-labelledby="title">
+  <title id="title">Archival tape reinforcing a small split in a paperback cover</title>
+  <rect width="960" height="640" fill="#f7f4eb"/>
+  <ellipse cx="486" cy="516" rx="342" ry="28" fill="#d6d7cb"/>
+  <g stroke="#163b34" stroke-width="13" stroke-linejoin="round">
+    <path d="M220 161h224c54 0 89 22 101 47v293c-26-31-62-42-111-42H220z" fill="#194c42"/>
+    <path d="M524 208c18-28 53-47 106-47h115v298H635c-48 0-83 11-111 42z" fill="#d8a96d"/>
+    <path d="M445 162h78v338h-78z" fill="#e7674d"/>
+    <path d="M474 184h39v267h-39z" fill="#d9ef50" stroke="none"/>
+    <path d="M252 212h145M252 251h145M252 290h145M645 212h65M645 251h65M645 290h65" fill="none" stroke="#f7f4eb" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <path d="M551 376l46 46" stroke="#f7f4eb" stroke-width="10" stroke-dasharray="2 12" stroke-linecap="round"/>
+  <circle cx="767" cy="124" r="67" fill="#edf4d4"/>
+  <path d="M739 124l18 18 39-47" fill="none" stroke="#194c42" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

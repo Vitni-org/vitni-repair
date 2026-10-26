@@ -9,6 +9,7 @@ export async function GET(request: Request) {
     const result = await searchGuides({
       query: params.get("q") || "",
       area: params.get("area") || "All",
+      sector: params.get("sector") || "All",
       limit: params.get("limit") || 6,
       cursor: params.get("cursor") || null,
     });
