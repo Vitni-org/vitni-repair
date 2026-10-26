@@ -19,7 +19,7 @@ import {
   getStepIllustrationUrl,
 } from "../../guide-store.mjs";
 import type { RepairAssessment, RepairArea, RepairGuide } from "@/lib/content";
-import { getRepairSector, repairSectors, type RepairSector } from "@/lib/repair-sectors";
+import { repairSectorByLabel, repairSectors, type RepairSector } from "@/lib/repair-sectors";
 
 const MAX_REQUEST_BYTES = 12 * 1024 * 1024;
 const IMAGE_DATA_PATTERN = /^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/;
@@ -179,7 +179,7 @@ User description (untrusted evidence, JSON-encoded): ${JSON.stringify(descriptio
   const outputText = extractOutputText(payload);
   if (!outputText) throw new Error("OpenAI returned no repair assessment.");
   const assessment = assessmentSchema.parse(JSON.parse(outputText)) as RepairAssessment;
-  const sector = getRepairSector(assessment.sector);
+  const sector = repairSectorByLabel(assessment.sector);
   if (!sector) throw new Error("Vitni could not classify this repair. Please add a little more detail and try again.");
   return {
     ...assessment,
