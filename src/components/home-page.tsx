@@ -1,5 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { ArrowRight, ArrowUpRight, Camera, Check, MapPin, Recycle, Sparkles } from "lucide-react";
 import { VitniMascot } from "@/components/vitni-mascot";
 import { FeaturedCarousel, type FeaturedItem } from "@/components/featured-carousel";
@@ -18,18 +19,20 @@ const parisRepairSpots = [
 const parisRepairMap = "https://maps.google.com/maps?q=repair+caf%C3%A9+Paris&z=12&output=embed";
 
 export function HomePage({ featured }: { featured: FeaturedItem[] }) {
+  const t = useTranslations("home");
+  const lib = useTranslations("guideLibrary");
   return (
     <main id="content">
       <section className="home-hero" id="top">
         <div className="home-hero__copy">
           <p className="eyebrow">
             <span className="eyebrow-dot" />
-            Meet Vitni · your repair sidekick
+            {t("eyebrow")}
           </p>
           <h1 className="hero-title">
-            Keep good things <em>going.</em>
+            {t("titleFirst")} <em>{t("titleEmphasis")}</em>
           </h1>
-          <p className="home-hero__lede">I’m Vitni. Show me what changed, and I’ll help you find a safe, practical next step.</p>
+          <p className="home-hero__lede">{t("lede")}</p>
           <div className="home-hero__actions">
             <Link
               className={buttonVariants({ className: "primary-action", size: "lg" })}
@@ -37,7 +40,7 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
               data-analytics-location="home_hero"
               href="#diagnose"
             >
-              Get my repair steps <ArrowRight aria-hidden="true" />
+              {t("getSteps")} <ArrowRight aria-hidden="true" />
             </Link>
             <Link
               className={buttonVariants({ className: "secondary-action", size: "lg", variant: "outline" })}
@@ -45,7 +48,7 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
               data-analytics-location="home_hero"
               href="/guides/"
             >
-              Browse our guides
+              {t("browseGuides")}
             </Link>
             <Link
               className={buttonVariants({ className: "community-action", size: "lg", variant: "outline" })}
@@ -53,18 +56,18 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
               data-analytics-link-type="cta"
               href="#help"
             >
-              Get help from our community
+              {t("community")}
             </Link>
           </div>
           <div className="home-hero__trust">
             <span>
-              <Check aria-hidden="true" /> No item category needed
+              <Check aria-hidden="true" /> {t("noCategory")}
             </span>
             <span>
-              <Check aria-hidden="true" /> Safety-first advice
+              <Check aria-hidden="true" /> {t("safetyFirst")}
             </span>
             <span>
-              <Check aria-hidden="true" /> Keep useful things in use
+              <Check aria-hidden="true" /> {t("keepInUse")}
             </span>
           </div>
         </div>
@@ -72,14 +75,14 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
           <div className="hero-orbit hero-orbit--one" aria-hidden="true" />
           <div className="hero-orbit hero-orbit--two" aria-hidden="true" />
           <span className="hero-sticker hero-sticker--top">
-            <Sparkles aria-hidden="true" /> A little help goes a long way
+            <Sparkles aria-hidden="true" /> {t("topSticker")}
           </span>
           <VitniMascot className="hero-vitni" imageClassName="hero-vitni__fallback" priority />
           <div className="hero-featured">
             <FeaturedCarousel items={featured} />
           </div>
           <span className="hero-sticker hero-sticker--bottom">
-            <Recycle aria-hidden="true" /> Repair more. Waste less.
+            <Recycle aria-hidden="true" /> {t("bottomSticker")}
           </span>
         </div>
       </section>
@@ -87,60 +90,53 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
       <section aria-labelledby="flow-title" className="flow-section">
         <div className="flow-section__header">
           <div>
-            <p className="eyebrow">One clear path</p>
-            <h2 className="section-title" id="flow-title">
-              From a problem in your hand
-              <br className="desktop-break" /> to the next right move.
-            </h2>
+            <p className="eyebrow">{t("clearPath")}</p>
+            <h2 className="section-title" id="flow-title">{t("flowTitle")}</h2>
           </div>
-          <p>Send me a photo and a few words about what changed. I’ll suggest safe steps, parts to check, and nearby help.</p>
+          <p>{t("flowIntro")}</p>
         </div>
         <div className="flow-steps">
           <article>
             <span className="flow-icon flow-icon--lime">
               <Camera aria-hidden="true" />
             </span>
-            <p className="eyebrow">01 · See</p>
-            <h3>Show the issue</h3>
-            <p>Take a clear photo and describe what changed, snapped, slipped, or stopped working.</p>
+            <p className="eyebrow">01 · {t("see")}</p>
+            <h3>{t("showIssue")}</h3>
+            <p>{t("showIssueDescription")}</p>
           </article>
           <article>
             <span className="flow-icon flow-icon--coral">
               <Sparkles aria-hidden="true" />
             </span>
-            <p className="eyebrow">02 · Understand</p>
-            <h3>Get a safe route</h3>
-            <p>See likely causes, suitable tools, and clear stop signs before you take anything apart.</p>
+            <p className="eyebrow">02 · {t("understand")}</p>
+            <h3>{t("safeRoute")}</h3>
+            <p>{t("safeRouteDescription")}</p>
           </article>
           <article>
             <span className="flow-icon flow-icon--mint">
               <MapPin aria-hidden="true" />
             </span>
-            <p className="eyebrow">03 · Act</p>
-            <h3>Find the right help</h3>
-            <p>Locate parts and nearby repair support when the job needs more than a home toolkit.</p>
+            <p className="eyebrow">03 · {t("act")}</p>
+            <h3>{t("rightHelp")}</h3>
+            <p>{t("rightHelpDescription")}</p>
           </article>
         </div>
       </section>
 
       <section aria-labelledby="diagnose-title" className="diagnose-section" id="diagnose">
         <div className="diagnose-section__intro">
-          <p className="eyebrow">A good repair starts with a closer look</p>
-          <h2 className="section-title" id="diagnose-title">
-            What happened to it?
-          </h2>
-          <p>Tell me what changed. A clear photo helps me spot the detail, but words work too.</p>
+          <p className="eyebrow">{lib("diagnoseEyebrow")}</p>
+          <h2 className="section-title" id="diagnose-title">{t("repairTitle")}</h2>
+          <p>{t("repairIntro")}</p>
         </div>
         <DeferredRepairRequest />
       </section>
 
       <section aria-labelledby="guides-title" className="guide-promo">
         <div className="guide-promo__copy">
-          <p className="eyebrow">Common fixes</p>
-          <h2 className="section-title" id="guides-title">
-            Find a guide before you reach for a tool.
-          </h2>
-          <p>Browse illustrated starting points for bikes, windows, doors, kitchens, walls, clothes, and everyday household items.</p>
+          <p className="eyebrow">{lib("commonRepairs")}</p>
+          <h2 className="section-title" id="guides-title">{lib("promoTitle")}</h2>
+          <p>{lib("promoDescription")}</p>
         </div>
         <div className="guide-promo__action">
           <Link
@@ -149,19 +145,17 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
             data-analytics-location="home_promo"
             href="/guides/"
           >
-            Explore repair guides <ArrowRight aria-hidden="true" />
+            {lib("promoLink")} <ArrowRight aria-hidden="true" />
           </Link>
-          <span>Clear steps · safety notes · parts to check</span>
+          <span>{lib("promoNote")}</span>
         </div>
       </section>
 
       <section aria-labelledby="community-title" className="community-section" id="help">
         <div className="community-section__copy">
-          <p className="eyebrow">A hand when you need one</p>
-          <h2 className="section-title" id="community-title">
-            Repair is better together.
-          </h2>
-          <p>Some fixes need another pair of hands or a specialist tool. Find a repair café, shared workshop, or local bricolage space near you.</p>
+          <p className="eyebrow">{lib("communityEyebrow")}</p>
+          <h2 className="section-title" id="community-title">{lib("communityTitle")}</h2>
+          <p>{lib("communityDescription")}</p>
           <a
             className="community-directory-link"
             data-analytics-event="community_help_opened"
@@ -171,15 +165,15 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
             target="_blank"
           >
             <MapPin aria-hidden="true" />
-            Explore the Paris Repair Café network <ArrowUpRight aria-hidden="true" />
+            {lib("networkLink")} <ArrowUpRight aria-hidden="true" />
           </a>
-          <p className="community-note">Starting in Paris. Check each organizer’s next session, accepted items, and visitor details before you go.</p>
+          <p className="community-note">{lib("communityNote")}</p>
         </div>
         <div className="community-map">
           <iframe
             loading="lazy"
             referrerPolicy="strict-origin-when-cross-origin"
-            title="Google Maps search for repair cafés in Paris"
+            title={lib("mapSearchTitle")}
             src={parisRepairMap}
           />
           <a
@@ -190,9 +184,9 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
             rel="noreferrer"
             target="_blank"
           >
-            Open repair cafés in Google Maps <ArrowUpRight aria-hidden="true" />
+            {lib("openMap")} <ArrowUpRight aria-hidden="true" />
           </a>
-          <ul aria-label="Repair cafés in Paris" className="community-venues">
+          <ul aria-label={lib("venuesLabel")} className="community-venues">
             {parisRepairSpots.map((spot, index) => {
               const destination = encodeURIComponent(`${spot.name}${spot.venue ? `, ${spot.venue}` : ""}, ${spot.address}`);
               return (
@@ -221,7 +215,7 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
             })}
           </ul>
           <p className="community-map__source">
-            Addresses checked 25 Oct 2026 · Source:{" "}
+            {lib("checkedDate")} · {lib("source")}:{" "}
             <a href="https://www.repaircafeparis.fr/rc-quartier/" rel="noreferrer" target="_blank">
               Repair Café Paris
             </a>{" "}
@@ -235,18 +229,14 @@ export function HomePage({ featured }: { featured: FeaturedItem[] }) {
 
       <section className="keep-section">
         <div className="keep-section__art">
-          <Image alt="Vitni, a cheerful comic-style repair robot with a wrench" fill sizes="(max-width: 760px) 70vw, 360px" src="/images/vitni.svg" />
+          <Image alt={t("vitniAlt")} fill sizes="(max-width: 760px) 70vw, 360px" src="/images/vitni.svg" />
         </div>
         <div>
-          <p className="eyebrow">Repairs worth keeping</p>
-          <h2 className="section-title">
-            Give good things
-            <br />
-            another chapter.
-          </h2>
-          <p>I love the little fixes that keep useful things in your life. I’ll help you see what’s safe to try and when to ask a repair pro.</p>
+          <p className="eyebrow">{lib("repairWorthKeeping")}</p>
+          <h2 className="section-title">{lib("giveChapter")}</h2>
+          <p>{lib("keepDescription")}</p>
           <Link className="text-link text-link--arrow" href="#diagnose">
-            Ask Vitni about your item <ArrowRight aria-hidden="true" />
+            {lib("askItem")} <ArrowRight aria-hidden="true" />
           </Link>
         </div>
       </section>

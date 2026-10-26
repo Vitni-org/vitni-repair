@@ -1,0 +1,902 @@
+{
+  "guides": {
+    "bike-flat": {
+      "id": "bike-flat",
+      "title": "Réparer une crevaison",
+      "desc": "Trouver une crevaison, réparer la chambre à air et éviter de la pincer lors du remontage.",
+      "steps": [
+        "Retirez la roue et dégonflez complètement le pneu.",
+        "Soulevez un bord du pneu avec des démonte-pneus et sortez la chambre à air.",
+        "Localisez la crevaison, vérifiez le pneu pour des débris, puis réparez ou remplacez la chambre à air.",
+        "Remontez soigneusement et gonflez progressivement."
+      ],
+      "safety": "Vérifiez la présence de verre ou de débris tranchants avant de mettre la main à l'intérieur. Gardez les mains éloignées des objets tranchants exposés.",
+      "tools": [
+        "Démonte-pneus",
+        "Pompe",
+        "Kit de réparation ou chambre à air compatible"
+      ],
+      "parts": [
+        "Chambre à air vélo correspondant à la taille du pneu",
+        "Kit de réparation pour crevaison de bicyclette"
+      ],
+      "alt": "Une roue de vélo avec un pneu crevé, des démonte-pneus et un kit de réparation"
+    },
+    "bike-chain": {
+      "id": "bike-chain",
+      "title": "Remettre en place une chaîne déraillée",
+      "desc": "Réinitialisation propre pour une chaîne intacte qui est sortie de son anneau.",
+      "steps": [
+        "Tirez le bras du dérailleur vers l’avant pour détendre la chaîne.",
+        "Placez la chaîne sur le plateau avant et le pignon arrière.",
+        "Faites tourner la pédale en arrière à la main.",
+        "Arrêtez-vous si elle déraille ou semble pliée."
+      ],
+      "safety": "Éloignez les doigts des dents du plateau et arrêtez si la chaîne est pliée, coincée ou si elle déraille à répétition.",
+      "tools": [
+        "Gants de travail ou chiffon",
+        "Béquille vélo (optionnel)"
+      ],
+      "parts": [],
+      "alt": "Une personne réparant une chaîne de vélo déraillée"
+    },
+    "window-hinge": {
+      "id": "window-hinge",
+      "title": "Serrer une charnière de fenêtre lâche",
+      "desc": "Alignez une fenêtre légère et insonorisée avant qu’un petit courant d’air n’empire.",
+      "steps": [
+        "Soutenez l’ouvrant avant de toucher la charnière.",
+        "Serrez les vis de manière uniforme.",
+        "Remplacez les fixations abîmées si nécessaire.",
+        "Testez lentement le verrouillage et l’étanchéité."
+      ],
+      "safety": "Soutenez la fenêtre en permanence. Arrêtez si le verre est fissuré, le cadre endommagé, ou si l’ouvrant paraît lourd ou instable.",
+      "tools": [
+        "Tournevis de taille adaptée",
+        "Assistant pour soutenir un ouvrant lourd"
+      ],
+      "parts": [
+        "Vis de charnière adaptées au cadre et à la charnière"
+      ],
+      "alt": "Une charnière de fenêtre en cours de réglage minutieux"
+    },
+    "door-hinge": {
+      "id": "door-hinge",
+      "title": "Silencier une porte qui grince",
+      "desc": "Lubrification rapide et vérification des fixations pour une charnière de porte en bon état.",
+      "steps": [
+        "Ouvrez la porte et identifiez la charnière bruyante.",
+        "Serrez les vis lâches sans trop forcer.",
+        "Appliquez une petite quantité de lubrifiant adapté sur la goupille.",
+        "Ouvrez et fermez lentement pour bien répartir le produit."
+      ],
+      "safety": "Ne retirez pas les goupilles d’une porte lourde sans qu’elle soit correctement soutenue.",
+      "tools": [
+        "Tournevis",
+        "Lubrifiant pour charnières",
+        "Chiffon"
+      ],
+      "parts": [
+        "Lubrifiant spécifique pour charnière de porte"
+      ],
+      "alt": "Une charnière de porte lubrifiée avec un petit applicateur d’huile"
+    },
+    "kitchen-handle": {
+      "id": "kitchen-handle",
+      "title": "Fixer une poignée d’armoire",
+      "desc": "Empêchez une poignée de cuisine lâche de détériorer la façade de la porte.",
+      "steps": [
+        "Maintenez la poignée dans sa position finale.",
+        "Serrez uniformément les vis arrière.",
+        "Ajoutez une rondelle uniquement si elle s’adapte sans danger.",
+        "Ouvrez et fermez la porte pour tester."
+      ],
+      "safety": "Utilisez un outil de la bonne taille et évitez de trop serrer, ce qui pourrait fissurer la façade de l’armoire.",
+      "tools": [
+        "Tournevis de taille adaptée",
+        "Assistant pour maintenir la poignée"
+      ],
+      "parts": [
+        "Vis pour poignée d’armoire correspondant à l’espacement des trous existants"
+      ],
+      "alt": "Une poignée d’armoire serrée de l’intérieur avec un tournevis"
+    },
+    "wall-hole": {
+      "id": "wall-hole",
+      "title": "Boucher un petit trou dans un mur",
+      "desc": "Réparez un petit trou de vis non structurel, prêt pour une retouche de peinture.",
+      "steps": [
+        "Enlevez les matériaux lâches et la poussière du trou.",
+        "Pressez l’enduit avec une petite spatule.",
+        "Laissez sécher complètement puis poncez légèrement.",
+        "Retouchez avec une peinture assortie."
+      ],
+      "safety": "Ne bouchez que des petits trous connus et non structurels. Arrêtez si vous suspectez un câble, une canalisation ou une fissure importante derrière le mur.",
+      "tools": [
+        "Enduit prêt à l’emploi",
+        "Petite spatule",
+        "Papier de verre fin",
+        "Peinture assortie"
+      ],
+      "parts": [
+        "Enduit d’intérieur"
+      ],
+      "alt": "Un petit trou dans un mur bouché avec un couteau à mastic"
+    },
+    "zipper": {
+      "id": "zipper",
+      "title": "Débloquer une fermeture éclair coincée",
+      "desc": "Libérez le tissu coincé sans forcer ni endommager les dents.",
+      "steps": [
+        "Étalez le vêtement à plat et relâchez la tension autour de la fermeture.",
+        "Utilisez une pince à épiler pour dégager les fils ou tissus pris.",
+        "Appliquez un peu de graphite ou de savon sec sur les dents.",
+        "Bougez le curseur très doucement."
+      ],
+      "safety": "Ne forcez jamais la tirette. Arrêtez si des dents manquent ou si le curseur est fissuré.",
+      "tools": [
+        "Pince à épiler",
+        "Graphite de crayon ou savon sec"
+      ],
+      "parts": [],
+      "alt": "Tissu doucement libéré d’une fermeture éclair de veste avec une pince à épiler"
+    },
+    "seam": {
+      "id": "seam",
+      "title": "Rapiécer une couture déchirée",
+      "desc": "Renforcez une petite déchirure sur une couture de vêtement non extensible.",
+      "steps": [
+        "Retournez le vêtement sur l’envers et alignez les bords.",
+        "Épinglez ou pincez la couture en place.",
+        "Utilisez de petits points arrière le long de l’ancienne ligne de couture.",
+        "Faites un nœud, coupez le fil, puis testez doucement la réparation."
+      ],
+      "safety": "Convient mieux à une petite déchirure où le tissu environnant est encore solide. Consultez un tailleur pour les déchirures importantes ou soumises à de fortes contraintes.",
+      "tools": [
+        "Aiguille",
+        "Fil assorti",
+        "Épingles ou pinces",
+        "Petites ciseaux"
+      ],
+      "parts": [
+        "fil à coudre assorti"
+      ],
+      "alt": "Une couture en jean cousue à la main"
+    },
+    "button": {
+      "id": "button",
+      "title": "Recoudre un bouton",
+      "desc": "Une réparation simple et durable du bouton avec un fil assorti.",
+      "steps": [
+        "Marquez la position d’origine du bouton.",
+        "Anchorez le fil sur l’envers.",
+        "Passez le fil plusieurs fois dans les trous du bouton.",
+        "Enroulez le fil sous la queue du bouton et faites un nœud bien serré."
+      ],
+      "safety": "Gardez l’aiguille orientée loin de vos doigts et utilisez un dé à coudre si nécessaire.",
+      "tools": [
+        "Aiguille",
+        "Fil assorti",
+        "Bouton de rechange si manquant"
+      ],
+      "parts": [
+        "bouton de vêtement de rechange assorti en taille et en queue"
+      ],
+      "alt": "Un bouton en train d’être cousu sur une chemise"
+    },
+    "bike-saddle": {
+      "id": "bike-saddle",
+      "title": "Serrer une selle de vélo lâche",
+      "desc": "Réajustez une selle qui bouge, puis vérifiez la fixation avant de rouler.",
+      "steps": [
+        "Sécurisez le vélo pour qu’il ne roule pas, puis vérifiez les rails de la selle et la fixation pour détecter des fissures.",
+        "Desserrez la fixation juste ce qu’il faut pour aligner la selle avec le cadre.",
+        "Serrez la fixation uniformément au couple indiqué ; ne devinez pas si une valeur de couple est indiquée.",
+        "Maintenez la selle et vérifiez qu’elle ne tourne plus avant un test court et prudent."
+      ],
+      "safety": "Ne roulez pas avec un rail, une fixation ou une tige de selle fissurée. Respectez les indications de couple ; demandez conseil en magasin de vélos si la fixation ou le couple est incertain.",
+      "tools": [
+        "Clé Allen de la bonne taille",
+        "Clé dynamométrique si la fixation spécifie une valeur"
+      ],
+      "parts": [
+        "boulon de fixation de selle de vélo de rechange assorti à la fixation"
+      ],
+      "alt": "Une fixation de selle de vélo en train d’être serrée avec une clé Allen"
+    },
+    "bike-chain-care": {
+      "id": "bike-chain-care",
+      "title": "Nettoyer et lubrifier une chaîne de vélo",
+      "desc": "Réduisez le bruit d’une chaîne sèche et évitez que le lubrifiant ne touche les freins.",
+      "steps": [
+        "Passez sur le plus petit pignon arrière et stabilisez le vélo.",
+        "Pédalez en arrière lentement tout en essuyant la chaîne avec un chiffon propre.",
+        "Déposez une petite goutte de lubrifiant pour chaîne de vélo sur chaque rouleau pendant que la chaîne bouge.",
+        "Laissez agir selon les instructions, essuyez l’excès, et vérifiez qu’aucun lubrifiant n’a touché les freins."
+      ],
+      "safety": "Gardez doigts, cheveux et vêtements éloignés de la transmission en mouvement. Utilisez un lubrifiant spécifique pour vélo et ne mettez jamais d’huile sur les disques, les plaquettes ou les jantes de frein.",
+      "tools": [
+        "Chiffon propre",
+        "Lubrifiant pour chaîne de vélo"
+      ],
+      "parts": [],
+      "alt": "Une chaîne de vélo nettoyée avec un chiffon et lubrifiée goutte à goutte"
+    },
+    "drawer-track": {
+      "id": "drawer-track",
+      "title": "Remettre en place un tiroir qui sort de ses rails",
+      "desc": "Alignez les deux coulisses pour faire glisser le tiroir correctement à nouveau.",
+      "steps": [
+        "Videz le tiroir et soutenez-le avec les deux mains.",
+        "Tirez complètement les deux coulisses du meuble et vérifiez qu’aucune n’est pliée.",
+        "Alignez les rails du tiroir avec les coulisses, puis glissez le tiroir en tenant bien droit.",
+        "Ouvrez et fermez doucement plusieurs fois ; serrez une vis de coulisse desserrée si besoin."
+      ],
+      "safety": "Ne forcez pas un tiroir sur des coulisses pliées ou endommagées. Demandez de l’aide pour soulever un tiroir lourd et gardez les doigts à l’abri des pincements.",
+      "tools": [
+        "Tournevis",
+        "Assistant pour un tiroir lourd"
+      ],
+      "parts": [
+        "coulisse de tiroir correspondant à la longueur et au mode de fixation existants"
+      ],
+      "alt": "Un tiroir en cours d’alignement avec ses coulisses"
+    },
+    "cabinet-hinge": {
+      "id": "cabinet-hinge",
+      "title": "Serrer une charnière de porte d’armoire lâche",
+      "desc": "Soutenez la porte, resserrez ses vis de charnière et vérifiez l’alignement.",
+      "steps": [
+        "Ouvrez la porte et soutenez son poids ; demandez à quelqu’un de tenir une porte lourde.",
+        "Serrez progressivement les vis de fixation de la charnière.",
+        "Si la porte est encore de travers, tournez la vis de réglage très légèrement.",
+        "Fermez la porte doucement et vérifiez qu’elle est bien alignée sans frotter."
+      ],
+      "safety": "Arrêtez si le panneau d’armoire est fendu ou si la charnière se dégage. Ne serrez pas trop les vis dans un panneau mou ou endommagé.",
+      "tools": [
+        "Tournevis de taille adaptée",
+        "Assistant pour soutenir une porte lourde"
+      ],
+      "parts": [
+        "vis de charnière d’armoire assorties en taille et filetage",
+        "charnière de rechange assortie au modèle actuel"
+      ],
+      "alt": "Une charnière de porte d’armoire soutenue et resserrée avec un tournevis"
+    },
+    "fabric-patch": {
+      "id": "fabric-patch",
+      "title": "Rapiécer un petit trou dans un vêtement",
+      "desc": "Renforcez une petite déchirure avec un patch en tissu adapté au vêtement.",
+      "steps": [
+        "Retournez le vêtement sur l’envers et posez-le à plat.",
+        "Coupez seulement les fils lâches, puis placez un petit patch derrière le trou.",
+        "Choisissez un patch de poids et d’élasticité similaires ; épinglez-le en place.",
+        "Utilisez de petits points tout autour du bord du patch, puis retournez le vêtement et vérifiez la réparation."
+      ],
+      "safety": "Gardez l’aiguille éloignée de vos doigts. Consultez un tailleur pour une grosse déchirure ou un tissu soumis à de fortes contraintes.",
+      "tools": [
+        "Aiguille",
+        "Fil assorti",
+        "Petit patch en tissu",
+        "Épingles ou pinces",
+        "Petites ciseaux"
+      ],
+      "parts": [
+        "patch en tissu compatible avec le poids et l’élasticité du vêtement",
+        "fil à coudre assorti"
+      ],
+      "alt": "Un petit patch en tissu cousu à la main sur un trou dans un vêtement"
+    },
+    "trouser-hem": {
+      "id": "trouser-hem",
+      "title": "Coudre un ourlet de pantalon simple à la main",
+      "desc": "Raccourcir un ourlet proprement avec de petites coutures presque invisibles.",
+      "steps": [
+        "Essayez le pantalon avec les chaussures que vous prévoyez de porter et marquez la longueur finale.",
+        "Retirez-le, pliez et épinglez l'ourlet uniformément, puis repassez le pli.",
+        "Cousez de petites points à l’intérieur du pli, en attrapant seulement quelques fils extérieurs à chaque fois.",
+        "Faites un nœud solide avec le fil, retirez les épingles et vérifiez que les deux jambes ont la même longueur."
+      ],
+      "safety": "Retirez le vêtement avant de coudre. Gardez les épingles et l’aiguille éloignées de votre corps et utilisez un tissu de protection avec un fer chaud.",
+      "tools": [
+        "Aiguille",
+        "Fil assorti",
+        "Épingles",
+        "Fer à repasser et tissu de protection"
+      ],
+      "parts": [
+        "fil à coudre assorti"
+      ],
+      "alt": "Un revers de pantalon plié et cousu à la main avec une aiguille et du fil"
+    },
+    "bike-mudguard": {
+      "id": "bike-mudguard",
+      "title": "Aligner un garde-boue de vélo qui frotte",
+      "desc": "Empêchez un garde-boue lâche de frotter contre le pneu tout en évitant de gêner les freins.",
+      "steps": [
+        "Stabilisez le vélo et faites tourner la roue à la main pour localiser l’endroit où le garde-boue frotte.",
+        "Contrôlez les haubans et les boulons de fixation ; desserrez uniquement l’élément qui permet de déplacer le garde-boue.",
+        "Repositionnez le garde-boue uniformément autour du pneu, en le maintenant éloigné du pneu, de la roue et du frein.",
+        "Resserrez la fixation et faites tourner la roue à nouveau. Arrêtez-vous si la roue ou le frein est affecté."
+      ],
+      "safety": "Ne roulez pas si un hauban est tordu, si une fixation ne tient pas ou si le garde-boue touche la roue ou le frein. Demandez à un magasin de vélo de le vérifier.",
+      "tools": [
+        "Clé Allen ou tournevis de la bonne taille"
+      ],
+      "parts": [
+        "hauban ou boulon de remplacement de garde-boue compatible avec la fixation existante"
+      ],
+      "alt": "Un garde-boue de vélo correctement positionné, éloigné du pneu"
+    },
+    "bike-lock-on-grips": {
+      "id": "bike-lock-on-grips",
+      "title": "Remplacer des poignées de vélo lock-on",
+      "desc": "Changez une paire usée de poignées lock-on sans perturber les commandes de frein ou de vitesses.",
+      "steps": [
+        "Vérifiez que les poignées utilisent des bagues de verrouillage et choisissez des remplacements adaptés au diamètre du guidon.",
+        "Desserrez les bagues de verrouillage aux extrémités avec la clé Allen appropriée et faites glisser les anciennes poignées directement.",
+        "Faites glisser chaque nouvelle poignée complètement sur le guidon, en laissant les leviers de frein et les manettes de vitesses à leur position originale.",
+        "Serrez les bagues de verrouillage selon les instructions du fabricant, puis tournez fermement chaque poignée pour vérifier qu’elle ne bouge pas."
+      ],
+      "safety": "Ce guide concerne uniquement les poignées lock-on. Ne roulez pas si une poignée tourne, si un guidon est fissuré ou si un levier de frein ou une manette a bougé.",
+      "tools": [
+        "Clé Allen de la bonne taille",
+        "Poignées lock-on assorties au guidon"
+      ],
+      "parts": [
+        "poignées lock-on de vélo correspondant au diamètre et à la longueur du guidon"
+      ],
+      "alt": "Une poignée lock-on de vélo en cours d’installation à côté des commandes"
+    },
+    "wobbly-chair": {
+      "id": "wobbly-chair",
+      "title": "Rendre stable une chaise qui branle",
+      "desc": "Serrez les fixations accessibles de la chaise et vérifiez-la sur un sol de niveau.",
+      "steps": [
+        "Placez la chaise à l’envers sur une surface molle et plane et inspectez chaque pied et chaque joint pour détecter des fissures.",
+        "Utilisez l’outil adapté pour resserrer doucement les vis ou boulons desserrés par petites étapes.",
+        "Serrez les fixations opposées de manière égale et arrêtez dès que le joint semble sécurisé.",
+        "Remettez la chaise à l’endroit sur un sol plat et appuyez doucement sur chaque coin pour vérifier qu’elle ne bouge pas."
+      ],
+      "safety": "N’utilisez pas une chaise avec un pied fissuré, un bois fendu, un joint collé lâche ou un élément de fixation qui ne tient pas. Faites inspecter les dommages structurels par un réparateur.",
+      "tools": [
+        "Tournevis ou clé Allen de la bonne taille",
+        "Tissu doux ou couverture"
+      ],
+      "parts": [
+        "boulon ou vis de remplacement correspondant à la taille et au filetage existants"
+      ],
+      "alt": "Une fixation de chaise en cours d’être resserrée soigneusement"
+    },
+    "sticky-door-latch": {
+      "id": "sticky-door-latch",
+      "title": "Débloquer un loquet de porte intérieure collant",
+      "desc": "Nettoyez et lubrifiez un loquet intérieur qui reste bloqué lorsque la porte est ouverte.",
+      "steps": [
+        "Ouvrez la porte et bougez lentement la poignée pour voir si le pêne du loquet se rétracte en douceur.",
+        "Essuyez la poussière de la face visible du loquet et vérifiez que la plaque de gâche n’est pas desserrée.",
+        "Serrez doucement une vis de la plaque de gâche desserrée et appliquez une petite quantité de lubrifiant sec adapté au pêne du loquet.",
+        "Menez plusieurs fois la poignée avec la porte ouverte, puis fermez la porte délicatement et vérifiez le fonctionnement du loquet."
+      ],
+      "safety": "Gardez la porte ouverte pendant le test. Ne forcez pas une porte verrouillée ou coincée, ne démontez pas les pièces du verrou et n’utilisez pas de lubrifiant si le loquet est endommagé ; faites appel à un serrurier ou un réparateur.",
+      "tools": [
+        "Tournevis de la bonne taille",
+        "Chiffon",
+        "Lubrifiant sec adapté au loquet"
+      ],
+      "parts": [
+        "lubrifiant sec adapté à un loquet de porte intérieure"
+      ],
+      "alt": "Un loquet de porte intérieure en cours de nettoyage et de lubrification"
+    },
+    "darn-small-sock-hole": {
+      "id": "darn-small-sock-hole",
+      "title": "Raccommoder un petit trou dans une chaussette tricotée",
+      "desc": "Tissez un fil assorti sur un petit trou avant qu’il ne s’agrandisse.",
+      "steps": [
+        "Retournez la chaussette et étirez doucement le trou sur un tambour à repriser ou un support arrondi.",
+        "Enfilez une aiguille à repriser émoussée avec un fil assorti et ancrez-la dans des mailles solides à côté du trou.",
+        "Tissez de courtes coutures parallèles à travers l’ouverture, puis croisez-les dans l’autre sens.",
+        "Fixez le fil à l’intérieur sans tirer le tricot trop serré, puis retirez le support et vérifiez la souplesse de la réparation."
+      ],
+      "safety": "Utilisez une aiguille émoussée si possible, tenez l’aiguille dirigée loin de votre main, et ne coupez pas de mailles intactes autour du trou.",
+      "tools": [
+        "Aiguille à repriser émoussée",
+        "Fil assorti",
+        "Tambour à repriser ou support arrondi"
+      ],
+      "parts": [
+        "fil à repriser assorti, adapté à la fibre de la chaussette"
+      ],
+      "alt": "Un petit trou dans une chaussette tricotée en train d’être raccommodé avec du fil"
+    },
+    "iron-on-trouser-hem": {
+      "id": "iron-on-trouser-hem",
+      "title": "Raccourcir un pantalon avec du ruban thermocollant",
+      "desc": "Réalisez un ourlet net sans couture avec un ruban thermocollant adapté au tissu.",
+      "steps": [
+        "Vérifiez l’étiquette d’entretien et les instructions du ruban ; n’utilisez pas de chaleur sur un tissu qui ne peut pas être repassé.",
+        "Essayez le pantalon avec les chaussures prévues, marquez la longueur, puis pliez et repassez un ourlet régulier.",
+        "Placez le ruban thermocollant à l’intérieur du pli et pressez avec un tissu de protection à la température et pendant la durée indiquées sur l’emballage.",
+        "Laissez l’ourlet refroidir complètement avant de le tester. Ne repassez de nouveau que si les instructions du ruban l’autorisent."
+      ],
+      "safety": "Utilisez une table à repasser stable, gardez les mains éloignées de la semelle chaude, et respectez les limites de chaleur pour le tissu et le ruban. Consultez un tailleur si le tissu est délicat ou sensible à la chaleur.",
+      "tools": [
+        "Ruban thermocollant adapté au tissu",
+        "Fer à repasser et table à repasser",
+        "Tissu de protection",
+        "Épingles ou pinces"
+      ],
+      "parts": [
+        "ruban thermocollant adapté aux fibres du vêtement et à l’étiquette d’entretien"
+      ],
+      "alt": "Un ourlet de pantalon plié autour d’un ruban thermocollant"
+    },
+    "remote-batteries": {
+      "id": "remote-batteries",
+      "title": "Changer les piles d'une télécommande TV",
+      "desc": "Remplacez les piles d'une télécommande en respectant le type et la polarité indiqués à l'intérieur de son compartiment.",
+      "stepTitles": [
+        "Ouvrir le couvercle des piles",
+        "Vérifier l’étiquette des piles",
+        "Installer des piles neuves",
+        "Tester la télécommande"
+      ],
+      "steps": [
+        "Éteignez la télécommande si elle dispose d'un interrupteur, puis retirez le couvercle des piles en utilisant le cran marqué.",
+        "Lisez l’étiquette dans le compartiment pour connaître la taille, le nombre et la polarité des piles. Utilisez exactement le type indiqué ; ne mélangez pas piles neuves et usagées.",
+        "Retirez les anciennes piles et insérez des piles neuves du même type en alignant les bornes plus et moins sur les marquages.",
+        "Refermez le couvercle et testez la télécommande. En cas de croûte, fuite, chaleur ou gonflement, arrêtez et suivez les conseils du fabricant de piles pour leur élimination au lieu de nettoyer vous-même."
+      ],
+      "safety": "N’utilisez pas une pile chaude, gonflée, qui fuit ou endommagée. Ne mélangez jamais différents types de piles ou piles rechargeables et non rechargeables. Tenez les piles boutons hors de portée des enfants et animaux.",
+      "tools": [],
+      "parts": [
+        {
+          "name": "Piles de remplacement pour télécommande",
+          "details": "Choisissez la taille et la chimie exactes indiquées à l'intérieur du compartiment ; ne mélangez pas piles neuves et usagées."
+        }
+      ],
+      "alt": "Un couvercle de pile de télécommande ouvert à côté de piles de remplacement"
+    },
+    "vacuum-filter": {
+      "id": "vacuum-filter",
+      "title": "Nettoyer un filtre amovible d’aspirateur",
+      "desc": "Nettoyez un filtre accessible sans ouvrir le moteur ni le réinstaller lorsqu’il est humide.",
+      "stepTitles": [
+        "Débranchez l'aspirateur",
+        "Retirez le filtre",
+        "Vérifiez s’il est lavable",
+        "Séchez-le complètement avant de le remettre"
+      ],
+      "steps": [
+        "Éteignez l’aspirateur et débranchez-le avant d’ouvrir tout compartiment filtrant accessible à l’utilisateur.",
+        "Retirez uniquement le filtre désigné comme amovible dans le manuel utilisateur, en notant son orientation avant de l’extraire.",
+        "Consultez le manuel ou l’étiquette du filtre. Tapotez doucement un filtre non lavable à l’extérieur ; rincez un filtre lavable uniquement selon les instructions.",
+        "Laissez sécher complètement à l’air libre pendant toute la durée spécifiée par le fabricant, puis remettez-le dans son orientation d’origine."
+      ],
+      "safety": "N’ouvrez pas le boîtier moteur, ne lavez un filtre que si le fabricant l’autorise, et n’utilisez pas l’aspirateur avec un filtre mouillé, manquant ou endommagé.",
+      "tools": [
+        "Manuel utilisateur",
+        "Brosse douce si autorisée par le fabricant"
+      ],
+      "parts": [
+        {
+          "name": "Filtre d’aspirateur de remplacement",
+          "details": "Choisissez le modèle de filtre correspondant au modèle exact d’aspirateur ; consultez le manuel avant de commander."
+        }
+      ],
+      "alt": "Un filtre amovible d’aspirateur en cours de nettoyage à côté d’un aspirateur débranché"
+    },
+    "garden-hose-washer": {
+      "id": "garden-hose-washer",
+      "title": "Remplacer une rondelle de tuyau de jardin qui fuit",
+      "desc": "Changez une rondelle d’accouplement usée après avoir coupé l’eau et dépressurisé le tuyau.",
+      "stepTitles": [
+        "Fermer l’eau",
+        "Retirer la vieille rondelle",
+        "Choisir la bonne pièce de rechange",
+        "Reconnecter et vérifier"
+      ],
+      "steps": [
+        "Fermez le robinet puis pressez la gâchette du tuyau ou ouvrez la buse pour libérer la pression d’eau.",
+        "Dévissez le raccord à la main et retirez la rondelle lâche ou écrasée sans endommager le siège du raccord.",
+        "Choisissez une rondelle de remplacement en fonction du diamètre intérieur, de l’épaisseur et du profil du raccord. Ne forcez pas un ajustement approximatif.",
+        "Placez la rondelle à plat, revissez le tuyau à la main, ouvrez lentement l’eau et vérifiez s’il y a des gouttes. Fermez le robinet si ça fuit toujours."
+      ],
+      "safety": "Dépressurisez toujours le tuyau avant de le déconnecter. N’utilisez pas de raccord fissuré ni ne réparez un raccord haute pression avec une rondelle improvisée.",
+      "tools": [
+        "Rondelle de remplacement adaptée au raccord"
+      ],
+      "parts": [
+        {
+          "name": "Rondelle de raccord de tuyau de jardin",
+          "details": "Correspond au diamètre intérieur, à l’épaisseur et au profil du raccord ; ne forcez pas un ajustement approximatif."
+        }
+      ],
+      "alt": "Un raccord de tuyau de jardin avec une rondelle de remplacement assortie"
+    },
+    "garden-shears-clean": {
+      "id": "garden-shears-clean",
+      "title": "Nettoyer des sécateurs de jardin collants",
+      "desc": "Enlevez les résidus végétaux des sécateurs tout en gardant les doigts hors de la lame coupante.",
+      "stepTitles": [
+        "Verrouiller les lames fermées",
+        "Essuyer les résidus",
+        "Sécher l’outil",
+        "Vérifier la charnière"
+      ],
+      "steps": [
+        "Activez le verrouillage des lames et posez les sécateurs sur une surface stable, avec la coupe dirigée loin de vous.",
+        "Portez des gants de travail et nettoyez les résidus végétaux sur l’extérieur des lames fermées avec un chiffon humide ; ne mettez pas les doigts entre les lames.",
+        "Séchez complètement l’outil puis appliquez une petite goutte d’huile uniquement sur le pivot si le fabricant l’autorise.",
+        "Ouvrez et fermez lentement les poignées pour vérifier le mouvement. Stoppez l’utilisation si une lame est fissurée, lâche ou ne se verrouille plus en toute sécurité."
+      ],
+      "safety": "Considérez les lames comme tranchantes même verrouillées. Gardez les mains hors du trajet de coupe et ne démontez pas un outil à ressort ou endommagé.",
+      "tools": [
+        "Gants de travail",
+        "Chiffon",
+        "Huile pour outil si le fabricant le permet"
+      ],
+      "parts": [],
+      "alt": "Sécateurs de jardin fermés en cours d’essuyage avec un chiffon"
+    },
+    "chair-felt-pads": {
+      "id": "chair-felt-pads",
+      "title": "Remplacer des patins en feutre usés sur une chaise",
+      "desc": "Poser des protections de sol propres et à la bonne taille sans déranger la structure de la chaise.",
+      "stepTitles": [
+        "Inspecter chaque pied de chaise",
+        "Enlever l’adhésif ancien",
+        "Choisir le bon patin",
+        "Presser et vérifier"
+      ],
+      "steps": [
+        "Retournez la chaise vide sur une surface douce et vérifiez que chaque pied et chaque joint est sain avant de travailler sur les pieds.",
+        "Retirez les anciens patins. Enlevez les restes d’adhésif sur les pieds plats avec une méthode compatible avec le fini de la chaise.",
+        "Mesurez la surface de contact plane et choisissez un patin en feutre qui la couvre sans envelopper la jambe ni faire basculer la chaise sur le sol.",
+        "Appliquez le patin sur une surface propre et sèche, pressez fermement et respectez le temps de séchage de l’adhésif. Remettez la chaise et vérifiez qu’elle est stable avant usage."
+      ],
+      "safety": "N’utilisez pas ce guide pour stabiliser une chaise fissurée ou branlante. Un patin en feutre n’est pas une réparation structurelle ; faites réparer les joints ou pieds endommagés avant que quelqu’un s’y asseye.",
+      "tools": [
+        "Règle",
+        "Dissolvant d’adhésif compatible avec le fini si nécessaire"
+      ],
+      "parts": [
+        {
+          "name": "Patins en feutre pour chaise",
+          "details": "Mesurez la surface plate du pied et choisissez un patin adapté au type de sol."
+        }
+      ],
+      "alt": "Un patin en feutre placé sur le pied propre d’une chaise"
+    },
+    "backpack-zipper-pull": {
+      "id": "backpack-zipper-pull",
+      "title": "Remplacer la languette d’une fermeture éclair de sac à dos",
+      "desc": "Ajoutez un simple cordon tire-zip à un curseur intact sans remplacer la fermeture éclair complète.",
+      "stepTitles": [
+        "Vérifier le curseur",
+        "Choisir une boucle courte",
+        "Fixer la languette",
+        "Tester sans forcer"
+      ],
+      "steps": [
+        "Posez le sac à plat et inspectez le curseur de la fermeture éclair. Cette réparation concerne uniquement la languette manquante quand le curseur et les dents sont intacts.",
+        "Choisissez une boucle ou un cordon court pour tire-zip avec une fixation passant dans l'œil du curseur. Gardez-la courte pour éviter les accrocs.",
+        "Passez la languette dans l'œil du curseur et fermez-la selon les instructions du fabricant. Ne pliez pas et ne forcez pas l’ouverture du curseur.",
+        "Faites coulisser doucement la fermeture éclair. Arrêtez si elle accroche, si le curseur s’écarte ou si les dents se désalignent ; un réparateur pourra remplacer le curseur."
+      ],
+      "safety": "Gardez la languette courte et bien fixée. N’utilisez pas de boucle improvisée sur un équipement de sécurité enfant, de grimpe ou tout objet où un accroc pourrait causer un accident.",
+      "tools": [
+        "Boucle ou cordon court de remplacement pour tire-zip"
+      ],
+      "parts": [
+        {
+          "name": "Languette de fermeture éclair pour sac à dos",
+          "details": "Mesurez l’œil du curseur intact et choisissez une languette courte adaptée sans forcer le curseur."
+        }
+      ],
+      "alt": "Une boucle de remplacement fixée à un curseur de fermeture éclair intact de sac à dos"
+    },
+    "badminton-overgrip": {
+      "id": "badminton-overgrip",
+      "title": "Remplacer un surgrip usé de badminton",
+      "desc": "Enroulez un nouveau surgrip sur un manche intact en gardant la sous-capper et le grip solidement maintenus.",
+      "stepTitles": [
+        "Inspecter le manche de la raquette",
+        "Enlever l’ancien surgrip",
+        "Commencer par la sous-capper",
+        "Enrouler et fixer"
+      ],
+      "steps": [
+        "Vérifiez le manche de la raquette et la sous-capper pour fissures ou jeu. N’utilisez pas la raquette si l’une ou l’autre est lâche ou endommagée.",
+        "Retirez le surgrip usé sans couper le grip ou le manche originaux en dessous.",
+        "Commencez le surgrip de remplacement au niveau de la sous-capper, en suivant le rétrécissement ou la bande de départ fournie avec.",
+        "Enroulez avec un chevauchement régulier et une tension légère, puis fixez la fin avec du ruban de finition. Tenez la raquette pour vérifier que l’enroulement ne tourne pas."
+      ],
+      "safety": "Ce guide remplace uniquement un surgrip ; il ne répare pas une raquette fissurée, une sous-capper lâche ou un manche structurellement endommagé. Suivez les instructions du fabricant du grip.",
+      "tools": [
+        "Ciseaux pour couper la fin du surgrip"
+      ],
+      "parts": [
+        {
+          "name": "Surgrip de raquette de badminton",
+          "details": "Choisissez la largeur et la texture préférées ; utilisez un surgrip prévu pour un manche de raquette."
+        }
+      ],
+      "alt": "Un surgrip neuf en cours d’enroulement autour d’un manche de raquette de badminton intact"
+    },
+    "replace-wiper-blade": {
+      "id": "replace-wiper-blade",
+      "title": "Remplacer une balayette d'essuie-glace usée",
+      "desc": "Montez la balayette de remplacement correcte et protégez le pare-brise pendant que le bras d'essuie-glace est relevé.",
+      "stepTitles": [
+        "Confirmer la compatibilité de la balayette",
+        "Protéger le verre",
+        "Libérer l’ancienne balayette",
+        "Verrouiller et tester la nouvelle balayette"
+      ],
+      "steps": [
+        "Vérifiez dans le manuel du véhicule la longueur de la balayette, le type de connecteur, et toute procédure de mise en position de service. Ne vous fiez pas uniquement à la longueur pour deviner.",
+        "Garez-vous en sécurité, coupez le contact, et placez une serviette pliée sur le pare-brise sous le bras d’essuie-glace avant de le lever.",
+        "Libérez l’ancienne balayette en utilisant le loquet marqué du connecteur. Contrôlez le bras sous tension par ressort et ne laissez jamais ce dernier tomber sur le verre.",
+        "Fixez la pièce de remplacement correspondante jusqu’à ce que son verrouillage s’enclenche, abaissez lentement le bras, puis testez avec du liquide lave-glace moteur arrêté."
+      ],
+      "safety": "Suivez le manuel du véhicule. Si le bras ou le connecteur est endommagé, si le bras ne reste pas relevé, ou si la nouvelle balayette ne se verrouille pas correctement, arrêtez et consultez un mécanicien. Ne testez jamais en conduisant.",
+      "tools": [
+        "Manuel du véhicule",
+        "Serviette douce"
+      ],
+      "parts": [
+        {
+          "name": "Balayette d'essuie-glace",
+          "details": "Choisissez en fonction du véhicule, du côté, de la longueur de la balayette et du type de connecteur indiqué dans le manuel du véhicule."
+        }
+      ],
+      "alt": "Une balayette d'essuie-glace compatible en cours de montage avec le bras soutenu"
+    },
+    "bottle-lid-seal": {
+      "id": "bottle-lid-seal",
+      "title": "Remplacer le joint du bouchon d’une bouteille réutilisable",
+      "desc": "Remettez en place ou remplacez un joint amovible de bouteille par un joint alimentaire adapté qui s’ajuste exactement au bouchon.",
+      "stepTitles": [
+        "Vérifier la bouteille et le bouchon",
+        "Retirer délicatement le joint",
+        "Choisir un joint alimentaire compatible",
+        "Remettre en place et vérifier l’étanchéité"
+      ],
+      "steps": [
+        "Videz la bouteille et ne séparez que les parties du bouchon que le fabricant indique comme amovibles. N’utilisez pas ce guide pour une bouteille sous pression ou isotherme avec un corps endommagé.",
+        "Sortez le joint desserré ou endommagé avec des doigts propres. Ne le coupez pas, ne l’étirez pas et éloignez-le des enfants et des animaux domestiques.",
+        "Choisissez un joint conforme au modèle exact et à la rainure du bouchon. Utilisez un produit alimentaire approuvé pour cette bouteille ; ne remplacez pas par un anneau générique qui ressemble seulement au joint.",
+        "Pressez le joint propre et sec uniformément dans sa rainure. Fermez la bouteille vide, retournez-la au-dessus d’un évier et vérifiez qu’elle ne fuit pas avant de l’utiliser avec une boisson."
+      ],
+      "safety": "N’utilisez pas un bouchon fissuré, un joint inconnu non alimentaire, ou une bouteille qui fuit encore après remontage. Respectez les conseils de nettoyage et de remplacement du fabricant.",
+      "tools": [
+        "Instructions du fabricant de la bouteille",
+        "Joint de remplacement adapté au modèle exact du bouchon"
+      ],
+      "parts": [
+        {
+          "name": "Joint de bouchon réutilisable",
+          "details": "Utilisez un joint alimentaire approuvé pour le modèle exact du bouchon et le profil de sa rainure."
+        }
+      ],
+      "alt": "Un joint en silicone amovible placé dans un bouchon de bouteille réutilisable"
+    },
+    "small-veneer-chip": {
+      "id": "small-veneer-chip",
+      "title": "Retoucher une petite éclature dans une finition bois",
+      "desc": "Rendre une petite éclature non structurelle de finition moins visible avec une cire de réparation compatible pour mobilier.",
+      "stepTitles": [
+        "Vérifier que le dommage est uniquement esthétique",
+        "Nettoyer la zone",
+        "Tester une cire de réparation assortie",
+        "Appliquer et polir légèrement"
+      ],
+      "steps": [
+        "Vérifiez que l’éclature est limitée à la finition superficielle. N’appliquez pas cette méthode sur un placage détaché, du bois fendu, un bord tranchant exposé ou une pièce porteuse.",
+        "Dépoussiérez la zone et nettoyez avec un chiffon doux et sec. Laissez sécher complètement avant d’appliquer un produit de réparation.",
+        "Choisissez une cire de réparation mobilier adaptée à la surface et à la finition. Testez-en une petite quantité dans un endroit caché et comparez la couleur après séchage.",
+        "Suivez les instructions du produit pour remplir uniquement la petite éclature, puis polissez délicatement avec un chiffon doux. Confiez les meubles précieux, anciens ou laqués à un restaurateur professionnel."
+      ],
+      "safety": "Ne poncez pas et n’utilisez pas de solvants sur une finition inconnue. Gardez la cire de réparation hors de portée des enfants et des animaux, ventilez si l’étiquette l’exige, et arrêtez en cas de réaction ou de tackiness de la finition.",
+      "tools": [
+        "Chiffon doux",
+        "Cire de réparation mobilier adaptée à la finition"
+      ],
+      "parts": [
+        {
+          "name": "Cire de réparation mobilier",
+          "details": "Choisissez un produit compatible avec la finition de surface et testez la couleur dans un endroit caché."
+        }
+      ],
+      "alt": "Une petite éclature dans la finition d’un plateau de table est retouchée avec un stick de cire de réparation"
+    },
+    "glasses-arm-screw": {
+      "id": "glasses-arm-screw",
+      "title": "Serrer une vis de branche de lunettes desserrée",
+      "desc": "Fixez une charnière de lunettes intacte avec un tournevis de précision de taille adaptée, sans forcer la vis.",
+      "stepTitles": [
+        "Inspecter la charnière",
+        "Soutenir la monture",
+        "Utiliser le tournevis approprié",
+        "Vérifier le mouvement de la branche"
+      ],
+      "steps": [
+        "Vérifiez que la charnière et la monture sont intactes et que la vis est présente. N’essayez pas sur une charnière pliée, fissurée ou une vis manquante.",
+        "Travaillez sur une surface claire et bien éclairée et soutenez la monture pour que la lentille et la charnière ne soient pas tordues. Tenez la petite vis éloignée des enfants et des animaux.",
+        "Utilisez un tournevis de précision correspondant exactement à la tête de vis. Tournez doucement dans le sens horaire seulement jusqu’à ce que ce soit serré ; stoppez si l’outil glisse ou si la vis résiste.",
+        "Ouvrez et fermez doucement la branche. Si la charnière bouge encore, si la vis ne tient pas, ou si la monture est endommagée, emmenez les lunettes chez un opticien."
+      ],
+      "safety": "La vis est très petite et peut être perdue ou avalée. Ne forcez pas la charnière, n’utilisez pas d’outil mal adapté, et ne continuez pas si la monture est endommagée ; consultez un opticien en cas de doute.",
+      "tools": [
+        "Surface de travail claire et bien éclairée",
+        "Tournevis de précision adapté à la tête de vis"
+      ],
+      "parts": [],
+      "alt": "Un petit tournevis de précision serre une vis intacte à la charnière des lunettes"
+    },
+    "book-cover-repair": {
+      "id": "book-cover-repair",
+      "title": "Recoller une couverture de livre souple décollée",
+      "desc": "Renforcez une petite fente sur une couverture souple courante avec un ruban de réparation de livre de qualité archivistique.",
+      "stepTitles": [
+        "Vérifier la fente de couverture",
+        "Nettoyer et aligner les bords",
+        "Tester le ruban de réparation",
+        "Appliquer une bande étroite"
+      ],
+      "steps": [
+        "Utilisez cette méthode seulement pour une petite fente sur une couverture souple courante. Les livres précieux, historiques ou de collection doivent être confiés à un restaurateur spécialisé.",
+        "Brossez la poussière et alignez les bords de la couverture sans tirer sur le papier. N’utilisez pas de colle sur une couverture humide ou fragile.",
+        "Choisissez un ruban de réparation de qualité archivistique conçu pour le papier. Testez-le d’abord sur un bord caché ; le ruban d’emballage ou adhésif standard peut tacher et abîmer le papier.",
+        "Appliquez une bande étroite le long de la fente intérieure, en lissant du centre vers l’extérieur sans étirer la couverture. Laissez-la bien se fixer avant d’ouvrir doucement le livre."
+      ],
+      "safety": "Tenez ruban et outils de découpe hors de portée des enfants. N’utilisez pas cette réparation sur un livre moisi, abîmé par l’humidité, aux pages fragiles ou à valeur historique.",
+      "tools": [
+        "Brosse douce",
+        "Ruban de réparation de livre de qualité archivistique"
+      ],
+      "parts": [
+        {
+          "name": "Ruban de réparation de livre archivistique",
+          "details": "Choisissez un ruban indiqué pour papier et couvertures de livre ; évitez les rubans d’emballage ou adhésifs classiques."
+        }
+      ],
+      "alt": "Une bande étroite de ruban de réparation de livre renforce une fente sur une couverture souple"
+    }
+  },
+  "stories": {
+    "bike": {
+      "title": "De retour sur la route",
+      "tag": "VÉLO · BRICOLAGE SÉCURISÉ",
+      "time": "5 MINUTES",
+      "image": "/images/generated/bike-chain-story.jpg",
+      "alt": "Mains remettant une chaîne de vélo glissée sur le grand plateau avant",
+      "situation": "Une chaîne a déraillé pendant le trajet matinal. Le cadre et la chaîne semblaient intacts, ce qui permettait une réinitialisation sûre et à faible risque.",
+      "tools": [
+        "Chiffon ou gant jetable",
+        "Béquille de vélo optionnelle"
+      ],
+      "safety": "Arrêtez-vous si la chaîne est pliée, très rouillée ou continue de dérailler après la réinitialisation.",
+      "steps": [
+        [
+          "Libérer du mou",
+          "Passez sur le petit plateau avant, puis tirez le bras du dérailleur arrière vers l'avant."
+        ],
+        [
+          "Remettre la chaîne",
+          "Replacez la chaîne sur le grand plateau avant et guidez-la sur le pignon arrière."
+        ],
+        [
+          "Tourner lentement",
+          "Faites tourner la pédale à l'envers à la main jusqu'à ce que la chaîne roule en douceur."
+        ],
+        [
+          "Vérifier avant de rouler",
+          "Faites tourner la roue et effectuez un passage de vitesse en douceur avant de partir."
+        ]
+      ],
+      "outcome": "0 € dépensé · une sortie en vélo sauvée"
+    },
+    "denim": {
+      "title": "Jean préféré, réparé",
+      "tag": "VÊTEMENTS · BRICOLAGE SÉCURISÉ",
+      "time": "20 MINUTES",
+      "image": "/images/generated/denim-seam-story.jpg",
+      "alt": "Mains cousant une déchirure sur une couture intérieure de jean bleu",
+      "situation": "Une déchirure courte sur la couture intérieure est apparue sur un jean préféré. Le tissu autour était encore assez solide pour une réparation simple.",
+      "tools": [
+        "Aiguille",
+        "Fil assorti",
+        "Épingles ou pinces",
+        "Petites ciseaux"
+      ],
+      "safety": "Privilégiez un tailleur ou un repair café si le denim est fin, étiré ou déchiré sur une grande surface.",
+      "steps": [
+        [
+          "Préparer la couture",
+          "Retournez le jean à l'envers et alignez les bords originaux de la couture."
+        ],
+        [
+          "Maintenir en place",
+          "Utilisez des épingles ou des pinces pour que les bords ne bougent pas pendant la couture."
+        ],
+        [
+          "Faire des points arrière",
+          "Réalisez des petits points arrière solides le long de la ligne de l’ancienne couture."
+        ],
+        [
+          "Finition propre",
+          "Faites un nœud avec le fil, coupez-le, puis vérifiez la solidité de la couture en l’étirant doucement."
+        ]
+      ],
+      "outcome": "3 € en fournitures · un vêtement conservé"
+    },
+    "lamp": {
+      "title": "Une lampe retrouve une seconde vie",
+      "tag": "MAISON · REPAIR CAFÉ",
+      "time": "FAIRE APPEL À UN EXPERT",
+      "image": "/images/generated/lamp-repair-story.jpg",
+      "alt": "Un bénévole de repair café examinant une lampe de table avec le cordon débranché",
+      "situation": "Une lampe familiale ne fonctionnait plus. Comme les défauts électriques peuvent être dangereux, elle a été confiée à un repair café plutôt que démontée à la maison.",
+      "tools": [
+        "Pas d’outils électriques pour bricolage",
+        "Un repair café ou un technicien qualifié"
+      ],
+      "safety": "Débranchez la lampe. N’ouvrez pas vous-même la fiche, le cordon, l’interrupteur ou le luminaire.",
+      "steps": [
+        [
+          "Mettre en sécurité",
+          "Débranchez la lampe et notez toute chaleur, odeur, étincelles ou dommage visible."
+        ],
+        [
+          "Informer le réparateur",
+          "Indiquez au bénévole quand la lampe a cessé de fonctionner et si le problème était brutal ou intermittent."
+        ],
+        [
+          "Laisser un expert inspecter",
+          "Le cordon, la prise, l’interrupteur, le porte-ampoule et l’isolation doivent être contrôlés avec les outils adéquats."
+        ],
+        [
+          "Utiliser après tests",
+          "Remettez la lampe en service uniquement après inspection et tests de sécurité."
+        ]
+      ],
+      "outcome": "Un objet chargé d’histoire restauré en toute sécurité"
+    },
+    "window": {
+      "title": "La fenêtre à nouveau bien droite",
+      "tag": "MAISON · BRICOLAGE SÉCURISÉ",
+      "time": "15 MINUTES",
+      "image": "/images/generated/window-hinge-story.jpg",
+      "alt": "Une main serrant la charnière d’une fenêtre ouverte en soutenant le battant",
+      "situation": "Une charnière lâche faisait que la fenêtre ne s’alignait pas bien et laissait passer un courant d’air. Le vitrage et le cadre étaient en bon état.",
+      "tools": [
+        "Tournevis adapté",
+        "Vis de remplacement si besoin",
+        "Un assistant pour soutenir un battant lourd"
+      ],
+      "safety": "Arrêtez-vous si le verre est fissuré, le cadre pourri ou la fenêtre trop lourde à soutenir.",
+      "steps": [
+        [
+          "Soutenir le battant",
+          "Maintenez la fenêtre pour éviter qu’elle ne tombe ou se torde."
+        ],
+        [
+          "Repérer la charnière lâche",
+          "Vérifiez les vis de la charnière et cherchez des trous déformés ou du matériel manquant."
+        ],
+        [
+          "Serrer et ajuster",
+          "Serrez uniformément, puis effectuez de petits réglages d’alignement."
+        ],
+        [
+          "Tester la fermeture",
+          "Ouvrez et fermez doucement en vérifiant que le loquet et le joint s’emboîtent parfaitement."
+        ]
+      ],
+      "outcome": "5 € en matériel · un courant d’air réduit"
+    }
+  }
+}

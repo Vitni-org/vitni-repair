@@ -1,9 +1,12 @@
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { AnalyticsPreferencesButton } from "@/components/google-analytics";
 import { InstallVitniButton } from "@/components/install-vitni-button";
+import { Link } from "@/i18n/navigation";
 
 export function SiteFooter() {
+  const t = useTranslations("footer");
+  const common = useTranslations("common");
   return (
     <footer className="border-border bg-background border-t px-[var(--page-gutter)] py-10">
       <div className="mx-auto grid max-w-[1450px] gap-8 md:grid-cols-[1.2fr_1fr_0.8fr]">
@@ -15,23 +18,23 @@ export function SiteFooter() {
             Vitni
           </Link>
           <p className="text-muted-foreground mt-3 max-w-sm text-sm">
-            Make more of the things you already own. Vitni helps you find a safe, practical way to repair them.
+            {t("description")}
           </p>
         </div>
         <div>
-          <p className="mb-2 font-extrabold">Everyday repairs</p>
+          <p className="mb-2 font-extrabold">{t("everydayRepairs")}</p>
           <p className="text-muted-foreground max-w-md text-sm">
-            Bikes, clothing, furniture, appliances, garden tools, home fixtures, personal gear, and the useful things people rely on.
+            {t("everydayDescription")}
           </p>
         </div>
-        <nav aria-label="Footer" className="flex flex-col items-start gap-2 text-sm font-bold">
+        <nav aria-label={common("footerNavigation")} className="flex flex-col items-start gap-2 text-sm font-bold">
           <Link
             className="underline-offset-4 hover:underline"
             data-analytics-event="repair_flow_opened"
             data-analytics-location="footer"
             href="/#diagnose"
           >
-            Get repair steps
+            {t("getRepairSteps")}
           </Link>
           <Link
             className="underline-offset-4 hover:underline"
@@ -39,7 +42,7 @@ export function SiteFooter() {
             data-analytics-location="footer"
             href="/guides/"
           >
-            Explore common guides
+            {t("exploreGuides")}
           </Link>
           <Link
             className="underline-offset-4 hover:underline"
@@ -47,13 +50,13 @@ export function SiteFooter() {
             data-analytics-link-type="cta"
             href="/#help"
           >
-            Find a repair café
+            {t("findRepairCafe")}
           </Link>
           <Link className="underline-offset-4 hover:underline" href="/partners/">
-            Partner with Vitni
+            {t("partner")}
           </Link>
           <Link className="underline-offset-4 hover:underline" href="/repair-safety/">
-            Repair safety and standards
+            {t("safety")}
           </Link>
           <AnalyticsPreferencesButton />
           <InstallVitniButton />
@@ -61,7 +64,7 @@ export function SiteFooter() {
       </div>
       <div className="border-border text-muted-foreground mx-auto mt-8 flex max-w-[1450px] flex-wrap justify-between gap-3 border-t pt-5 font-mono text-xs">
         <span>Vitni</span>
-        <span>Fix · wear · ride</span>
+        <span>{t("tagline")}</span>
       </div>
     </footer>
   );

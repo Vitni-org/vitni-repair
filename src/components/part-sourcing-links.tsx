@@ -1,4 +1,5 @@
 import { ExternalLink } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { GuidePart } from "@/lib/content";
 import { retailerSearches } from "@/lib/retailer-links";
 
@@ -9,6 +10,7 @@ export function PartSourcingLinks({
   part: GuidePart;
   context: "guide_detail" | "generated_plan";
 }) {
+  const t = useTranslations("parts");
   const searches = retailerSearches(part.name, part.details || "");
   const directUrl = (() => {
     if (!part.url) return null;
@@ -37,7 +39,7 @@ export function PartSourcingLinks({
             rel="noopener noreferrer"
             target="_blank"
           >
-            View suggested link <ExternalLink aria-hidden="true" />
+            {t("viewSuggested")} <ExternalLink aria-hidden="true" />
           </a>
         ) : null}
         {searches.map((search) => (
@@ -49,7 +51,7 @@ export function PartSourcingLinks({
             rel="noopener noreferrer"
             target="_blank"
           >
-            {search.name} <ExternalLink aria-hidden="true" />
+            {search.name === "Search Amazon France" ? t("amazon") : t("compare")} <ExternalLink aria-hidden="true" />
           </a>
         ))}
       </div>
@@ -58,5 +60,6 @@ export function PartSourcingLinks({
 }
 
 export function PartSourcingNote() {
-  return <p className="part-sourcing-note">Search links help you compare options; they are not confirmed matches, stock checks, or Vitni endorsements. Check size, model, compatibility, seller, and return terms before buying.</p>;
+  const t = useTranslations("parts");
+  return <p className="part-sourcing-note">{t("note")}</p>;
 }

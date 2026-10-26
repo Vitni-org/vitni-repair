@@ -3,6 +3,7 @@ const SHELL_CACHE = `${CACHE_PREFIX}shell-v1`;
 const PAGE_CACHE = `${CACHE_PREFIX}pages-v1`;
 const CORE_ASSETS = [
   "/manifest.webmanifest",
+  "/fr/manifest.webmanifest",
   "/icon.svg",
   "/images/vitni-mark.svg",
   "/images/vitni.svg",
@@ -12,8 +13,8 @@ const CORE_ASSETS = [
   "/dotlottie-player.wasm",
 ];
 
-function guideCacheName(slug) {
-  return `${CACHE_PREFIX}guide-${slug}`;
+function guideCacheName(slug, locale) {
+  return `${CACHE_PREFIX}guide-${locale}-${slug}`;
 }
 
 function validSlug(slug) {
@@ -24,10 +25,19 @@ function isSupabaseStorageUrl(url) {
   return url.hostname.endsWith(".supabase.co") && url.pathname.startsWith("/storage/v1/object/");
 }
 
-async function cacheGuide(slug, images) {
+function validLocale(locale) {
+  return locale === "en" || locale === "fr";
+}
+
+function guidePageUrl(slug, locale) {
+  return new URL(`${locale === "fr" ? "/fr" : ""}/guides/${slug}/`, self.location.origin).href;
+}
+
+async function cacheGuide(slug, locale, images) {
   if (!validSlug(slug)) return { ok: false, error: "That guide address is not valid." };
-  const pageUrl = new URL(`/guides/${slug}/`, self.location.origin).href;
-  const cache = await caches.open(guideCacheName(slug));
+  if (!validLocale(locale)) locale = "en";
+  const pageUrl = guidePageUrl(slug, locale);
+  const cache = await caches.open(guideCacheName(slug, locale));
 
   try {
     const response = await fetch(new Request(pageUrl, { credentials: "same-origin" }));
@@ -97,16 +107,17 @@ self.addEventListener("message", (event) => {
   const reply = (data) => event.ports?.[0]?.postMessage(data);
 
   if (message.type === "SAVE_GUIDE_OFFLINE") {
-    event.waitUntil(cacheGuide(message.slug, message.images).then(reply));
+    event.waitUntil(cacheGuide(message.slug, message.locale, message.images).then(reply));
     return;
   }
 
   if (message.type === "CHECK_GUIDE_OFFLINE") {
     if (!validSlug(message.slug)) return reply({ ok: false, error: "That guide address is not valid." });
-    const url = new URL(`/guides/${message.slug}/`, self.location.origin).href;
+    const locale = validLocale(message.locale) ? message.locale : "en";
+    const url = guidePageUrl(message.slug, locale);
     event.waitUntil(
       caches
-        .open(guideCacheName(message.slug))
+        .open(guideCacheName(message.slug, locale))
         .then((cache) => cache.match(url))
         .then((cached) => reply({ ok: true, saved: Boolean(cached) })),
     );
@@ -115,7 +126,8 @@ self.addEventListener("message", (event) => {
 
   if (message.type === "REMOVE_GUIDE_OFFLINE") {
     if (!validSlug(message.slug)) return reply({ ok: false, error: "That guide address is not valid." });
-    event.waitUntil(caches.delete(guideCacheName(message.slug)).then((removed) => reply({ ok: true, removed })));
+    const locale = validLocale(message.locale) ? message.locale : "en";
+    event.waitUntil(caches.delete(guideCacheName(message.slug, locale)).then((removed) => reply({ ok: true, removed })));
   }
 });
 

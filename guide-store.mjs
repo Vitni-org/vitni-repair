@@ -89,9 +89,9 @@ function encodeOffset(offset) {
   return Buffer.from(JSON.stringify({ offset })).toString("base64url");
 }
 
-/** @param {{ query?: string, area?: string, sector?: string, limit?: number | string, cursor?: string | null }} options */
+/** @param {{ query?: string, area?: string, sector?: string, limit?: number | string, cursor?: string | null, locale?: string }} options */
 export async function listPublishedGuides(options = {}) {
-  const { query = "", area = "All", sector = "All", limit = 6, cursor = null } = options;
+  const { query = "", area = "All", sector = "All", limit = 6, cursor = null, locale = "en" } = options;
   const client = getGuideStore();
   if (!client) return null;
   const pageSize = Math.max(1, Math.min(Number(limit) || 6, 24));
@@ -107,7 +107,15 @@ export async function listPublishedGuides(options = {}) {
     if (area && area !== "All") request = request.eq("area", area);
     if (sector && sector !== "All") request = request.eq("sector", sector);
     const normalizedQuery = String(query).trim().slice(0, 160);
-    if (normalizedQuery) request = request.textSearch("search_vector", normalizedQuery, { config: "simple", type: "websearch" });
+    if (normalizedQuery && locale === "fr") {
+      const localized = await client
+        .from("guide_localizations")
+        .select("guide_id")
+        .eq("locale", "fr")
+        .textSearch("search_vector", normalizedQuery, { config: "french", type: "websearch" });
+      if (!localized.error && localized.data?.length) request = request.in("id", localized.data.map((row) => row.guide_id));
+      else request = request.textSearch("search_vector", normalizedQuery, { config: "simple", type: "websearch" });
+    } else if (normalizedQuery) request = request.textSearch("search_vector", normalizedQuery, { config: "simple", type: "websearch" });
     let direction = "after";
     if (cursor) {
       try {
@@ -204,6 +212,60 @@ export async function listPublishedGuides(options = {}) {
       total,
     };
   }
+}
+
+function isMissingGuideLocalizationTable(error) {
+  const code = String(error?.code || "");
+  const message = String(error?.message || error || "").toLowerCase();
+  return code === "42P01" || code === "PGRST205" || (message.includes("guide_localizations") && (message.includes("does not exist") || message.includes("schema cache") || message.includes("could not find")));
+}
+
+let guideLocalizationSchemaAvailable = null;
+
+export function hasGuideLocalizationSchema() {
+  return guideLocalizationSchemaAvailable === true;
+}
+
+export async function getGuideLocalization(guideId, locale = "fr") {
+  if (locale !== "fr") return null;
+  const client = getGuideStore();
+  if (!client || !guideId) return null;
+  const { data, error } = await client.from("guide_localizations").select("*").eq("guide_id", guideId).eq("locale", locale).maybeSingle();
+  if (isMissingGuideLocalizationTable(error)) {
+    guideLocalizationSchemaAvailable = false;
+    return null;
+  }
+  throwIfError(error);
+  guideLocalizationSchemaAvailable = true;
+  return data || null;
+}
+
+export async function getGuideLocalizations(guideIds, locale = "fr") {
+  if (locale !== "fr" || !guideIds?.length) return new Map();
+  const client = getGuideStore();
+  if (!client) return new Map();
+  const { data, error } = await client.from("guide_localizations").select("*").in("guide_id", guideIds).eq("locale", locale);
+  if (isMissingGuideLocalizationTable(error)) {
+    guideLocalizationSchemaAvailable = false;
+    return new Map();
+  }
+  throwIfError(error);
+  guideLocalizationSchemaAvailable = true;
+  return new Map((data || []).map((row) => [row.guide_id, row]));
+}
+
+export async function upsertGuideLocalization(guideId, localization) {
+  const client = getGuideStore();
+  if (!client || !guideId || localization?.locale !== "fr") return false;
+  const searchText = [localization.title, localization.description, localization.safety_notes, ...(localization.tools || []), ...(localization.steps || []).flatMap((step) => [step.title, step.instruction]), ...(localization.parts || []).flatMap((part) => [part.name, part.details])].filter(Boolean).join(" ").slice(0, 20000);
+  const { error } = await client.from("guide_localizations").upsert({ ...localization, guide_id: guideId, search_text: searchText, updated_at: new Date().toISOString() }, { onConflict: "guide_id,locale" });
+  if (isMissingGuideLocalizationTable(error)) {
+    guideLocalizationSchemaAvailable = false;
+    return false;
+  }
+  throwIfError(error);
+  guideLocalizationSchemaAvailable = true;
+  return true;
 }
 
 export async function getPublicGuideBySlug(slug) {

@@ -12,6 +12,7 @@ export async function GET(request: Request) {
       sector: params.get("sector") || "All",
       limit: params.get("limit") || 6,
       cursor: params.get("cursor") || null,
+      locale: params.get("locale") === "fr" ? "fr" : "en",
     });
     return NextResponse.json(result, { headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300" } });
   } catch (error) {

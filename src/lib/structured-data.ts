@@ -16,8 +16,9 @@ export function createBreadcrumbList(baseUrl: string, entries: BreadcrumbEntry[]
   };
 }
 
-export function createSiteStructuredData(baseUrl: string) {
+export function createSiteStructuredData(baseUrl: string, locale: "en" | "fr" = "en") {
   const siteUrl = baseUrl.replace(/\/$/, "");
+  const localizedSiteUrl = locale === "fr" ? `${siteUrl}/fr/` : `${siteUrl}/`;
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -25,7 +26,8 @@ export function createSiteStructuredData(baseUrl: string) {
         "@type": "Organization",
         "@id": `${siteUrl}/#organization`,
         name: "Vitni",
-        url: `${siteUrl}/`,
+        url: localizedSiteUrl,
+        inLanguage: locale,
         description: "Practical repair guides and safe next steps for the things people use every day.",
         logo: {
           "@type": "ImageObject",
@@ -36,8 +38,8 @@ export function createSiteStructuredData(baseUrl: string) {
         "@type": "WebSite",
         "@id": `${siteUrl}/#website`,
         name: "Vitni",
-        url: `${siteUrl}/`,
-        inLanguage: "en",
+        url: localizedSiteUrl,
+        inLanguage: locale,
         publisher: { "@id": `${siteUrl}/#organization` },
       },
     ],

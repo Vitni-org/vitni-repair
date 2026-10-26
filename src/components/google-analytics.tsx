@@ -2,6 +2,7 @@
 
 import Script from "next/script";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import {
   GA_MEASUREMENT_ID,
@@ -107,6 +108,7 @@ function dispatchMarkedClick(element: HTMLElement): void {
 }
 
 export function GoogleAnalytics() {
+  const t = useTranslations("analytics");
   const pathname = usePathname();
   const consent = useSyncExternalStore<AnalyticsConsent | "loading">(subscribeAnalyticsConsent, getAnalyticsConsent, () => "loading");
   const [preferencesOpen, setPreferencesOpen] = useState(false);
@@ -213,22 +215,22 @@ export function GoogleAnalytics() {
         </>
       )}
       {showBanner && (
-        <section aria-label="Analytics preferences" className="analytics-consent" id="analytics-preferences" role="region">
+        <section aria-label={t("preferences")} className="analytics-consent" id="analytics-preferences" role="region">
           <div className="analytics-consent__copy">
-            <strong>Optional analytics</strong>
-            <p>Help improve Vitni. Repair descriptions and photos are never sent to Google Analytics.</p>
+            <strong>{t("title")}</strong>
+            <p>{t("description")}</p>
           </div>
           <div className="analytics-consent__actions">
             {preferencesOpen && consent !== "unknown" && (
               <button className="analytics-consent__close" onClick={() => setPreferencesOpen(false)} type="button">
-                Close
+                {t("close")}
               </button>
             )}
             <button className="analytics-consent__reject" onClick={() => chooseConsent("denied")} type="button">
-              Reject analytics
+              {t("reject")}
             </button>
             <button className="analytics-consent__accept" onClick={() => chooseConsent("granted")} type="button">
-              Accept analytics
+              {t("allow")}
             </button>
           </div>
         </section>
@@ -238,6 +240,7 @@ export function GoogleAnalytics() {
 }
 
 export function AnalyticsPreferencesButton() {
+  const t = useTranslations("analytics");
   if (!isAnalyticsConfigured()) return null;
 
   return (
@@ -247,7 +250,7 @@ export function AnalyticsPreferencesButton() {
       onClick={() => window.dispatchEvent(new Event(OPEN_PREFERENCES_EVENT))}
       type="button"
     >
-      Analytics preferences
+      {t("preferences")}
     </button>
   );
 }

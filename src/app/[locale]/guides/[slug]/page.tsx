@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { getTranslations } from "next-intl/server";
 import { ArrowLeft, ArrowRight, Clock3, ShieldCheck, ShoppingBag, Wrench } from "lucide-react";
 import { notFound } from "next/navigation";
 import { GuideIllustrations } from "@/components/guide-illustrations";
@@ -10,6 +11,7 @@ import { guideArtwork } from "@/lib/guide-artwork";
 import { buttonVariants } from "@/components/ui/button";
 import { getGuide, curatedGuidePaths } from "@/lib/guide-repository";
 import { repairSectorByLabel } from "@/lib/repair-sectors";
+import { localizedLevel, localizedSectorLabel } from "@/lib/catalog-localization";
 import { createBreadcrumbList, serializeJsonLd } from "@/lib/structured-data";
 
 export const runtime = "nodejs";
@@ -18,30 +20,39 @@ export async function generateStaticParams() {
   return curatedGuidePaths().map((path) => ({ slug: path.split("/")[2] }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params;
-  const guide = await getGuide(slug);
-  if (!guide) return { title: "Guide not found | Vitni", robots: { index: false, follow: false } };
+export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
+  const { slug, locale } = await params;
+  const t = await getTranslations({ locale, namespace: "guideDetail" });
+  const guide = await getGuide(slug, locale);
+  if (!guide) return { title: t("guideNotFound"), robots: { index: false, follow: false } };
+  const prefix = locale === "fr" ? "/fr" : "";
+  const contentLocale = guide.contentLocale || locale;
   return {
-    title: `${guide.title} | Vitni repair guide`,
+    title: t("metaTitle", { title: guide.title }),
     description: guide.desc,
-    category: guide.sector,
-    alternates: { canonical: `/guides/${guide.slug}/` },
+    category: localizedSectorLabel(guide.sector, locale),
+    alternates: { canonical: `${prefix}/guides/${guide.slug}/`, languages: { en: `/guides/${guide.slug}/`, fr: `/fr/guides/${guide.slug}/` } },
     openGraph: {
       type: "article",
-      url: `/guides/${guide.slug}/`,
+      url: `${prefix}/guides/${guide.slug}/`,
       title: guide.title,
       description: guide.desc,
-      images: [{ url: "/images/og/repairlens-share.png", width: 1200, height: 630, alt: "Vitni, your repair sidekick, helps you make repairs" }],
+      locale: contentLocale === "fr" ? "fr_FR" : "en_GB",
+      alternateLocale: [contentLocale === "fr" ? "en_GB" : "fr_FR"],
+      images: [{ url: "/images/og/repairlens-share.png", width: 1200, height: 630, alt: t("ogAlt") }],
     },
     twitter: { card: "summary_large_image", title: guide.title, description: guide.desc, images: ["/images/og/repairlens-share.png"] },
   };
 }
 
-export default async function GuideDetailPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const guide = await getGuide(slug);
+export default async function GuideDetailPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
+  const { slug, locale } = await params;
+  const t = await getTranslations({ locale, namespace: "guideDetail" });
+  const common = await getTranslations({ locale, namespace: "common" });
+  const guide = await getGuide(slug, locale);
   if (!guide) notFound();
+  const prefix = locale === "fr" ? "/fr" : "";
+  const contentLocale = guide.contentLocale || locale;
   const artwork = guideArtwork(guide);
   const origin = (process.env.PUBLIC_SITE_URL || "https://vitni.cc").replace(/\/$/, "");
   const imageUrl = new URL(artwork.src, origin).href;
@@ -51,10 +62,11 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ sl
           "@type": "HowTo",
           name: guide.title,
           description: guide.desc,
-          category: guide.sector,
+          category: localizedSectorLabel(guide.sector, locale),
           totalTime: Number.parseInt(guide.time, 10) > 0 ? `PT${Number.parseInt(guide.time, 10)}M` : undefined,
           image: imageUrl,
-          mainEntityOfPage: `${origin}/guides/${guide.slug}/`,
+          mainEntityOfPage: `${origin}${prefix}/guides/${guide.slug}/`,
+          inLanguage: guide.contentLocale || locale,
           tool: guide.tools.map((name) => ({ "@type": "HowToTool", name })),
           supply: guide.parts.map((part) => ({ "@type": "HowToSupply", name: part.name, description: part.details })),
           step: guide.steps.map((step, index) => ({
@@ -70,16 +82,17 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ sl
           headline: guide.title,
           description: guide.desc,
           image: imageUrl,
-          url: `${origin}/guides/${guide.slug}/`,
+          url: `${origin}${prefix}/guides/${guide.slug}/`,
+          inLanguage: guide.contentLocale || locale,
         };
   const jsonLd = serializeJsonLd({
     "@context": "https://schema.org",
     "@graph": [
       guideStructuredData,
       createBreadcrumbList(origin, [
-        { name: "Home", path: "/" },
-        { name: "Repair library", path: "/guides/" },
-        { name: guide.title, path: `/guides/${guide.slug}/` },
+        { name: common("home"), path: `${prefix}/` },
+        { name: t("repairLibrary"), path: `${prefix}/guides/` },
+        { name: guide.title, path: `${prefix}/guides/${guide.slug}/` },
       ]),
     ],
   });
@@ -87,47 +100,48 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ sl
   return (
     <main className="detail-page" id="content">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />
-      <nav aria-label="Breadcrumb" className="breadcrumb">
-        <Link href="/">Home</Link>
+      <nav aria-label={t("breadcrumb")} className="breadcrumb">
+        <Link href="/">{common("home")}</Link>
         <span aria-hidden="true">/</span>
-        <Link href="/guides/">Guides</Link>
+        <Link href="/guides/">{t("repairLibrary")}</Link>
         <span aria-hidden="true">/</span>
-        <span aria-current="page">{guide.title}</span>
+        <span aria-current="page" lang={contentLocale}>{guide.title}</span>
       </nav>
       <section className="guide-detail-hero">
         <div className="guide-detail-hero__copy">
           <div className="guide-labels">
-            <span>{guide.sector}</span>
-            <span>{guide.level}</span>
+            <span>{localizedSectorLabel(guide.sector, locale)}</span>
+            <span>{localizedLevel(guide.level, locale)}</span>
             <span>
               <Clock3 aria-hidden="true" />
               {guide.time}
             </span>
           </div>
-          <h1>{guide.title}</h1>
-          <p className="guide-detail-hero__desc">{guide.desc}</p>
+          <h1 lang={contentLocale}>{guide.title}</h1>
+          <p className="guide-detail-hero__desc" lang={contentLocale}>{guide.desc}</p>
           <p className="guide-detail-hero__hint">
             {guide.steps.length > 0 && guide.steps.every((step) => Boolean(step.image))
-              ? "Every step has an illustration. Follow the written instructions and safety notes as your guide."
-              : "Vitni can draw missing steps; the written instructions and safety notes are the source of truth."}
+              ? t("stepsReady")
+              : t("stepsMissing")}
           </p>
           <SaveGuideOffline slug={guide.slug} />
         </div>
         <div className="guide-detail-hero__image">
           <Image alt={artwork.alt} fill priority sizes="(max-width: 800px) 92vw, 44vw" src={artwork.src} data-offline-guide-image="" unoptimized />
-          {artwork.isFallback && <span className="guide-detail-hero__artwork-label">Category illustration</span>}
+          {artwork.isFallback && <span className="guide-detail-hero__artwork-label">{t("categoryArtwork")}</span>}
         </div>
       </section>
 
       <div className="guide-detail-layout">
         <section aria-labelledby="steps-title" className="guide-detail-main">
           <div className="guide-detail-section-heading">
-            <p className="eyebrow">Take it one step at a time</p>
-            <h2 id="steps-title">Repair steps</h2>
+            <p className="eyebrow">{t("stepsEyebrow")}</p>
+            <h2 id="steps-title">{t("repairSteps")}</h2>
           </div>
           <GuideIllustrations
             area={guide.sector}
             canGenerate={Boolean(process.env.OPENAI_API_KEY)}
+            contentLocale={contentLocale}
             slug={guide.slug}
             steps={guide.steps}
             title={guide.title}
@@ -135,24 +149,24 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ sl
         </section>
         <aside className="guide-detail-aside">
           <div className="guide-aside-card">
-            <p className="eyebrow">Before you begin</p>
+            <p className="eyebrow">{t("beforeBegin")}</p>
             <h2>
-              <ShieldCheck aria-hidden="true" /> Safety first
+              <ShieldCheck aria-hidden="true" /> {t("safetyFirst")}
             </h2>
-            <p>{guide.safetyNotes || "If the item feels unstable, unsafe, or unfamiliar, stop and ask a qualified repairer."}</p>
+            <p lang={contentLocale}>{guide.safetyNotes || t("fallbackSafety")}</p>
             <div className="vitni-aside">
               <Image alt="" aria-hidden="true" height={80} src="/images/vitni.svg" width={76} />
-              <p>I’m Vitni. If a part feels unsafe or needs force, stop and ask a repair pro.</p>
+              <p>{t("vitniSafety")}</p>
             </div>
           </div>
           {!!guide.tools.length && (
             <div className="guide-aside-card">
               <h2>
-                <Wrench aria-hidden="true" /> Tools
+                <Wrench aria-hidden="true" /> {t("tools")}
               </h2>
               <ul>
                 {guide.tools.map((tool) => (
-                  <li key={tool}>{tool}</li>
+                  <li key={tool} lang={contentLocale}>{tool}</li>
                 ))}
               </ul>
             </div>
@@ -160,7 +174,7 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ sl
           {!!guide.parts.length && (
             <div className="guide-aside-card">
               <h2>
-                <ShoppingBag aria-hidden="true" /> Parts to check
+                <ShoppingBag aria-hidden="true" /> {t("parts")}
               </h2>
               <div className="parts-sourcing-list">
                 {guide.parts.map((part) => (
@@ -172,24 +186,24 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ sl
           )}
           <div className="guide-aside-links">
             <Link href="/guides/">
-              Browse all repair guides <ArrowRight aria-hidden="true" />
+              {t("browseAll")} <ArrowRight aria-hidden="true" />
             </Link>
             {repairSectorByLabel(guide.sector) && (
               <Link href={`/guides/sector/${repairSectorByLabel(guide.sector)!.slug}/`}>
-                More {guide.sector.toLowerCase()} guides <ArrowRight aria-hidden="true" />
+                {t("moreSector", { sector: localizedSectorLabel(guide.sector, locale).toLowerCase() })} <ArrowRight aria-hidden="true" />
               </Link>
             )}
             <Link data-analytics-event="community_help_opened" data-analytics-link-type="cta" href="/#help">
-              Find nearby repair help <ArrowRight aria-hidden="true" />
+              {t("nearbyHelp")} <ArrowRight aria-hidden="true" />
             </Link>
             <Link href="/partners/">
-              Suggest a local partner or parts source <ArrowRight aria-hidden="true" />
+              {t("suggestPartner")} <ArrowRight aria-hidden="true" />
             </Link>
             <Link href="/repair-safety/">
-              How Vitni repair guidance works <ArrowRight aria-hidden="true" />
+              {t("howGuidanceWorks")} <ArrowRight aria-hidden="true" />
             </Link>
             <Link className={buttonVariants({ variant: "outline" })} href="/#diagnose">
-              <ArrowLeft aria-hidden="true" /> Ask Vitni about your item
+              <ArrowLeft aria-hidden="true" /> {t("askVitni")}
             </Link>
           </div>
         </aside>

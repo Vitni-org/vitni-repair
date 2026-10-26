@@ -2,6 +2,8 @@ import "server-only";
 import { guides as rawGuides, stories as rawStories } from "../../site-data.js";
 import { extendedGuides } from "../../site-data-extended.js";
 import { inferRepairSector, type RepairSector } from "@/lib/repair-sectors";
+import { localizeCuratedGuide, localizeCuratedStory, localizedSectorLabel } from "@/lib/catalog-localization";
+import type { Locale } from "@/i18n/routing";
 
 export type RepairArea = "Bike" | "Home" | "Clothes" | "Other";
 
@@ -42,6 +44,7 @@ export type RepairGuide = {
   visibility: "public" | "unlisted";
   status: "published" | "needs_illustrations";
   source?: "curated" | "generated";
+  contentLocale?: Locale | string;
 };
 
 export type RepairStory = {
@@ -101,8 +104,8 @@ export function titleForRepairStep(instruction: string, ordinal: number) {
   return title.length > 58 ? `${title.slice(0, 55).trimEnd()}…` : title;
 }
 
-export function localGuideView(guide: CuratedGuide): RepairGuide {
-  return {
+export function localGuideView(guide: CuratedGuide, locale: Locale | string = "en"): RepairGuide {
+  const englishGuide: RepairGuide = {
     id: guide.id,
     slug: guide.id,
     title: guide.title,
@@ -130,11 +133,12 @@ export function localGuideView(guide: CuratedGuide): RepairGuide {
     status: "published",
     source: "curated",
   };
+  return localizeCuratedGuide(englishGuide, locale);
 }
 
-export function getCuratedGuide(slug: string) {
+export function getCuratedGuide(slug: string, locale: Locale | string = "en") {
   const match = curatedGuides.find((guide) => guide.id === slug);
-  return match ? localGuideView(match) : null;
+  return match ? localGuideView(match, locale) : null;
 }
 
 function decodeLocalCursor(cursor: string | null): number {
@@ -157,19 +161,19 @@ function decodeLocalCursor(cursor: string | null): number {
   return 0;
 }
 
-export type LocalGuideListOptions = { query?: string; area?: string; sector?: string; cursor?: string | null; limit?: number | string };
+export type LocalGuideListOptions = { query?: string; area?: string; sector?: string; cursor?: string | null; limit?: number | string; locale?: Locale | string };
 
 export function localGuideList(options: LocalGuideListOptions = {}) {
-  const { query = "", area = "All", sector = "All", cursor = null, limit = 6 } = options;
+  const { query = "", area = "All", sector = "All", cursor = null, limit = 6, locale = "en" } = options;
   const normalizedQuery = query.trim().toLowerCase();
-  const matches = curatedGuides.filter((guide) => {
+  const matches = curatedGuides.map((guide) => ({ guide, localized: localGuideView(guide, locale) })).filter(({ guide, localized }) => {
     const repairSector = guide.sector || inferRepairSector({ id: guide.id, title: guide.title, area: guide.area });
-    const text = [guide.title, guide.desc, guide.area, repairSector, ...guide.tools, ...guide.steps].join(" ").toLowerCase();
+    const text = [localized.title, localized.desc, localized.area, localizedSectorLabel(repairSector, locale), ...localized.tools, ...localized.steps.map((step) => `${step.title} ${step.instruction}`), ...localized.parts.map((part) => `${part.name} ${part.details || ""}`)].join(" ").toLowerCase();
     return (sector === "All" || !sector ? area === "All" || !area || guide.area === area : repairSector === sector) && (!normalizedQuery || text.includes(normalizedQuery));
   });
   const offset = decodeLocalCursor(cursor);
   const pageSize = Math.max(1, Math.min(Number(limit) || 6, 24));
-  const items = matches.slice(offset, offset + pageSize).map(localGuideView);
+  const items = matches.slice(offset, offset + pageSize).map(({ guide, localized }) => localized);
   const makeCursor = (value: number) => Buffer.from(JSON.stringify({ offset: value })).toString("base64url");
   return {
     items,
@@ -180,10 +184,10 @@ export function localGuideList(options: LocalGuideListOptions = {}) {
   };
 }
 
-export function getStory(id: string) {
-  return repairStories[id] ? { id, ...repairStories[id] } : null;
+export function getStory(id: string, locale: Locale | string = "en") {
+  return repairStories[id] ? localizeCuratedStory({ id, ...repairStories[id] }, locale) : null;
 }
 
-export function getStoryEntries() {
-  return Object.entries(repairStories).map(([id, story]) => ({ id, ...story }));
+export function getStoryEntries(locale: Locale | string = "en") {
+  return Object.entries(repairStories).map(([id, story]) => localizeCuratedStory({ id, ...story }, locale));
 }

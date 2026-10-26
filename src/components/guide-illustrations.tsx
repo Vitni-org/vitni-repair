@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { LoaderCircle, RefreshCw, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -12,13 +13,16 @@ export function GuideIllustrations({
   area,
   steps,
   canGenerate,
+  contentLocale = "en",
 }: {
   slug: string;
   title: string;
   area: string;
   steps: GuideStep[];
   canGenerate: boolean;
+  contentLocale?: string;
 }) {
+  const t = useTranslations("guideDetail");
   const listRef = useRef<HTMLOListElement>(null);
   const [images, setImages] = useState(() => steps.map((step) => step.image || ""));
   const [loading, setLoading] = useState(false);
@@ -40,10 +44,10 @@ export function GuideIllustrations({
         }),
       });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "The illustrations could not be loaded.");
+      if (!response.ok) throw new Error(t("guidesLoadError"));
       setImages((current) => current.map((image, index) => image || data.visuals?.[index] || ""));
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "The illustrations could not be loaded.");
+      setError(t("guidesLoadError"));
     } finally {
       setLoading(false);
     }
@@ -77,11 +81,12 @@ export function GuideIllustrations({
               {String(index + 1).padStart(2, "0")}
             </div>
             <div className="guide-step__content">
-              <h3>{step.title}</h3>
-              <p>{step.instruction}</p>
+              <h3 lang={contentLocale}>{step.title}</h3>
+              <p lang={contentLocale}>{step.instruction}</p>
               {image ? (
                 <Image
                   alt={step.imageAlt || `${title}: ${step.title}`}
+                  lang={contentLocale}
                   className="guide-step__image"
                   data-offline-guide-image=""
                   height={720}
@@ -96,13 +101,13 @@ export function GuideIllustrations({
                   </span>
                   <Sparkles aria-hidden="true" />
                   <span>
-                    <strong>{loading ? "Vitni is drawing this step" : "Illustration coming soon"}</strong>
-                    <small>{loading ? "Your written step is ready to follow." : "Use the written instruction above as your guide."}</small>
+                    <strong>{loading ? t("drawStep") : t("illustrationComing")}</strong>
+                    <small>{loading ? t("writtenReady") : t("useWritten")}</small>
                   </span>
                 </div>
               )}
               {step.illustrationStatus === "failed" && !image && (
-                <span className="guide-step__hint">The written instruction is still available above.</span>
+                <span className="guide-step__hint">{t("instructionAvailable")}</span>
               )}
             </div>
           </li>
@@ -113,7 +118,7 @@ export function GuideIllustrations({
           <p>{error}</p>
           <Button onClick={() => void generate()} size="sm" type="button" variant="outline">
             <RefreshCw aria-hidden="true" />
-            Retry illustrations
+            {t("retryIllustrations")}
           </Button>
         </li>
       )}
@@ -121,13 +126,13 @@ export function GuideIllustrations({
         <li className="guide-illustration-retry">
           <Button onClick={() => void generate()} size="sm" type="button" variant="outline">
             <RefreshCw aria-hidden="true" />
-            Draw missing illustrations
+            {t("drawMissing")}
           </Button>
         </li>
       )}
       {loading && (
         <li className="guide-illustration-status" aria-live="polite">
-          <LoaderCircle aria-hidden="true" className="animate-spin" /> Vitni is drawing the missing steps…
+          <LoaderCircle aria-hidden="true" className="animate-spin" /> {t("drawingMissing")}
         </li>
       )}
     </ol>

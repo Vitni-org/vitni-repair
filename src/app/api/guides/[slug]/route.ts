@@ -3,10 +3,11 @@ import { getGuide } from "@/lib/guide-repository";
 
 export const runtime = "nodejs";
 
-export async function GET(_request: Request, context: { params: Promise<{ slug: string }> }) {
+export async function GET(request: Request, context: { params: Promise<{ slug: string }> }) {
   const { slug } = await context.params;
+  const locale = new URL(request.url).searchParams.get("locale") === "fr" ? "fr" : "en";
   try {
-    const guide = await getGuide(slug);
+    const guide = await getGuide(slug, locale);
     return guide
       ? NextResponse.json(
           { guide, persistent: guide.source !== "curated" },

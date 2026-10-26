@@ -1,17 +1,20 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
+function RepairRequestLoading() {
+  const t = useTranslations("repair");
+  return <p className="repair-request-loading" role="status">{t("formPreparing")}</p>;
+}
+
 const RepairRequest = dynamic(() => import("@/components/repair-request").then((module) => module.RepairRequest), {
-  loading: () => (
-    <p className="repair-request-loading" role="status">
-      Vitni is getting the repair form ready…
-    </p>
-  ),
+  loading: () => <RepairRequestLoading />,
 });
 
 export function DeferredRepairRequest() {
+  const t = useTranslations("repair");
   const sectionRef = useRef<HTMLDivElement>(null);
   const [shouldLoad, setShouldLoad] = useState(false);
 
@@ -43,9 +46,7 @@ export function DeferredRepairRequest() {
       {shouldLoad ? (
         <RepairRequest />
       ) : (
-        <p className="repair-request-loading" role="status">
-          The repair form will be ready as you reach it.
-        </p>
+        <p className="repair-request-loading" role="status">{t("formReady")}</p>
       )}
     </div>
   );

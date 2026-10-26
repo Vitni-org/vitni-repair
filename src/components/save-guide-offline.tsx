@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, Download, LoaderCircle, Trash2 } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 type OfflineReply = { ok: boolean; saved?: boolean; removed?: boolean; imagesSaved?: number; imagesFailed?: number; error?: string };
@@ -31,6 +32,8 @@ function sendWorkerMessage<T extends OfflineReply>(message: Record<string, unkno
 }
 
 export function SaveGuideOffline({ slug }: { slug: string }) {
+  const t = useTranslations("offline");
+  const locale = useLocale();
   const [saved, setSaved] = useState(false);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
@@ -40,7 +43,7 @@ export function SaveGuideOffline({ slug }: { slug: string }) {
     let cancelled = false;
     void navigator.serviceWorker.ready.then(async () => {
       try {
-        const reply = await sendWorkerMessage<OfflineReply>({ type: "CHECK_GUIDE_OFFLINE", slug });
+        const reply = await sendWorkerMessage<OfflineReply>({ type: "CHECK_GUIDE_OFFLINE", slug, locale });
         if (!cancelled && reply.ok) setSaved(Boolean(reply.saved));
       } catch {
         // The button remains available; the user can retry when the worker is ready.
@@ -49,17 +52,17 @@ export function SaveGuideOffline({ slug }: { slug: string }) {
     return () => {
       cancelled = true;
     };
-  }, [slug]);
+  }, [locale, slug]);
 
   const toggle = async () => {
     setBusy(true);
     setMessage("");
     try {
       if (saved) {
-        const reply = await sendWorkerMessage<OfflineReply>({ type: "REMOVE_GUIDE_OFFLINE", slug });
-        if (!reply.ok) throw new Error(reply.error || "This guide could not be removed from offline storage.");
+        const reply = await sendWorkerMessage<OfflineReply>({ type: "REMOVE_GUIDE_OFFLINE", slug, locale });
+        if (!reply.ok) throw new Error(t("removeError"));
         setSaved(false);
-        setMessage("Removed from this device’s offline storage.");
+        setMessage(t("removed"));
       } else {
         const images = Array.from(document.querySelectorAll<HTMLImageElement>("[data-offline-guide-image]"))
           .map((image) => image.currentSrc || image.src)
@@ -67,18 +70,15 @@ export function SaveGuideOffline({ slug }: { slug: string }) {
         const reply = await sendWorkerMessage<OfflineReply>({
           type: "SAVE_GUIDE_OFFLINE",
           slug,
+          locale,
           images,
         });
-        if (!reply.ok) throw new Error(reply.error || "This guide could not be saved offline.");
+        if (!reply.ok) throw new Error(t("saveError"));
         setSaved(true);
-        setMessage(
-          reply.imagesFailed
-            ? `Guide saved. ${reply.imagesSaved || 0} illustration${reply.imagesSaved === 1 ? "" : "s"} saved; some were unavailable.`
-            : "Guide and available illustrations saved on this device.",
-        );
+        setMessage(reply.imagesFailed ? t("guideSaved", { count: reply.imagesSaved || 0 }) : t("saved"));
       }
     } catch (cause) {
-      setMessage(cause instanceof Error ? cause.message : "Offline storage is unavailable right now.");
+      setMessage(t("unavailable"));
     } finally {
       setBusy(false);
     }
@@ -87,18 +87,18 @@ export function SaveGuideOffline({ slug }: { slug: string }) {
   return (
     <div className="offline-guide-action">
       <button
-        aria-label={saved ? "Remove this guide from offline storage" : "Save this guide offline"}
+        aria-label={saved ? t("removeLabel") : t("saveLabel")}
         aria-pressed={saved}
         disabled={busy}
         onClick={toggle}
         type="button"
       >
         {busy ? <LoaderCircle aria-hidden="true" className="animate-spin" /> : saved ? <Check aria-hidden="true" /> : <Download aria-hidden="true" />}
-        {busy ? "Saving guide…" : saved ? "Saved offline" : "Save this guide offline"}
+        {busy ? t("saving") : saved ? t("savedButton") : t("saveButton")}
         {saved && !busy ? <Trash2 aria-hidden="true" className="offline-guide-action__remove" /> : null}
       </button>
       <span className="offline-guide-action__note">
-        Text and available illustrations stay on this device. Photo analysis needs an internet connection.
+        {t("note")}
       </span>
       <span aria-live="polite" className="offline-guide-action__status">
         {message}

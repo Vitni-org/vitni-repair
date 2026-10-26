@@ -1,6 +1,7 @@
 "use client";
 
 import { Download, Smartphone } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 type InstallPromptEvent = Event & {
@@ -23,6 +24,7 @@ function getInstalledSnapshot() {
 }
 
 export function InstallVitniButton() {
+  const t = useTranslations("install");
   const [promptEvent, setPromptEvent] = useState<InstallPromptEvent | null>(null);
   const installed = useSyncExternalStore(subscribeInstalled, getInstalledSnapshot, () => false);
   const [isIOS, setIsIOS] = useState(false);
@@ -56,14 +58,14 @@ export function InstallVitniButton() {
     <>
       <button className="install-vitni-button" onClick={() => void install()} type="button">
         {promptEvent ? <Download aria-hidden="true" /> : <Smartphone aria-hidden="true" />}
-        Install Vitni
+        {t("button")}
       </button>
       <dialog className="install-vitni-dialog" ref={dialogRef}>
         <form method="dialog">
-          <p className="eyebrow">Vitni on your home screen</p>
-          <h2>Keep your repair guides close.</h2>
-          <p>{isIOS ? "In Safari, tap Share, then Add to Home Screen." : "Open your browser menu and choose Install Vitni or Add to Home Screen."}</p>
-          <button type="submit">Got it</button>
+          <p className="eyebrow">{t("eyebrow")}</p>
+          <h2>{t("title")}</h2>
+          <p>{isIOS ? t("ios") : t("other")}</p>
+          <button type="submit">{t("done")}</button>
         </form>
       </dialog>
     </>
