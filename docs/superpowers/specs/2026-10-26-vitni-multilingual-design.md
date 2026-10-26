@@ -54,9 +54,11 @@ The user chose the first approach and English plus French as the initial languag
 ### Guide content, translation, and generation
 
 - Treat English as the canonical stored representation. Extend structured model output with a stable English canonical issue for matching; user-facing fields are translated to the requested locale with a schema-validated text-only translation step.
+- Reuse a guide across languages only on an exact normalized `area + canonical English issue` match. Do not fuzzy-merge similar symptoms or repair paths; that could return unsafe or incompatible instructions.
 - Keep one canonical guide per normalized repair issue. Add `guide_localizations` keyed by `(guide_id, locale)` for localized title, description, safety notes, tools, steps, parts, alt text, and searchable text. Reuse canonical image paths and purchase URLs.
 - Cache successful French translations. A detail request uses a cached translation, creates and saves one if missing, and falls back to English if translation or persistence is unavailable. Do not change safety level, repair steps, dimensions, compatibility requirements, product identifiers, or URLs during translation.
-- Localize bundled guides and illustrative stories as checked-in French content so the first French library page does not need a burst of model requests. Database-backed guides use the localization table and translated search index.
+- Localize bundled guides and illustrative stories as checked-in French content so the first French library page does not need a burst of model requests; review these translations for correctness before release. Database-backed guides use the localization table and translated search index.
+- Private generated translations may be returned automatically after schema and safety-invariant validation. They become public only through the existing explicit sharing choice; no additional human approval step is added to the private repair flow.
 - Accept optional `locale` on `/api/repair-guide`, `/api/analyze`, and relevant guide search/detail endpoints; validate against supported locales and default absent or unsupported values to English.
 - Keep user photos and descriptions in the assessment flow only. The translation step receives only the validated guide fields, not the original photo or raw user description.
 
