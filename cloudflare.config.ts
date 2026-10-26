@@ -5,7 +5,7 @@ export default defineConfig({
     name: "repairlens",
     entrypoint: "vinext/server/fetch-handler",
     compatibilityDate: "2026-10-25",
-    compatibilityFlags: ["nodejs_compat"],
+    compatibilityFlags: ["nodejs_compat", "nodejs_compat_populate_process_env"],
     domains: ["vitni.cc"],
     assets: {
       htmlHandling: "none",
