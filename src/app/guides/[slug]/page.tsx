@@ -10,6 +10,7 @@ import { guideArtwork } from "@/lib/guide-artwork";
 import { buttonVariants } from "@/components/ui/button";
 import { getGuide, curatedGuidePaths } from "@/lib/guide-repository";
 import { repairSectorByLabel } from "@/lib/repair-sectors";
+import { createBreadcrumbList, serializeJsonLd } from "@/lib/structured-data";
 
 export const runtime = "nodejs";
 
@@ -25,7 +26,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `${guide.title} | Vitni repair guide`,
     description: guide.desc,
     category: guide.sector,
-    keywords: [guide.title, `${guide.sector} repair`, "repair guide", "Vitni"],
     alternates: { canonical: `/guides/${guide.slug}/` },
     openGraph: {
       type: "article",
@@ -44,29 +44,45 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ sl
   if (!guide) notFound();
   const artwork = guideArtwork(guide);
   const origin = (process.env.PUBLIC_SITE_URL || "https://vitni.cc").replace(/\/$/, "");
-  const structuredData =
+  const imageUrl = new URL(artwork.src, origin).href;
+  const guideStructuredData =
     guide.safety === "safe_diy"
       ? {
-          "@context": "https://schema.org",
           "@type": "HowTo",
           name: guide.title,
           description: guide.desc,
           category: guide.sector,
           totalTime: Number.parseInt(guide.time, 10) > 0 ? `PT${Number.parseInt(guide.time, 10)}M` : undefined,
-          image: `${origin}/images/og/repairlens-share.png`,
+          image: imageUrl,
+          mainEntityOfPage: `${origin}/guides/${guide.slug}/`,
           tool: guide.tools.map((name) => ({ "@type": "HowToTool", name })),
           supply: guide.parts.map((part) => ({ "@type": "HowToSupply", name: part.name, description: part.details })),
-          step: guide.steps.map((step, index) => ({ "@type": "HowToStep", position: index + 1, name: step.title, text: step.instruction })),
+          step: guide.steps.map((step, index) => ({
+            "@type": "HowToStep",
+            position: index + 1,
+            name: step.title,
+            text: step.instruction,
+            ...(step.image ? { image: new URL(step.image, origin).href } : {}),
+          })),
         }
       : {
-          "@context": "https://schema.org",
           "@type": "Article",
           headline: guide.title,
           description: guide.desc,
-          image: `${origin}/images/og/repairlens-share.png`,
+          image: imageUrl,
           url: `${origin}/guides/${guide.slug}/`,
         };
-  const jsonLd = JSON.stringify(structuredData).replace(/</g, "\\u003c");
+  const jsonLd = serializeJsonLd({
+    "@context": "https://schema.org",
+    "@graph": [
+      guideStructuredData,
+      createBreadcrumbList(origin, [
+        { name: "Home", path: "/" },
+        { name: "Repair library", path: "/guides/" },
+        { name: guide.title, path: `/guides/${guide.slug}/` },
+      ]),
+    ],
+  });
 
   return (
     <main className="detail-page" id="content">
@@ -168,6 +184,9 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ sl
             </Link>
             <Link href="/partners/">
               Suggest a local partner or parts source <ArrowRight aria-hidden="true" />
+            </Link>
+            <Link href="/repair-safety/">
+              How Vitni repair guidance works <ArrowRight aria-hidden="true" />
             </Link>
             <Link className={buttonVariants({ variant: "outline" })} href="/#diagnose">
               <ArrowLeft aria-hidden="true" /> Ask Vitni about your item

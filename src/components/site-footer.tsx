@@ -52,6 +52,9 @@ export function SiteFooter() {
           <Link className="underline-offset-4 hover:underline" href="/partners/">
             Partner with Vitni
           </Link>
+          <Link className="underline-offset-4 hover:underline" href="/repair-safety/">
+            Repair safety and standards
+          </Link>
           <AnalyticsPreferencesButton />
           <InstallVitniButton />
         </nav>

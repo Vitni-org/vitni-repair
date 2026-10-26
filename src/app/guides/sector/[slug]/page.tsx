@@ -6,6 +6,7 @@ import { GuideCard } from "@/components/guide-card";
 import { buttonVariants } from "@/components/ui/button";
 import { getRepairSector, repairSectors } from "@/lib/repair-sectors";
 import { searchGuides } from "@/lib/guide-repository";
+import { createBreadcrumbList, serializeJsonLd } from "@/lib/structured-data";
 
 export const runtime = "nodejs";
 
@@ -43,22 +44,31 @@ export default async function RepairSectorPage({ params }: { params: Promise<{ s
   if (!sector) notFound();
   const page = await searchGuides({ sector: sector.label, limit: 24 });
   const base = (process.env.PUBLIC_SITE_URL || "https://vitni.cc").replace(/\/$/, "");
-  const jsonLd = JSON.stringify({
+  const jsonLd = serializeJsonLd({
     "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: `${sector.label} repair guides`,
-    description: sector.description,
-    url: `${base}/guides/sector/${slug}/`,
-    mainEntity: {
-      "@type": "ItemList",
-      itemListElement: page.items.map((guide, index) => ({
-        "@type": "ListItem",
-        position: index + 1,
-        name: guide.title,
-        url: `${base}/guides/${guide.slug}/`,
-      })),
-    },
-  }).replace(/</g, "\\u003c");
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        name: `${sector.label} repair guides`,
+        description: sector.description,
+        url: `${base}/guides/sector/${slug}/`,
+        mainEntity: {
+          "@type": "ItemList",
+          itemListElement: page.items.map((guide, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            name: guide.title,
+            url: `${base}/guides/${guide.slug}/`,
+          })),
+        },
+      },
+      createBreadcrumbList(base, [
+        { name: "Home", path: "/" },
+        { name: "Repair library", path: "/guides/" },
+        { name: sector.label, path: `/guides/sector/${slug}/` },
+      ]),
+    ],
+  });
 
   return (
     <main className="sector-page" id="content">
@@ -109,6 +119,18 @@ export default async function RepairSectorPage({ params }: { params: Promise<{ s
           </div>
         )}
         {"degraded" in page && page.degraded && <p className="library-note">The shared library is temporarily unavailable. Check back soon.</p>}
+      </section>
+      <section aria-labelledby="sector-faq-title" className="sector-faq">
+        <p className="eyebrow">Practical answers</p>
+        <h2 id="sector-faq-title">Common {sector.label.toLowerCase()} repair questions</h2>
+        <div className="sector-faq__list">
+          {sector.questions.map(({ question, answer }) => (
+            <details key={question}>
+              <summary>{question}</summary>
+              <p>{answer}</p>
+            </details>
+          ))}
+        </div>
       </section>
     </main>
   );

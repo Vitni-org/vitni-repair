@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight, MapPin, Package, ShieldCheck, Users, Wrench } from "lucide-react";
 import { PartnerInquiryForm } from "@/components/partner-inquiry-form";
 import { buttonVariants } from "@/components/ui/button";
+import { createBreadcrumbList, serializeJsonLd } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Partner with Vitni | Repair cafés, local repairers, and parts",
@@ -44,13 +45,21 @@ const opportunities = [
 
 export default function PartnersPage() {
   const origin = (process.env.PUBLIC_SITE_URL || "https://vitni.cc").replace(/\/$/, "");
-  const contactPageSchema = JSON.stringify({
+  const contactPageSchema = serializeJsonLd({
     "@context": "https://schema.org",
-    "@type": "ContactPage",
-    name: "Partner with Vitni",
-    description: "Contact Vitni about local repair services, repair cafés, parts retailers, or product partnerships.",
-    url: `${origin}/partners/`,
-  }).replace(/</g, "\\u003c");
+    "@graph": [
+      {
+        "@type": "ContactPage",
+        name: "Partner with Vitni",
+        description: "Contact Vitni about local repair services, repair cafés, parts retailers, or product partnerships.",
+        url: `${origin}/partners/`,
+      },
+      createBreadcrumbList(origin, [
+        { name: "Home", path: "/" },
+        { name: "Partner with Vitni", path: "/partners/" },
+      ]),
+    ],
+  });
 
   return (
     <main className="partners-page" id="content">

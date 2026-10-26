@@ -36,7 +36,7 @@ pnpm exec vite preview
 pnpm deploy:vinext
 ```
 
-Sign in first with `cf auth login`. Before attaching `vitni.cc`, configure the Worker secrets `OPENAI_API_KEY`, `SUPABASE_URL`, and `SUPABASE_SERVICE_ROLE_KEY` in Cloudflare. Add `PUBLIC_SITE_URL=https://vitni.cc` as a Worker variable. The local `.env` is not uploaded by these commands; never commit secret values. If Supabase isn't configured, the site falls back to its curated guides and generated guides are not saved to the shared library.
+Sign in first with `cf auth login`. Before attaching `vitni.cc`, configure the Worker secrets `OPENAI_API_KEY`, `SUPABASE_URL`, and `SUPABASE_SERVICE_ROLE_KEY` in Cloudflare. Add `PUBLIC_SITE_URL=https://vitni.cc` as a Worker variable. Partner email notifications use Resend: add `RESEND_API_KEY` as a Worker secret and `PARTNER_INQUIRY_FROM_EMAIL` as a Worker variable after verifying the sender domain in Resend. Enquiries continue to be saved in Supabase if email delivery is not configured; the form then offers a direct email fallback. The local `.env` is not uploaded by these commands; never commit secret values. If Supabase isn't configured, the site falls back to its curated guides and generated guides are not saved to the shared library.
 
 ## Environment
 
@@ -45,10 +45,12 @@ OPENAI_API_KEY=
 SUPABASE_URL=
 SUPABASE_SERVICE_ROLE_KEY=
 PUBLIC_SITE_URL=https://vitni.cc
+RESEND_API_KEY=
+PARTNER_INQUIRY_FROM_EMAIL="Vitni <partnerships@vitni.cc>"
 NEXT_PUBLIC_GA_MEASUREMENT_ID=
 ```
 
-Keep `OPENAI_API_KEY` and `SUPABASE_SERVICE_ROLE_KEY` server-side. Do not use a `NEXT_PUBLIC_` prefix for either secret. `PUBLIC_SITE_URL` sets canonical URLs, sitemap and agent discovery links, and metadata origins.
+Keep `OPENAI_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, and `RESEND_API_KEY` server-side. Do not use a `NEXT_PUBLIC_` prefix for secrets. `PUBLIC_SITE_URL` sets canonical URLs, sitemap and agent discovery links, and metadata origins. `PARTNER_INQUIRY_FROM_EMAIL` must be an address from a domain verified with Resend. Partner submissions are sent to `miki.lombi+vitni@gmail.com` and saved in the shared Supabase database.
 
 ## Google Analytics 4
 

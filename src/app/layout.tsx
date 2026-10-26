@@ -5,10 +5,13 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { GoogleAnalytics } from "@/components/google-analytics";
 import { PwaRegistrar } from "@/components/pwa-registrar";
+import { createSiteStructuredData, serializeJsonLd } from "@/lib/structured-data";
 import "./globals.css";
 
+const publicSiteUrl = (process.env.PUBLIC_SITE_URL || "https://vitni.cc").replace(/\/$/, "");
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.PUBLIC_SITE_URL || "https://vitni.cc"),
+  metadataBase: new URL(publicSiteUrl),
   title: "Vitni — Keep good things going",
   description: "Get a safe, practical repair plan for everyday things you want to keep.",
   applicationName: "Vitni",
@@ -33,9 +36,11 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: "#194c42", width: "device-width", initialScale: 1 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const siteStructuredData = serializeJsonLd(createSiteStructuredData(publicSiteUrl));
   return (
     <html lang="en">
       <body>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: siteStructuredData }} />
         <a className="skip-link" href="#content">
           Skip to content
         </a>

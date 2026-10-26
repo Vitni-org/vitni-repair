@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight, ShieldCheck, Wrench } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getStory, getStoryEntries } from "@/lib/content";
+import { createBreadcrumbList, serializeJsonLd } from "@/lib/structured-data";
 
 export async function generateStaticParams() {
   return getStoryEntries().map(({ id }) => ({ slug: id }));
@@ -33,14 +34,23 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
   const story = getStory(slug);
   if (!story) notFound();
   const origin = (process.env.PUBLIC_SITE_URL || "https://vitni.cc").replace(/\/$/, "");
-  const jsonLd = JSON.stringify({
+  const jsonLd = serializeJsonLd({
     "@context": "https://schema.org",
-    "@type": "Article",
-    headline: `Illustrative repair scenario: ${story.title}`,
-    description: `Illustrative scenario, not a customer testimonial. ${story.situation}`,
-    image: `${origin}${story.image}`,
-    url: `${origin}/stories/${slug}/`,
-  }).replace(/</g, "\\u003c");
+    "@graph": [
+      {
+        "@type": "Article",
+        headline: `Illustrative repair scenario: ${story.title}`,
+        description: `Illustrative scenario, not a customer testimonial. ${story.situation}`,
+        image: `${origin}${story.image}`,
+        url: `${origin}/stories/${slug}/`,
+      },
+      createBreadcrumbList(origin, [
+        { name: "Home", path: "/" },
+        { name: "Repair library", path: "/guides/" },
+        { name: story.title, path: `/stories/${slug}/` },
+      ]),
+    ],
+  });
   return (
     <main className="detail-page story-page" id="content">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />

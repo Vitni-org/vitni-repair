@@ -17,6 +17,52 @@ const inquirySchema = z.object({
   company_website: z.string().max(300).optional().default(""),
 }).strict();
 
+const partnerInbox = "miki.lombi+vitni@gmail.com";
+const partnerTypeLabel = {
+  local_repair: "Local repairer or repair shop",
+  repair_cafe: "Repair café or community workshop",
+  parts_retailer: "Parts retailer or marketplace",
+  brand: "Product brand or manufacturer",
+  other: "Other community or partnership idea",
+} as const;
+
+async function emailPartnerInquiry(input: z.infer<typeof inquirySchema>, website: string) {
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+  const from = process.env.PARTNER_INQUIRY_FROM_EMAIL?.trim();
+  if (!apiKey || !from) return false;
+
+  const subject = "New Vitni partnership enquiry";
+  const text = [
+    "New partnership enquiry for Vitni",
+    "",
+    `Name: ${input.name}`,
+    `Email: ${input.email}`,
+    `Partner type: ${partnerTypeLabel[input.partnerType]}`,
+    `Organization: ${input.organization || "Not provided"}`,
+    `City or service area: ${input.city || "Not provided"}`,
+    `Website: ${website || "Not provided"}`,
+    "",
+    "Message:",
+    input.message,
+  ].join("\n");
+
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ from, to: [partnerInbox], reply_to: input.email, subject, text }),
+    signal: AbortSignal.timeout(10_000),
+  });
+
+  if (!response.ok) {
+    console.error(`Partner enquiry email provider returned HTTP ${response.status}.`);
+    return false;
+  }
+  return true;
+}
+
 export async function POST(request: Request) {
   const contentLength = Number(request.headers.get("content-length") || 0);
   if (Number.isFinite(contentLength) && contentLength > 16_000)
@@ -60,7 +106,22 @@ export async function POST(request: Request) {
       website,
       message: input.message,
     });
-    return NextResponse.json({ ok: true }, { status: 201, headers: { "Cache-Control": "no-store" } });
+    const emailSent = await emailPartnerInquiry(input, website).catch((error) => {
+      console.error("Partner enquiry was saved, but email delivery failed.", error instanceof Error ? error.message : "Unknown email error");
+      return false;
+    });
+    if (!emailSent) {
+      return NextResponse.json(
+        {
+          ok: true,
+          saved: true,
+          emailSent: false,
+          error: "Your enquiry was saved, but the email notification could not be sent. Please email the Vitni team directly to make sure we see it.",
+        },
+        { status: 202, headers: { "Cache-Control": "no-store" } },
+      );
+    }
+    return NextResponse.json({ ok: true, saved: true, emailSent: true }, { status: 201, headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     if (error instanceof ZodError)
       return NextResponse.json({ error: "Check the required fields and try again." }, { status: 400 });

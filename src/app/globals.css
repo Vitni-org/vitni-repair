@@ -2700,6 +2700,108 @@ p {
 .sector-page__library .guide-card-grid {
   margin-top: 1.25rem;
 }
+.sector-faq {
+  max-width: 58rem;
+  margin-top: clamp(3rem, 7vw, 6rem);
+  border-top: 1px solid var(--line);
+  padding-top: 2rem;
+}
+.sector-faq h2 {
+  margin: 0.4rem 0 1.4rem;
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  letter-spacing: -0.055em;
+  line-height: 1.08;
+}
+.sector-faq__list {
+  border-top: 1px solid var(--line);
+}
+.sector-faq__list details {
+  border-bottom: 1px solid var(--line);
+  padding: 1rem 0;
+}
+.sector-faq__list summary {
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 1.02rem;
+  font-weight: 800;
+  line-height: 1.4;
+  list-style-position: outside;
+}
+.sector-faq__list summary:focus-visible {
+  outline: 3px solid var(--lime);
+  outline-offset: 4px;
+}
+.sector-faq__list details p {
+  max-width: 72ch;
+  margin: 0.75rem 0 0;
+  color: var(--quiet);
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+.repair-safety-page {
+  max-width: 1450px;
+  margin-inline: auto;
+  padding: 1.4rem var(--page-gutter) clamp(4rem, 8vw, 7rem);
+}
+.repair-safety-hero {
+  max-width: 58rem;
+  padding: clamp(2.5rem, 7vw, 6rem) 0 2.5rem;
+}
+.repair-safety-hero h1 {
+  margin: 0.5rem 0 1rem;
+  font-size: clamp(2.8rem, 7vw, 6rem);
+  font-weight: 800;
+  letter-spacing: -0.085em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+.repair-safety-hero > p:last-child {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--quiet);
+  font-size: clamp(1.05rem, 1.7vw, 1.3rem);
+  line-height: 1.55;
+}
+.repair-safety-content {
+  max-width: 58rem;
+  border-top: 1px solid var(--line);
+}
+.repair-safety-content > section {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: 1.25rem;
+  border-bottom: 1px solid var(--line);
+  padding: clamp(1.5rem, 4vw, 2.5rem) 0;
+}
+.repair-safety-content > section > span {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  border-radius: 50%;
+  background: #edf4d4;
+  color: var(--forest);
+}
+.repair-safety-content > section > span svg {
+  width: 1.35rem;
+}
+.repair-safety-content h2 {
+  margin: 0 0 0.65rem;
+  font-size: clamp(1.35rem, 2.6vw, 1.9rem);
+  letter-spacing: -0.05em;
+}
+.repair-safety-content p {
+  max-width: 72ch;
+  margin: 0.65rem 0 0;
+  color: var(--quiet);
+  line-height: 1.7;
+}
+.repair-safety-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.1rem;
+}
 .sector-empty {
   display: flex;
   flex-wrap: wrap;
@@ -2969,6 +3071,15 @@ p {
 }
 .partner-form__status--error {
   color: #a23321;
+}
+.partner-form__status--saved {
+  color: #7a4b00;
+}
+.partner-form__fallback-email {
+  color: var(--forest);
+  font-size: 0.86rem;
+  font-weight: 800;
+  text-underline-offset: 0.2em;
 }
 .partner-form__privacy {
   margin: 0;
