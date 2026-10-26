@@ -3,7 +3,7 @@ import { bindings, defineConfig, defineWorker } from "cf/config";
 export default defineConfig({
   worker: defineWorker({
     name: "repairlens",
-    entrypoint: "vinext/server/fetch-handler",
+    entrypoint: "cloudflare-worker.mjs",
     compatibilityDate: "2026-10-25",
     compatibilityFlags: ["nodejs_compat", "nodejs_compat_populate_process_env"],
     domains: ["vitni.cc"],
