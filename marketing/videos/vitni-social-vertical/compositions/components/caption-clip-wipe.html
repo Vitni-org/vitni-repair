@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Clip Wipe</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: Manrope;
+        src: url("../../assets/fonts/manrope-latin.woff2") format("woff2");
+        font-display: block;
+        font-weight: 100 900;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        margin: 0;
+        overflow: hidden;
+        background: transparent;
+      }
+      #clip-wipe {
+        pointer-events: none;
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: transparent;
+      }
+      .wp-overlay {
+        position: absolute;
+        inset: 0;
+        background: transparent;
+        z-index: 1;
+        pointer-events: none;
+      }
+      #wp-container {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        pointer-events: none;
+      }
+      .wp-group {
+        position: absolute;
+        bottom: 590px;
+        left: 50px;
+        width: 980px;
+        max-height: 230px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 15px;
+        padding: 25px 40px 29px;
+        border: 5px solid #172320;
+        border-radius: 27px;
+        background: #174d44;
+        box-shadow: 11px 11px 0 #d9f04a;
+        visibility: hidden;
+        transform-origin: 50% 100%;
+      }
+      .wp-word {
+        font-family: Manrope, sans-serif;
+        font-weight: 850;
+        font-size: 84px;
+        text-transform: uppercase;
+        color: #f5f5ef;
+        display: inline-block;
+        letter-spacing: -0.055em;
+        line-height: 0.98;
+        clip-path: inset(0 100% 0 0);
+        will-change: clip-path, color, opacity;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-8muj"
+      id="clip-wipe"
+      data-composition-id="caption-clip-wipe"
+      data-timeline-locked
+      data-start="0"
+      data-duration="18"
+      data-fps="30"
+      data-width="1080"
+      data-height="1920"
+    >
+      <div data-hf-id="hf-0mf6" class="wp-overlay"></div>
+      <div data-hf-id="hf-mr4e" id="wp-container"></div>
+    </div>
+
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+
+        var _fitCanvas = document.createElement("canvas");
+        var _fitCtx = _fitCanvas.getContext("2d");
+        function fitFontSize(text, baseFontSize, fontWeight, fontFamily, maxWidth) {
+          var size = baseFontSize;
+          var minSize = Math.floor(baseFontSize * 0.45);
+          while (size > minSize) {
+            _fitCtx.font = fontWeight + " " + size + "px " + fontFamily;
+            if (_fitCtx.measureText(text).width <= maxWidth) return size;
+            size -= 2;
+          }
+          return minSize;
+        }
+
+        var WORDS = [
+          { text: "Broken?", start: 0.0, end: 0.4 },
+          { text: "don't", start: 0.4, end: 0.75 },
+          { text: "bin", start: 0.75, end: 1.0 },
+          { text: "it.", start: 1.0, end: 1.25 },
+          { text: "Show", start: 2.4, end: 2.65 },
+          { text: "Vitni", start: 2.65, end: 3.0 },
+          { text: "what", start: 3.0, end: 3.15 },
+          { text: "changed.", start: 3.15, end: 3.5 },
+          { text: "Get", start: 4.8, end: 5.05 },
+          { text: "clear", start: 5.05, end: 5.35 },
+          { text: "repair", start: 5.35, end: 5.75 },
+          { text: "steps.", start: 5.75, end: 6.05 },
+          { text: "Save", start: 7.2, end: 7.5 },
+          { text: "your", start: 7.5, end: 7.75 },
+          { text: "guide", start: 7.75, end: 8.1 },
+          { text: "offline.", start: 8.1, end: 8.4 },
+          { text: "Bikes.", start: 9.6, end: 9.95 },
+          { text: "Home.", start: 9.95, end: 10.3 },
+          { text: "Clothes.", start: 10.3, end: 10.85 },
+          { text: "Find", start: 12.0, end: 12.3 },
+          { text: "Paris", start: 12.3, end: 12.65 },
+          { text: "repair", start: 12.65, end: 13.0 },
+          { text: "help.", start: 13.0, end: 13.35 },
+        ];
+
+        var KEYWORDS = new Set([0, 3, 7, 11, 15, 18, 21]);
+
+        var RAW_GROUPS = [
+          [0, 3],
+          [4, 7],
+          [8, 11],
+          [12, 15],
+          [16, 18],
+          [19, 22],
+        ];
+        var GROUPS = RAW_GROUPS.map(function (pair, gi) {
+          var ws = pair[0],
+            we = pair[1];
+          var nextStart = gi + 1 < RAW_GROUPS.length ? WORDS[RAW_GROUPS[gi + 1][0]].start : 18.0;
+          var gEnd = Math.min(WORDS[we].end + 1.2, nextStart - 0.05);
+          return { wordStart: ws, wordEnd: we, start: WORDS[ws].start, end: gEnd };
+        });
+
+        var container = document.getElementById("wp-container");
+        var tl = gsap.timeline({ paused: true });
+
+        GROUPS.forEach(function (g, gi) {
+          var groupWords = WORDS.slice(g.wordStart, g.wordEnd + 1);
+          var grp = document.createElement("div");
+          grp.className = "wp-group";
+          grp.id = "wp-grp-" + gi;
+
+          var groupText = groupWords
+            .map(function (w) {
+              return w.text.toUpperCase();
+            })
+            .join(" ");
+            var computedSize = fitFontSize(groupText, 84, "850", "Manrope", 920);
+
+          groupWords.forEach(function (w, i) {
+            var wi = g.wordStart + i;
+            var span = document.createElement("span");
+            span.className = "wp-word";
+            span.id = "wp-w-" + wi;
+            span.textContent = w.text.toUpperCase();
+            span.style.fontSize = computedSize + "px";
+            grp.appendChild(span);
+          });
+
+          container.appendChild(grp);
+
+          tl.set(grp, { visibility: "visible" }, g.start);
+          tl.fromTo(
+            grp,
+            { y: 26, scale: 0.96, opacity: 0 },
+            { y: 0, scale: 1, opacity: 1, duration: 0.24, ease: "back.out(1.5)" },
+            g.start,
+          );
+
+          groupWords.forEach(function (w, i) {
+            var wi = g.wordStart + i;
+            var wordEl = document.getElementById("wp-w-" + wi);
+            var isKW = KEYWORDS.has(wi);
+
+            tl.to(
+              wordEl,
+              { clipPath: "inset(0 0% 0 0)", duration: 0.3, ease: "power2.out" },
+              w.start,
+            );
+            if (isKW) {
+              tl.to(wordEl, { color: "#FFD700", duration: 0.05 }, w.start + 0.1);
+            }
+            if (!isKW) tl.to(wordEl, { color: "#d9f04a", duration: 0.12 }, w.end - 0.12);
+          });
+
+          var wordEls = grp.querySelectorAll(".wp-word");
+          tl.to(
+            wordEls,
+            {
+              clipPath: "inset(0 0% 0 100%)",
+              duration: 0.25,
+              stagger: 0.04,
+              ease: "power2.in",
+            },
+            g.end - 0.2,
+          );
+          tl.set(grp, { visibility: "hidden", opacity: 0 }, g.end);
+        });
+
+        tl.seek(0);
+        window.__timelines["caption-clip-wipe"] = tl;
+      })();
+    </script>
+  </body>
+</html>

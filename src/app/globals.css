@@ -3242,3 +3242,178 @@ p {
     width: 2rem;
   }
 }
+
+.credits-page {
+  min-height: calc(100vh - 10rem);
+  padding: 2.5rem var(--page-gutter) 6rem;
+}
+
+.credits-page__inner {
+  width: min(100%, 66rem);
+  margin: 0 auto;
+}
+
+.credits-hero {
+  max-width: 54rem;
+  margin: 3rem 0 2.5rem;
+}
+
+.credits-hero .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.credits-hero .hero-title {
+  max-width: 12ch;
+  margin: 1rem 0;
+}
+
+.credits-hero__intro {
+  max-width: 46rem;
+  color: var(--quiet);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+}
+
+.credits-packs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.credits-pack {
+  display: flex;
+  min-height: 21rem;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  border: 1px solid var(--line);
+  background: white;
+  padding: clamp(1.35rem, 3vw, 2.25rem);
+}
+
+.credits-pack--featured {
+  border: 2px solid var(--forest);
+  background: var(--warm);
+}
+
+.credits-pack__price {
+  margin: 0.8rem 0 0.25rem;
+  color: var(--ink);
+  font-size: clamp(2.4rem, 5vw, 3.75rem);
+  font-weight: 850;
+  letter-spacing: -0.08em;
+  line-height: 1;
+}
+
+.credits-pack p:last-child {
+  max-width: 27rem;
+  color: var(--quiet);
+}
+
+.credits-pack__badge {
+  display: inline-flex;
+  margin-bottom: 1.3rem;
+  background: var(--lime);
+  padding: 0.35rem 0.6rem;
+  color: var(--ink);
+  font-family: "DM Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.credits-pack [data-slot="button"] {
+  width: 100%;
+  min-height: 3.25rem;
+  white-space: normal;
+}
+
+.credits-status {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  border-left: 3px solid var(--lime);
+  background: #edf2db;
+  padding: 1rem 1.2rem;
+  color: var(--forest);
+}
+
+.credits-status p,
+.credits-status span {
+  margin: 0;
+}
+
+.credits-status p {
+  color: var(--quiet);
+  font-size: 0.92rem;
+}
+
+.credits-policies {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem 1.5rem;
+  margin: 2rem 0;
+  color: var(--quiet);
+}
+
+.credits-policies p {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0;
+}
+
+.credits-policies p:last-child {
+  grid-column: 1 / -1;
+  font-size: 0.9rem;
+}
+
+.credits-policies svg {
+  flex: 0 0 auto;
+  width: 1.1rem;
+  color: var(--forest);
+}
+
+.credits-how {
+  max-width: 52rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1.5rem;
+}
+
+.credits-how h2 {
+  font-size: 1.25rem;
+  letter-spacing: -0.035em;
+}
+
+.credits-how p {
+  color: var(--quiet);
+}
+
+.repair-credits-link {
+  display: inline-block;
+  margin-top: 0.25rem;
+  color: var(--forest);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+@media (max-width: 700px) {
+  .credits-page {
+    padding-top: 1.25rem;
+  }
+  .credits-hero {
+    margin-top: 2rem;
+  }
+  .credits-packs,
+  .credits-policies {
+    grid-template-columns: 1fr;
+  }
+  .credits-policies p:last-child {
+    grid-column: auto;
+  }
+  .credits-pack {
+    min-height: 18rem;
+  }
+}

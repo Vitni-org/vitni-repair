@@ -1,7 +1,18 @@
 import { ExternalLink } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { GuidePart } from "@/lib/content";
-import { retailerSearches } from "@/lib/retailer-links";
+import { retailerSearches, withAmazonAffiliateTag } from "@/lib/retailer-links";
+
+const amazonAffiliateEnabled = Boolean(process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG?.trim());
+
+function isAmazonFranceLink(href: string) {
+  try {
+    const hostname = new URL(href).hostname;
+    return hostname === "amazon.fr" || hostname === "www.amazon.fr";
+  } catch {
+    return false;
+  }
+}
 
 export function PartSourcingLinks({
   part,
@@ -19,7 +30,7 @@ export function PartSourcingLinks({
       const isExistingSearch =
         (url.hostname === "www.google.com" && url.pathname === "/search" && url.searchParams.get("tbm") === "shop") ||
         (url.hostname === "www.amazon.fr" && url.pathname === "/s");
-      return isExistingSearch ? null : part.url;
+      return isExistingSearch ? null : withAmazonAffiliateTag(part.url);
     } catch {
       return null;
     }
@@ -36,7 +47,7 @@ export function PartSourcingLinks({
             data-analytics-event="parts_link_opened"
             data-analytics-page-context={context}
             href={directUrl}
-            rel="noopener noreferrer"
+            rel={`noopener noreferrer${amazonAffiliateEnabled && isAmazonFranceLink(directUrl) ? " sponsored" : ""}`}
             target="_blank"
           >
             {t("viewSuggested")} <ExternalLink aria-hidden="true" />
@@ -48,10 +59,11 @@ export function PartSourcingLinks({
             data-analytics-page-context={context}
             href={search.href}
             key={search.name}
-            rel="noopener noreferrer"
+            rel={`noopener noreferrer${amazonAffiliateEnabled && isAmazonFranceLink(search.href) ? " sponsored" : ""}`}
             target="_blank"
           >
-            {search.name === "Search Amazon France" ? t("amazon") : t("compare")} <ExternalLink aria-hidden="true" />
+            {search.name === "Search Amazon France" ? t("amazon") : t("compare")}
+            {search.name === "Search Amazon France" && amazonAffiliateEnabled ? ` · ${t("affiliateLink")}` : null} <ExternalLink aria-hidden="true" />
           </a>
         ))}
       </div>
@@ -61,5 +73,10 @@ export function PartSourcingLinks({
 
 export function PartSourcingNote() {
   const t = useTranslations("parts");
-  return <p className="part-sourcing-note">{t("note")}</p>;
+  return (
+    <p className="part-sourcing-note">
+      {t("note")}
+      {amazonAffiliateEnabled ? <> {t("affiliateDisclosure")}</> : null}
+    </p>
+  );
 }

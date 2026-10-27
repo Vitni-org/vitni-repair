@@ -1,0 +1,5 @@
+.hyperframes/
+.thumbnails/
+capture-home*/
+node_modules/
+exports/review/

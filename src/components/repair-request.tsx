@@ -36,6 +36,7 @@ export function RepairRequest() {
   const [sharePublicly, setSharePublicly] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [needsCredits, setNeedsCredits] = useState(false);
   const [result, setResult] = useState<GuideResponse | null>(null);
   const [resultVersion, setResultVersion] = useState(0);
 
@@ -85,6 +86,7 @@ export function RepairRequest() {
       return;
     }
     setError("");
+    setNeedsCredits(false);
     setResult(null);
     setLoading(true);
     trackAnalyticsEvent("repair_request_started", { has_photo: Boolean(image) });
@@ -96,7 +98,8 @@ export function RepairRequest() {
       });
       const data = await response.json();
       if (!response.ok) {
-        const errorKey = response.status === 400 ? "errorDescribe" : response.status === 413 ? "errorFileSize" : response.status === 429 ? "errorRateLimit" : "errorRequest";
+        if (response.status === 402) setNeedsCredits(true);
+        const errorKey = response.status === 400 ? "errorDescribe" : response.status === 402 ? "creditsRequired" : response.status === 413 ? "errorFileSize" : response.status === 429 ? "errorRateLimit" : "errorRequest";
         throw new Error(t(errorKey));
       }
       const guideResult = data as GuideResponse;
@@ -114,7 +117,7 @@ export function RepairRequest() {
     } catch (issue) {
       trackAnalyticsEvent("repair_guide_failed", { stage: "request" });
       const message = issue instanceof Error ? issue.message : "";
-      const knownErrors = ["errorDescribe", "errorFileSize", "errorRateLimit", "errorRequest"].map((key) => t(key));
+      const knownErrors = ["errorDescribe", "creditsRequired", "errorFileSize", "errorRateLimit", "errorRequest"].map((key) => t(key));
       setError(knownErrors.includes(message) ? message : t("errorRequest"));
     } finally {
       setLoading(false);
@@ -243,7 +246,12 @@ export function RepairRequest() {
           <Alert variant="destructive">
             <ShieldAlert aria-hidden="true" />
             <AlertTitle>{t("snag")}</AlertTitle>
-            <AlertDescription>{error}</AlertDescription>
+            <AlertDescription>
+              {error}
+              {needsCredits ? (
+                <> <Link className="repair-credits-link" href="/credits/">{t("buyGuideCredit")}</Link></>
+              ) : null}
+            </AlertDescription>
           </Alert>
         )}
         <div className="repair-tool__submit">

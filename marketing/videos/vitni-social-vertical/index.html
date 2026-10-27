@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <meta name="color-scheme" content="light" />
+    <title>Vitni — vertical product promo</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: Manrope;
+        src: url("assets/fonts/manrope-latin.woff2") format("woff2");
+        font-display: block;
+        font-weight: 100 900;
+      }
+      @font-face {
+        font-family: "DM Mono";
+        src: url("assets/fonts/dm-mono-latin.woff2") format("woff2");
+        font-display: block;
+        font-weight: 400;
+      }
+      :root {
+        --paper: #f5f5ef;
+        --ink: #172320;
+        --green: #174d44;
+        --lime: #d9f04a;
+        --coral: #f16f58;
+        --line: #c8d0c8;
+        --bg: var(--paper);
+        --surface: #fffefa;
+        --fg: var(--ink);
+        --brand: var(--green);
+        --border: var(--line);
+        --radius: 2cqmin;
+        --font-body: Manrope, sans-serif;
+        --font-mono: "DM Mono", monospace;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        margin: 0;
+        overflow: hidden;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: Manrope, sans-serif;
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        isolation: isolate;
+        background: var(--paper);
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+      }
+      .layer {
+        position: absolute;
+      }
+      .scene {
+        overflow: hidden;
+        visibility: hidden;
+      }
+      .scene-intro {
+        visibility: visible;
+        opacity: 1;
+        background:
+          radial-gradient(ellipse at 92% 18%, rgba(217, 240, 74, 0.55) 0 12%, transparent 12.2%),
+          var(--paper);
+      }
+      .intro-rail {
+        position: absolute;
+        top: 145px;
+        left: 74px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        color: var(--green);
+        font-family: "DM Mono", monospace;
+        font-size: 30px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .intro-rail img {
+        width: 70px;
+        height: 70px;
+      }
+      .intro-kicker {
+        position: absolute;
+        top: 257px;
+        left: 80px;
+        color: var(--green);
+        font-family: "DM Mono", monospace;
+        font-size: 29px;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+      .intro-title {
+        position: absolute;
+        top: 324px;
+        left: 70px;
+        width: 935px;
+        color: var(--ink);
+        font-size: 130px;
+        font-weight: 850;
+        letter-spacing: -0.085em;
+        line-height: 0.91;
+      }
+      .intro-title em {
+        color: var(--green);
+        font-family: Georgia, serif;
+        font-weight: 700;
+        letter-spacing: -0.07em;
+      }
+      .intro-subtitle {
+        position: absolute;
+        top: 690px;
+        left: 80px;
+        max-width: 790px;
+        color: #4d5c56;
+        font-size: 34px;
+        font-weight: 600;
+        line-height: 1.22;
+      }
+      .cover-photo {
+        position: absolute;
+        top: 770px;
+        left: 82px;
+        width: 548px;
+        height: 400px;
+        overflow: hidden;
+        border: 6px solid var(--ink);
+        border-radius: 16px;
+        background: white;
+        box-shadow: 16px 18px 0 var(--lime);
+        transform: rotate(-2deg);
+      }
+      .cover-photo img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .photo-sticker {
+        position: absolute;
+        top: 805px;
+        left: 109px;
+        z-index: 2;
+        padding: 13px 20px 14px;
+        border: 3px solid var(--ink);
+        border-radius: 999px;
+        background: var(--coral);
+        color: var(--ink);
+        font-family: "DM Mono", monospace;
+        font-size: 28px;
+        letter-spacing: 0.045em;
+        transform: rotate(-3deg);
+      }
+      .intro-mascot {
+        position: absolute;
+        z-index: 2;
+        top: 670px;
+        right: 44px;
+        width: 440px;
+        height: auto;
+        filter: drop-shadow(0 14px 0 rgba(23, 77, 68, 0.08));
+        transform-origin: 52% 86%;
+      }
+      .spark {
+        position: absolute;
+        z-index: 3;
+        width: 76px;
+        height: 76px;
+        color: var(--coral);
+      }
+      .spark svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+      .spark-one {
+        top: 715px;
+        left: 48px;
+        color: var(--lime);
+      }
+      .spark-two {
+        top: 700px;
+        right: 64px;
+        width: 54px;
+        height: 54px;
+      }
+      .chapter-head {
+        position: absolute;
+        top: 145px;
+        right: auto;
+        bottom: auto;
+        left: 74px;
+        width: 932px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 2px solid var(--line);
+        padding-bottom: 23px;
+      }
+      .chapter-label {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .chapter-kicker {
+        color: var(--green);
+        font-family: "DM Mono", monospace;
+        font-size: 28px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .chapter-title {
+        color: var(--ink);
+        font-size: 44px;
+        font-weight: 800;
+        letter-spacing: -0.055em;
+      }
+      .chapter-count {
+        display: grid;
+        width: 74px;
+        height: 74px;
+        place-items: center;
+        border: 3px solid var(--ink);
+        border-radius: 50%;
+        background: var(--lime);
+        color: var(--green);
+        font-family: "DM Mono", monospace;
+        font-size: 30px;
+        transform: rotate(7deg);
+      }
+      .device-host {
+        position: absolute;
+        top: 244px;
+        left: 40px;
+        width: 1000px;
+        height: 920px;
+      }
+      .device-host::before {
+        position: absolute;
+        top: 76px;
+        left: 178px;
+        width: 640px;
+        height: 890px;
+        border: 2px solid rgba(23, 77, 68, 0.13);
+        border-radius: 50%;
+        content: "";
+        transform: rotate(-9deg);
+      }
+      .device-host::after {
+        position: absolute;
+        right: 80px;
+        bottom: 31px;
+        left: 79px;
+        height: 24px;
+        border: 3px solid var(--ink);
+        border-radius: 99px;
+        background: var(--lime);
+        content: "";
+        transform: rotate(-1.2deg);
+      }
+      .stage-underlay {
+        position: absolute;
+        top: 0;
+        right: 12px;
+        bottom: 14px;
+        left: 12px;
+        border: 3px solid var(--ink);
+        border-radius: 54px;
+        background: #e8e8df;
+        box-shadow: 13px 14px 0 var(--lime);
+      }
+      .device-host [data-composition-src] {
+        position: absolute;
+        z-index: 1;
+        inset: 0;
+      }
+      .device-host .bds-device {
+        border-color: var(--ink) !important;
+        box-shadow: 0 22px 48px rgba(23, 35, 32, 0.23) !important;
+      }
+      .device-host .bds-phone {
+        height: min(68cqh, 168cqw) !important;
+        border-radius: 74px !important;
+      }
+      .device-host .bds-phone .bds-screen {
+        border-radius: 54px !important;
+      }
+      .device-host .bds-notch {
+        top: 18px !important;
+        height: 18px !important;
+      }
+      .orbit-sticker {
+        position: absolute;
+        z-index: 2;
+        right: 88px;
+        bottom: 98px;
+        padding: 13px 20px;
+        border: 3px solid var(--ink);
+        border-radius: 999px;
+        background: var(--coral);
+        color: var(--ink);
+        font-family: "DM Mono", monospace;
+        font-size: 28px;
+        letter-spacing: 0.04em;
+        transform: rotate(3deg);
+      }
+      .scene-end {
+        background: var(--green);
+      }
+      .end-grid {
+        position: absolute;
+        inset: 0;
+        opacity: 0.11;
+        background-image: linear-gradient(rgba(255, 255, 255, 0.55) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.55) 1px, transparent 1px);
+        background-size: 108px 108px;
+        mask-image: linear-gradient(to bottom, transparent, black 25%, black 80%, transparent);
+      }
+      .end-ring {
+        position: absolute;
+        top: 300px;
+        left: 100px;
+        width: 880px;
+        height: 880px;
+        border: 3px dashed rgba(245, 245, 239, 0.32);
+        border-radius: 50%;
+        transform: rotate(-15deg);
+      }
+      .end-mascot {
+        position: absolute;
+        top: 280px;
+        left: 263px;
+        width: 554px;
+        height: auto;
+        transform-origin: 50% 90%;
+      }
+      .end-wordmark {
+        position: absolute;
+        top: 935px;
+        left: 0;
+        width: 100%;
+        color: var(--paper);
+        font-size: 104px;
+        font-weight: 850;
+        letter-spacing: -0.09em;
+        text-align: center;
+      }
+      .end-wordmark span {
+        color: var(--lime);
+      }
+      .end-tagline {
+        position: absolute;
+        top: 1336px;
+        left: 120px;
+        width: 840px;
+        color: var(--paper);
+        font-size: 42px;
+        font-weight: 650;
+        line-height: 1.25;
+        text-align: center;
+      }
+      .end-url {
+        position: absolute;
+        top: 1450px;
+        left: 320px;
+        width: 440px;
+        padding: 22px 12px 25px;
+        border: 4px solid var(--ink);
+        border-radius: 99px;
+        background: var(--lime);
+        color: var(--ink);
+        font-family: "DM Mono", monospace;
+        font-size: 38px;
+        letter-spacing: 0.02em;
+        text-align: center;
+        box-shadow: 8px 9px 0 var(--coral);
+      }
+      .end-note {
+        position: absolute;
+        top: 1575px;
+        left: 0;
+        width: 100%;
+        color: #dbe6dc;
+        font-family: "DM Mono", monospace;
+        font-size: 28px;
+        letter-spacing: 0.14em;
+        text-align: center;
+        text-transform: uppercase;
+      }
+      .frame-edge {
+        position: absolute;
+        z-index: 5;
+        inset: 24px;
+        border: 2px solid rgba(23, 35, 32, 0.16);
+        border-radius: 23px;
+        pointer-events: none;
+      }
+      .caption-host {
+        position: absolute;
+        z-index: 8;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+        pointer-events: none;
+      }
+      .corner-mark {
+        position: absolute;
+        z-index: 4;
+        top: 44px;
+        right: 47px;
+        width: 36px;
+        height: 36px;
+        border-top: 7px solid var(--coral);
+        border-right: 7px solid var(--coral);
+        opacity: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-sshj"
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="18"
+      data-width="1080"
+      data-height="1920"
+    >
+      <section data-hf-id="hf-jiwc" id="scene-intro" class="scene scene-intro">
+        <div data-hf-id="hf-cc10" class="intro-rail layer">
+          <img data-hf-id="hf-zm6o" src="assets/vitni-mark.svg" alt="" />
+          <span data-hf-id="hf-54dh">Vitni · your repair sidekick</span>
+        </div>
+        <div data-hf-id="hf-9zd6" class="intro-kicker layer">The photo-to-fix guide</div>
+        <h1 data-hf-id="hf-uues" class="intro-title layer">Good things<br data-hf-id="hf-x5px" /><em data-hf-id="hf-7r0r">deserve a fix.</em></h1>
+        <p data-hf-id="hf-xovr" class="intro-subtitle layer">One photo. Clear steps.</p>
+        <div data-hf-id="hf-14zt" class="cover-photo layer">
+          <img data-hf-id="hf-ghn7" src="assets/screenshots/bike-flat-cover.webp" alt="A bicycle wheel ready to be repaired" />
+        </div>
+        <div data-hf-id="hf-7ujk" class="photo-sticker layer">LET'S FIX IT</div>
+        <img data-hf-id="hf-emi5" class="intro-mascot layer" src="assets/vitni-mascot.png" alt="Vitni holding a repair wrench" />
+        <div data-hf-id="hf-jpab" class="spark spark-one layer" aria-hidden="true">
+          <svg data-hf-id="hf-fohl" viewBox="0 0 100 100"><path data-hf-id="hf-9eg8" d="M50 4 63 36 96 50 63 63 50 96 37 63 4 50 37 36Z" fill="currentColor" stroke="#172320" stroke-width="6" stroke-linejoin="round" /></svg>
+        </div>
+        <div data-hf-id="hf-06xt" class="spark spark-two layer" aria-hidden="true">
+          <svg data-hf-id="hf-c1ot" viewBox="0 0 100 100"><path data-hf-id="hf-3azk" d="M50 4 63 36 96 50 63 63 50 96 37 63 4 50 37 36Z" fill="currentColor" stroke="#172320" stroke-width="6" stroke-linejoin="round" /></svg>
+        </div>
+      </section>
+
+      <section data-hf-id="hf-tf3e" id="scene-demo" class="scene scene-demo">
+        <div data-hf-id="hf-aiy0" class="chapter-head chapter-head-one layer">
+          <div data-hf-id="hf-egki" class="chapter-label"><span data-hf-id="hf-qfnl" class="chapter-kicker">01 · Show what changed</span><strong data-hf-id="hf-owz3" class="chapter-title">Start with a photo</strong></div>
+          <span data-hf-id="hf-pg4d" class="chapter-count">01</span>
+        </div>
+        <div data-hf-id="hf-j6qi" class="chapter-head chapter-head-two layer">
+          <div data-hf-id="hf-2ame" class="chapter-label"><span data-hf-id="hf-rdsp" class="chapter-kicker">02 · Understand the issue</span><strong data-hf-id="hf-pzxn" class="chapter-title">Follow illustrated steps</strong></div>
+          <span data-hf-id="hf-qn1g" class="chapter-count">02</span>
+        </div>
+        <div data-hf-id="hf-vv7m" class="device-host layer">
+          <div data-hf-id="hf-1jtf" class="stage-underlay"></div>
+        <div data-hf-id="hf-dvcs" id="device-stage-one" class="device-stage-one clip" data-composition-id="device-stage-one" data-composition-src="compositions/components/browser-device-stage.html" data-start="2.4" data-duration="5.95" data-variable-values='{"chrome":"phone","title":"vitni.cc","accent":"green","exit":"none","swap_at":2.55,"screen_src":"assets/screenshots/02-repair.png","screen_b_src":"assets/screenshots/03-guide.png"}'></div>
+          <span data-hf-id="hf-ptmy" class="orbit-sticker orbit-sticker-one">PHOTO → REPAIR PLAN</span>
+          <span data-hf-id="hf-ygdo" class="orbit-sticker orbit-sticker-two">SAFE, STEP BY STEP</span>
+        </div>
+      </section>
+
+      <section data-hf-id="hf-6egs" id="scene-pwa" class="scene scene-pwa">
+        <div data-hf-id="hf-saz5" class="chapter-head layer">
+          <div data-hf-id="hf-2oxf" class="chapter-label"><span data-hf-id="hf-57d0" class="chapter-kicker">03 · Keep it in your pocket</span><strong data-hf-id="hf-k787" class="chapter-title">Save your guide offline</strong></div>
+          <span data-hf-id="hf-q8qf" class="chapter-count">03</span>
+        </div>
+        <div data-hf-id="hf-ywpy" class="device-host layer">
+          <div data-hf-id="hf-6ygj" class="stage-underlay"></div>
+          <div data-hf-id="hf-hamj" id="device-stage-three" class="device-stage-three clip" data-composition-id="device-stage-three" data-composition-src="compositions/components/browser-device-stage.html" data-start="8.15" data-duration="2.65" data-variable-values='{"chrome":"phone","title":"vitni.cc","accent":"green","exit":"none","screen_src":"assets/screenshots/06-pwa.png"}'></div>
+          <span data-hf-id="hf-ms4x" class="orbit-sticker">READY WHEN YOU ARE</span>
+        </div>
+      </section>
+
+      <section data-hf-id="hf-pwvi" id="scene-library" class="scene scene-library">
+        <div data-hf-id="hf-fm6d" class="chapter-head layer">
+          <div data-hf-id="hf-338g" class="chapter-label"><span data-hf-id="hf-8rp9" class="chapter-kicker">04 · Find your kind of fix</span><strong data-hf-id="hf-04rm" class="chapter-title">A library that keeps growing</strong></div>
+          <span data-hf-id="hf-rfni" class="chapter-count">04</span>
+        </div>
+        <div data-hf-id="hf-zb0z" class="device-host layer">
+          <div data-hf-id="hf-6k5i" class="stage-underlay"></div>
+          <div data-hf-id="hf-wc8e" id="device-stage-four" class="device-stage-four clip" data-composition-id="device-stage-four" data-composition-src="compositions/components/browser-device-stage.html" data-start="10.8" data-duration="2.2" data-variable-values='{"chrome":"phone","title":"vitni.cc","accent":"green","exit":"none","screen_src":"assets/screenshots/04-library.png"}'></div>
+          <span data-hf-id="hf-8vhe" class="orbit-sticker">BIKES · HOME · CLOTHES</span>
+        </div>
+      </section>
+
+      <section data-hf-id="hf-ncqm" id="scene-community" class="scene scene-community">
+        <div data-hf-id="hf-gt3g" class="chapter-head layer">
+          <div data-hf-id="hf-0b39" class="chapter-label"><span data-hf-id="hf-se4p" class="chapter-kicker">05 · Repair together</span><strong data-hf-id="hf-cqul" class="chapter-title">Find a helping hand nearby</strong></div>
+          <span data-hf-id="hf-r1ch" class="chapter-count">05</span>
+        </div>
+        <div data-hf-id="hf-zpc0" class="device-host layer">
+          <div data-hf-id="hf-65uh" class="stage-underlay"></div>
+          <div data-hf-id="hf-qiuu" id="device-stage-five" class="device-stage-five clip" data-composition-id="device-stage-five" data-composition-src="compositions/components/browser-device-stage.html" data-start="13" data-duration="2.2" data-variable-values='{"chrome":"phone","title":"vitni.cc","accent":"green","exit":"none","screen_src":"assets/screenshots/05-community.png"}'></div>
+          <span data-hf-id="hf-jkj5" class="orbit-sticker">PARIS COMMUNITY</span>
+        </div>
+      </section>
+
+      <section data-hf-id="hf-ueiu" id="scene-end" class="scene scene-end">
+        <div data-hf-id="hf-bs1b" class="end-grid layer"></div>
+        <div data-hf-id="hf-g0kx" class="end-ring layer"></div>
+        <img data-hf-id="hf-7toc" class="end-mascot layer" src="assets/vitni-mascot-end.png" alt="Vitni, ready to help repair" />
+        <div data-hf-id="hf-imjv" class="end-wordmark layer">Keep good things<br data-hf-id="hf-rsrt" /><span data-hf-id="hf-smp9">going.</span></div>
+        <p data-hf-id="hf-yo2l" class="end-tagline layer">Keep what you love.</p>
+        <div data-hf-id="hf-rp5n" class="end-url layer">vitni.cc ↗</div>
+      </section>
+
+      <div data-hf-id="hf-2w01" id="caption-overlay" class="caption-host clip" data-composition-id="caption-overlay" data-composition-src="compositions/components/caption-clip-wipe.html" data-start="0" data-duration="18" data-track-kind="captions"></div>
+      <audio data-hf-id="hf-h7br" id="vitni-music" class="clip" data-start="0" data-duration="18" data-track-index="0" src="assets/audio/vitni-bed-18s.wav"></audio>
+      <div data-hf-id="hf-c1x2" class="frame-edge" aria-hidden="true"></div>
+      <div data-hf-id="hf-pln4" class="corner-mark" aria-hidden="true"></div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      const scenes = [
+        [".scene-demo", 2.4, 5.95],
+        [".scene-pwa", 8.15, 2.65],
+        [".scene-library", 10.8, 2.2],
+        [".scene-community", 13, 2.2],
+        [".scene-end", 15, 3],
+      ];
+      scenes.forEach(([selector, start, duration]) => {
+        tl.set(selector, { visibility: "visible" }, start);
+        tl.fromTo(
+          selector,
+          { opacity: 0, x: 32, scale: 0.985 },
+          { opacity: 1, x: 0, scale: 1, duration: 0.3, ease: "power3.out" },
+          start,
+        );
+        if (selector !== ".scene-end") {
+          tl.to(selector, { opacity: 0, x: -18, duration: 0.2, ease: "power2.in" }, start + duration - 0.2);
+        }
+      });
+      tl.to(".scene-intro", { opacity: 0, duration: 0.2, ease: "power2.in" }, 2.2);
+
+      tl.fromTo(".intro-rail", { y: -24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.42, ease: "back.out(1.6)" }, 0.05);
+      tl.fromTo(".intro-kicker", { x: -35, opacity: 0 }, { x: 0, opacity: 1, duration: 0.38, ease: "power3.out" }, 0.12);
+      tl.from(".intro-title", { y: 32, rotate: -1, duration: 0.42, ease: "power4.out" }, 0.04);
+      tl.fromTo(".intro-subtitle", { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.34, ease: "power2.out" }, 0.52);
+      tl.fromTo(".cover-photo", { opacity: 0, x: -54, rotate: -7, scale: 0.93 }, { opacity: 1, x: 0, rotate: -2, scale: 1, duration: 0.5, ease: "back.out(1.35)" }, 0.72);
+      tl.fromTo(".intro-mascot", { opacity: 0, x: 65, y: 28, rotate: 8, scale: 0.88 }, { opacity: 1, x: 0, y: 0, rotate: 0, scale: 1, duration: 0.62, ease: "back.out(1.5)" }, 0.9);
+      tl.fromTo(".photo-sticker", { opacity: 0, scale: 0.6, rotate: -12 }, { opacity: 1, scale: 1, rotate: -3, duration: 0.35, ease: "back.out(2)" }, 1.15);
+      tl.fromTo(".spark-one, .spark-two", { scale: 0, rotate: -50 }, { scale: 1, rotate: 0, duration: 0.42, stagger: 0.12, ease: "back.out(2.6)" }, 1.1);
+      tl.to(".spark-one", { rotate: 18, scale: 0.85, duration: 0.45, ease: "sine.inOut" }, 1.55);
+      tl.to(".spark-two", { rotate: -22, scale: 1.12, duration: 0.48, ease: "sine.inOut" }, 1.62);
+      tl.to(".intro-mascot", { rotate: -1.8, y: -8, duration: 0.34, ease: "sine.inOut" }, 1.6);
+      tl.to(".intro-mascot", { rotate: 0, y: 0, duration: 0.35, ease: "sine.inOut" }, 1.94);
+
+      [".scene-demo", ".scene-pwa", ".scene-library", ".scene-community"].forEach((selector, i) => {
+        const start = [2.4, 8.35, 10.8, 13][i];
+        const headSelector = selector === ".scene-demo" ? ".chapter-head-one" : ".chapter-head";
+        tl.fromTo(`${selector} ${headSelector}`, { y: -20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, start + 0.02);
+        tl.fromTo(`${selector} ${headSelector} .chapter-count`, { scale: 0.6, rotate: -12 }, { scale: 1, rotate: 7, duration: 0.42, ease: "back.out(2)" }, start + 0.14);
+        if (selector !== ".scene-demo") {
+          tl.fromTo(`${selector} .orbit-sticker`, { x: 34, rotate: -5, opacity: 0 }, { x: 0, rotate: 3, opacity: 1, duration: 0.34, ease: "back.out(1.7)" }, start + 0.68);
+        }
+      });
+      tl.to(".scene-demo .chapter-head-one", { y: -16, opacity: 0, duration: 0.2, ease: "power2.in" }, 4.65);
+      tl.fromTo(".scene-demo .chapter-head-two", { y: -20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.34, ease: "power3.out" }, 4.9);
+      tl.fromTo(".scene-demo .chapter-head-two .chapter-count", { scale: 0.6, rotate: -12 }, { scale: 1, rotate: 7, duration: 0.42, ease: "back.out(2)" }, 5.08);
+      tl.fromTo(".orbit-sticker-one", { x: 0, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3 }, 3.08);
+      tl.to(".orbit-sticker-one", { x: -20, opacity: 0, duration: 0.18 }, 4.83);
+      tl.fromTo(".orbit-sticker-two", { x: 25, opacity: 0 }, { x: 0, opacity: 1, duration: 0.28, ease: "back.out(1.7)" }, 5.05);
+
+      tl.fromTo(".end-ring", { scale: 0.82, rotate: -28, opacity: 0 }, { scale: 1, rotate: -15, opacity: 1, duration: 0.55, ease: "power3.out" }, 15);
+      tl.fromTo(".end-mascot", { y: 54, rotate: -4, opacity: 0 }, { y: 0, rotate: 0, opacity: 1, duration: 0.58, ease: "back.out(1.4)" }, 15.08);
+      tl.fromTo(".end-wordmark", { y: 45, opacity: 0 }, { y: 0, opacity: 1, duration: 0.36, ease: "power3.out" }, 15.34);
+      tl.fromTo(".end-tagline", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power2.out" }, 15.53);
+      tl.fromTo(".end-url", { y: 25, scale: 0.88, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.35, ease: "back.out(1.8)" }, 15.7);
+      tl.to(".end-mascot", { y: -7, rotate: 1.4, duration: 0.28, ease: "sine.inOut" }, 16.35);
+      tl.to(".end-mascot", { y: 0, rotate: 0, duration: 0.28, ease: "sine.inOut" }, 16.63);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

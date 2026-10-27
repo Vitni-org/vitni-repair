@@ -45,7 +45,8 @@
     "findRepairCafe": "Trouver un Repair Café",
     "partner": "Devenir partenaire de Vitni",
     "safety": "Sécurité et bonnes pratiques",
-    "tagline": "Réparer · porter · rouler"
+    "tagline": "Réparer · porter · rouler",
+    "repairCredits": "Crédits de guides"
   },
   "home": {
     "eyebrow": "Voici Vitni · votre compagnon réparation",
@@ -146,7 +147,9 @@
     "planEyebrow": "Plan de réparation de Vitni · {sector} · {confidence}",
     "notSaved": "Votre plan est prêt, mais la bibliothèque partagée n’est pas encore connectée.",
     "samplePhotoFileName": "Photo exemple de chaîne de vélo",
-    "errorRateLimit": "Trop de demandes de réparation. Patientez une minute avant de réessayer."
+    "errorRateLimit": "Trop de demandes de réparation. Patientez une minute avant de réessayer.",
+    "creditsRequired": "Pour créer un guide personnalisé, il vous faut un crédit de réparation.",
+    "buyGuideCredit": "Voir les packs de crédits"
   },
   "guideLibrary": {
     "eyebrow": "La bibliothèque de réparation de Vitni",
@@ -413,8 +416,10 @@
   "parts": {
     "viewSuggested": "Voir le lien suggéré",
     "amazon": "Rechercher sur Amazon France",
+    "affiliateLink": "lien partenaire",
     "compare": "Comparer les résultats d’achat",
-    "note": "Les liens de recherche servent à comparer les options ; ils ne confirment ni compatibilité ni disponibilité et ne constituent pas une recommandation de Vitni. Vérifiez la taille, le modèle, la compatibilité, le vendeur et les conditions de retour avant l’achat."
+    "note": "Les liens de recherche servent à comparer les options ; ils ne confirment ni compatibilité ni disponibilité et ne constituent pas une recommandation de Vitni. Vérifiez la taille, le modèle, la compatibilité, le vendeur et les conditions de retour avant l’achat.",
+    "affiliateDisclosure": "En tant que Partenaire Amazon, je réalise un bénéfice sur les achats remplissant les conditions requises. Certains liens peuvent générer une commission pour Vitni, sans coût supplémentaire pour vous."
   },
   "offline": {
     "unsupported": "L’enregistrement hors ligne n’est pas pris en charge par ce navigateur.",
@@ -469,5 +474,32 @@
     "stepsTitle": "Étapes de réparation",
     "safety": "La sécurité d’abord",
     "tools": "Outils"
+  },
+  "credits": {
+    "eyebrow": "Payez une fois, réparez davantage",
+    "title": "Un plan clair pour votre prochaine réparation.",
+    "intro": "La bibliothèque publique reste gratuite. Achetez un pack ponctuel quand vous avez besoin que Vitni crée un guide personnalisé à partir d’une photo.",
+    "balance": "Crédits de réparation disponibles : {count}",
+    "singleTitle": "Un guide personnalisé",
+    "singleDescription": "Une photo ou une description transformée en plan illustré et enregistré.",
+    "singlePrice": "2,49 €",
+    "fiveTitle": "Cinq guides personnalisés",
+    "fiveDescription": "Cinq demandes de réparation, enregistrées dans votre collection.",
+    "fivePrice": "9,99 €",
+    "bestValue": "Environ 20 % d’économie",
+    "buy": "Continuer vers le paiement sécurisé",
+    "oneTime": "Paiement unique · sans abonnement",
+    "freeLibrary": "Les guides déjà publiés restent gratuits à consulter et à suivre.",
+    "walletNote": "Les crédits sont liés à ce navigateur. Effacer ses données ou changer d’appareil peut les rendre inaccessibles.",
+    "setupNotice": "Le paiement en ligne n’est pas encore activé. Les prix indiqués sont ceux des packs prévus ; le paiement sera disponible après configuration du compte.",
+    "readyNotice": "Le paiement sécurisé est fourni par Paddle. Un crédit est utilisé uniquement lorsqu’un guide personnalisé est créé avec succès ; les échecs sont automatiquement recrédités.",
+    "balanceLoading": "Vérification du solde de crédits…",
+    "paymentDone": "Paiement effectué. Vérification du nouveau solde…",
+    "creditAdded": "Crédits ajoutés. Vous pouvez demander un guide de réparation à Vitni.",
+    "checkoutError": "Impossible de démarrer le paiement. Réessayez plus tard.",
+    "noBalance": "Aucun crédit acheté n’est encore disponible dans ce navigateur.",
+    "faqTitle": "Fonctionnement des crédits",
+    "faqBody": "Choisissez un pack, finalisez le paiement sécurisé, puis revenez au formulaire de réparation. Votre solde est mis à jour après confirmation du paiement par Paddle.",
+    "working": "Ouverture du paiement…"
   }
 }

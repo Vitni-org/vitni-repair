@@ -52,6 +52,9 @@ export function SiteFooter() {
           >
             {t("findRepairCafe")}
           </Link>
+          <Link className="underline-offset-4 hover:underline" href="/credits/">
+            {t("repairCredits")}
+          </Link>
           <Link className="underline-offset-4 hover:underline" href="/partners/">
             {t("partner")}
           </Link>

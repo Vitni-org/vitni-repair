@@ -45,7 +45,8 @@
     "findRepairCafe": "Find a repair café",
     "partner": "Partner with Vitni",
     "safety": "Repair safety and standards",
-    "tagline": "Fix · wear · ride"
+    "tagline": "Fix · wear · ride",
+    "repairCredits": "Repair guide credits"
   },
   "home": {
     "eyebrow": "Meet Vitni · your repair sidekick",
@@ -146,7 +147,9 @@
     "planEyebrow": "Vitni’s repair plan · {sector} · {confidence}",
     "notSaved": "This plan is ready for you, but the shared guide library is not connected yet.",
     "samplePhotoFileName": "Bicycle chain sample photo",
-    "errorRateLimit": "Too many repair requests. Please wait a minute and try again."
+    "errorRateLimit": "Too many repair requests. Please wait a minute and try again.",
+    "creditsRequired": "You need a repair credit to create a custom guide.",
+    "buyGuideCredit": "View repair credit packs"
   },
   "guideLibrary": {
     "eyebrow": "Vitni’s repair library",
@@ -413,8 +416,10 @@
   "parts": {
     "viewSuggested": "View suggested link",
     "amazon": "Search Amazon France",
+    "affiliateLink": "affiliate link",
     "compare": "Compare shopping results",
-    "note": "Search links help you compare options; they are not confirmed matches, stock checks, or Vitni endorsements. Check size, model, compatibility, seller, and return terms before buying."
+    "note": "Search links help you compare options; they are not confirmed matches, stock checks, or Vitni endorsements. Check size, model, compatibility, seller, and return terms before buying.",
+    "affiliateDisclosure": "As an Amazon Associate I earn from qualifying purchases. Some of these links may earn a commission for Vitni at no extra cost to you."
   },
   "offline": {
     "unsupported": "Offline guide saving is not supported in this browser.",
@@ -469,5 +474,32 @@
     "stepsTitle": "Repair steps",
     "safety": "Safety first",
     "tools": "Tools"
+  },
+  "credits": {
+    "eyebrow": "Pay once, repair more",
+    "title": "A clear plan for your next fix.",
+    "intro": "The public guide library stays free. Buy a one-time pack when you need Vitni to build a photo-based custom repair guide.",
+    "balance": "Available repair credits: {count}",
+    "singleTitle": "One custom guide",
+    "singleDescription": "One photo or description turned into a saved, illustrated plan.",
+    "singlePrice": "€2.49",
+    "fiveTitle": "Five custom guides",
+    "fiveDescription": "Five repair requests, saved in your guide collection.",
+    "fivePrice": "€9.99",
+    "bestValue": "Save about 20%",
+    "buy": "Continue to secure checkout",
+    "oneTime": "One-time payment · no subscription",
+    "freeLibrary": "Already published guides remain free to browse and use.",
+    "walletNote": "Credits are tied to this browser. Clearing site data or switching devices can make them inaccessible.",
+    "setupNotice": "Online checkout is not active yet. The prices shown are the planned packs; checkout will appear after account setup.",
+    "readyNotice": "Secure checkout is provided by Paddle. One credit is used only when a custom guide is successfully created; failed generations are refunded automatically.",
+    "balanceLoading": "Checking your credit balance…",
+    "paymentDone": "Payment completed. Checking your updated balance…",
+    "creditAdded": "Credits added. You can ask Vitni for a repair guide now.",
+    "checkoutError": "We couldn’t start checkout. Please try again later.",
+    "noBalance": "No purchased credits are available in this browser yet.",
+    "faqTitle": "How credits work",
+    "faqBody": "Choose a pack, complete the secure checkout, then return to the repair form. Your balance updates after Paddle confirms payment.",
+    "working": "Opening checkout…"
   }
 }
