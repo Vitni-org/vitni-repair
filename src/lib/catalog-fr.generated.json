@@ -1,5 +1,53 @@
 {
   "guides": {
+    "unclog-kitchen-sink": {
+      "id": "unclog-kitchen-sink",
+      "title": "Comment déboucher un évier de cuisine sans produits agressifs",
+      "desc": "Débouchez un évier qui s’écoule lentement en vérifiant d’abord la bonde et le siphon, avec des gestes prudents pour un bouchon simple.",
+      "stepTitles": ["Vérifier la bonde", "Nettoyer un siphon accessible", "Remonter et vérifier l’étanchéité", "Utiliser une ventouse si besoin"],
+      "steps": [
+        "Retirez l’eau stagnante avec un récipient. Vérifiez si la bonde est conçue pour être retirée, puis enlevez les cheveux ou déchets visibles avec un chiffon. Ne forcez pas la bonde et ne mettez pas les doigts dans une canalisation que vous ne voyez pas.",
+        "Si le siphon est visible, non corrodé et conçu pour être démonté par l’utilisateur, placez une bassine dessous et suivez les instructions du fabricant. Enlevez les débris visibles au-dessus de la bassine et rincez le siphon ; arrêtez s’il est fixe, abîmé ou ne se desserre pas sans effort.",
+        "Remettez le siphon et ses joints dans leur ordre d’origine, en serrant uniquement comme indiqué. Faites couler un peu d’eau et vérifiez chaque raccord. N’utilisez plus l’évier si un raccord fuit ou si le tuyau bouge.",
+        "Si un bouchon simple persiste, utilisez une ventouse uniquement si aucun produit chimique n’a été versé et s’il n’y a ni broyeur ni tuyau abîmé apparent. Bouchez le trop-plein avec un chiffon humide, gardez de l’eau au-dessus de la ventouse et pompez doucement ; arrêtez si l’eau remonte ailleurs."
+      ],
+      "safety": "Ne mélangez jamais des déboucheurs et n’utilisez pas de ventouse après avoir versé un produit chimique. Si un produit corrosif a été utilisé, suivez son étiquette, aérez et n’ouvrez pas le siphon. Si plusieurs équipements sont bouchés, si des eaux usées remontent, si les tuyaux sont endommagés ou si vous avez un doute, contactez un plombier.",
+      "tools": ["Bassine", "Chiffon", "Ventouse pour évier", "Gants de protection"],
+      "parts": [],
+      "alt": "Un siphon d’évier vérifié avec précaution au-dessus d’une bassine"
+    },
+    "fix-dripping-tap": {
+      "id": "fix-dripping-tap",
+      "title": "Réparer un robinet qui goutte : vérifier la cartouche ou le joint",
+      "desc": "Pour un robinet qui goutte au bec, identifiez la cartouche ou le joint remplaçable correspondant exactement au modèle.",
+      "stepTitles": ["Confirmer l’origine de la fuite", "Couper l’eau et relâcher la pression", "Ouvrir uniquement la poignée prévue", "Poser la pièce exacte"],
+      "steps": [
+        "Vérifiez que l’eau goutte du bec lorsque le robinet est fermé, et non d’un flexible, du socle, du mur ou d’un raccord. Relevez la marque et le modèle et consultez la notice ; suivez ce guide uniquement si le fabricant prévoit une cartouche ou un joint remplaçable par l’utilisateur.",
+        "Fermez les robinets d’arrêt d’eau chaude et froide sous le lavabo, puis ouvrez le robinet pour relâcher la pression. Si un robinet d’arrêt manque, est bloqué ou laisse passer l’eau, arrêtez-vous et contactez un plombier ; ne démontez pas un robinet sous pression.",
+        "Bouchez la bonde pour éviter de perdre une petite pièce. Suivez la notice exacte pour retirer la poignée et ses fixations avec un outil adapté. Retirez la cartouche uniquement si le fabricant la classe comme remplaçable par l’utilisateur ; ne forcez pas et ne faites pas levier sur le corps du robinet.",
+        "Choisissez la pièce indiquée pour la marque et le modèle exacts, avec la même forme et les mêmes dimensions. Replacez-la selon l’orientation de la notice, remontez et rouvrez les robinets d’arrêt lentement. Si le goutte-à-goutte persiste ou si un raccord fuit, refermez l’eau et contactez un plombier."
+      ],
+      "safety": "Ce guide ne couvre pas une fuite sur les tuyaux ou dans un mur, les robinets d’arrêt bloqués, la corrosion ou une cartouche non identifiée. Éloignez l’eau des équipements électriques. Arrêtez-vous si l’eau ne peut pas être coupée ou si une pièce résiste.",
+      "tools": ["Notice du fabricant du robinet", "Chiffon doux", "Tournevis ou clé hexagonale adaptés"],
+      "parts": [{ "name": "Cartouche ou joint de robinet", "details": "Achetez uniquement la pièce recommandée pour la marque et le modèle exacts ; une ressemblance ne garantit pas la compatibilité." }],
+      "alt": "Un robinet mitigeur qui goutte à côté de sa cartouche de rechange compatible"
+    },
+    "washer-not-draining": {
+      "id": "washer-not-draining",
+      "title": "Lave-linge qui ne vidange plus : vérifier le filtre de pompe en sécurité",
+      "desc": "Consultez la notice du lave-linge pour vérifier un filtre de pompe accessible sans ouvrir de panneau électrique.",
+      "stepTitles": ["Consulter la notice du modèle", "Laisser refroidir et vidanger sans risque", "Nettoyer un filtre accessible", "Remonter et surveiller un essai"],
+      "steps": [
+        "Mettez le cycle en pause et notez le code affiché. Relevez le modèle exact du lave-linge et consultez sa notice pour la procédure de vidange et de filtre. Ne retirez pas de panneau et ne suivez pas la notice d’un autre modèle.",
+        "Éteignez et débranchez l’appareil avec les mains sèches, puis laissez refroidir complètement l’eau chaude. Si la notice indique un tuyau de vidange d’urgence, utilisez-le avec un bac peu profond et des serviettes. N’ouvrez pas le filtre si l’eau reste au-dessus dans le tambour.",
+        "Uniquement si la notice présente le filtre comme accessible à l’utilisateur, placez un bac et des serviettes dessous puis desserrez-le lentement comme indiqué, en laissant l’eau s’écouler progressivement. Retirez les peluches et débris visibles ; ne mettez pas d’outil ni la main dans la pompe et ne touchez aucun fil.",
+        "Vérifiez visuellement l’état du joint du filtre et remettez-le en place selon la notice. Refermez la trappe. Rétablissez l’alimentation et lancez le contrôle de vidange recommandé en surveillant les fuites. Si l’appareil ne vidange toujours pas, fuit ou si le filtre n’est pas accessible comme décrit, contactez le fabricant ou un réparateur d’électroménager."
+      ],
+      "safety": "Débranchez avant toute intervention sur un filtre accessible, gardez les mains sèches et attendez le refroidissement de l’eau. N’ouvrez jamais un panneau électrique, ne démontez pas la pompe et ne desserrez pas le filtre d’un tambour plein. Arrêtez si la prise est mouillée, l’appareil abîmé ou l’accès nécessite un outil non indiqué dans la notice.",
+      "tools": ["Notice du modèle exact", "Bac peu profond", "Serviettes absorbantes"],
+      "parts": [],
+      "alt": "Un filtre de lave-linge vérifié, appareil débranché, avec un bac prêt à recueillir l’eau"
+    },
     "bike-flat": {
       "id": "bike-flat",
       "title": "Réparer une crevaison",

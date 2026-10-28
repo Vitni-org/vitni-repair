@@ -16,6 +16,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "seed:guides": "node scripts/seed-guides.mjs",
+    "generate:popular-guides": "node scripts/generate-popular-guides.mjs",
     "dev:vinext": "vite dev --port 3001",
     "build:vinext": "vite build",
     "start:vinext": "vite preview",

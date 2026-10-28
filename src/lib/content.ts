@@ -80,6 +80,7 @@ type CuratedGuide = {
   area: RepairArea;
   sector?: RepairSector;
   stepTitles?: string[];
+  stepImages?: string[];
   title: string;
   desc: string;
   image: string;
@@ -124,9 +125,9 @@ export function localGuideView(guide: CuratedGuide, locale: Locale | string = "e
       ordinal: index + 1,
       title: guide.stepTitles?.[index] || titleForRepairStep(instruction, index + 1),
       instruction,
-      image: "",
+      image: guide.stepImages?.[index] || "",
       imageAlt: `${guide.title}, step ${index + 1}`,
-      illustrationStatus: "pending",
+      illustrationStatus: guide.stepImages?.[index] ? "ready" : "pending",
     })),
     parts: guide.parts.map((part) => (typeof part === "string" ? { name: part, details: "" } : part)),
     visibility: "public",
@@ -173,7 +174,7 @@ export function localGuideList(options: LocalGuideListOptions = {}) {
   });
   const offset = decodeLocalCursor(cursor);
   const pageSize = Math.max(1, Math.min(Number(limit) || 6, 24));
-  const items = matches.slice(offset, offset + pageSize).map(({ guide, localized }) => localized);
+  const items = matches.slice(offset, offset + pageSize).map(({ localized }) => localized);
   const makeCursor = (value: number) => Buffer.from(JSON.stringify({ offset: value })).toString("base64url");
   return {
     items,
