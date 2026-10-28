@@ -14,6 +14,12 @@ export type GuidePart = {
   url?: string | null;
 };
 
+export type GuideResearchSource = {
+  title: string;
+  url: string;
+  publisher: string;
+};
+
 export type GuideStep = {
   ordinal: number;
   title: string;
@@ -41,6 +47,7 @@ export type RepairGuide = {
   alt: string;
   steps: GuideStep[];
   parts: GuidePart[];
+  sources?: GuideResearchSource[];
   visibility: "public" | "unlisted";
   status: "published" | "needs_illustrations";
   source?: "curated" | "generated";

@@ -225,6 +225,7 @@
     "vitniSafety": "Je suis Vitni. Si une pièce semble dangereuse ou résiste, arrêtez-vous et demandez l’aide d’un professionnel.",
     "tools": "Outils",
     "parts": "Pièces à vérifier",
+    "researchSources": "Sources consultées",
     "browseAll": "Parcourir tous les guides de réparation",
     "moreSector": "Plus de guides : {sector}",
     "nearbyHelp": "Trouver de l’aide à proximité",

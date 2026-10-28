@@ -279,7 +279,27 @@ export async function getPublicGuideBySlug(slug) {
     .eq("visibility", "public")
     .maybeSingle();
   throwIfError(error);
-  return data ? sortEmbedded(data) : null;
+  if (!data) return null;
+  const guide = sortEmbedded(data);
+  try {
+    const { data: sources, error: sourceError } = await client
+      .from("guide_research_sources")
+      .select("title,url,publisher,ordinal")
+      .eq("guide_id", data.id)
+      .order("ordinal", { ascending: true });
+    if (isMissingGuideResearchSourcesTable(sourceError)) return guide;
+    throwIfError(sourceError);
+    guide.sources = (sources || []).map(({ title, url, publisher }) => ({ title, url: validPurchaseUrl(url), publisher })).filter((source) => source.url);
+  } catch (sourceError) {
+    if (!isMissingGuideResearchSourcesTable(sourceError)) throw sourceError;
+  }
+  return guide;
+}
+
+function isMissingGuideResearchSourcesTable(error) {
+  const code = String(error?.code || "");
+  const message = String(error?.message || error || "").toLowerCase();
+  return code === "42P01" || code === "PGRST205" || (message.includes("guide_research_sources") && (message.includes("does not exist") || message.includes("schema cache") || message.includes("could not find")));
 }
 
 export async function getUnlistedGuideByToken(token) {
@@ -503,6 +523,7 @@ export async function toPublicGuides(rows, { signImages = true } = {}) {
       retailer: part.retailer,
       url: validPurchaseUrl(part.url),
     })),
+    sources: (row.sources || []).map(({ title, url, publisher }) => ({ title, url: validPurchaseUrl(url), publisher })).filter((source) => source.url),
     visibility: row.visibility,
     status: row.status,
     source: row.source,

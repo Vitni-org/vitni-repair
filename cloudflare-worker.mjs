@@ -1,6 +1,8 @@
 import process from "node:process";
 import vinextHandler from "vinext/server/fetch-handler";
 
+export { WeeklyGuideScout } from "./workers/weekly-guide-scout.mjs";
+
 const runtimeEnvironmentBindings = [
   "OPENAI_API_KEY",
   "PARTNER_INQUIRY_FROM_EMAIL",

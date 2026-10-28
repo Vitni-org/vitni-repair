@@ -1,4 +1,4 @@
-import { bindings, defineConfig, defineWorker } from "cf/config";
+import { bindings, defineConfig, defineWorker, exports as workerExports } from "cf/config";
 
 export default defineConfig({
   worker: defineWorker({
@@ -6,6 +6,15 @@ export default defineConfig({
     entrypoint: "cloudflare-worker.mjs",
     compatibilityDate: "2026-10-25",
     compatibilityFlags: ["nodejs_compat", "nodejs_compat_populate_process_env"],
+    exports: {
+      WeeklyGuideScout: workerExports.workflow({
+        name: "vitni-weekly-guide-scout",
+        schedules: "0 8 * * 1",
+        concurrency: { limit: 1 },
+        limits: { steps: 20 },
+        defaultRetention: { successRetention: "14 days", errorRetention: "30 days" },
+      }),
+    },
     domains: ["vitni.cc"],
     assets: {
       htmlHandling: "none",

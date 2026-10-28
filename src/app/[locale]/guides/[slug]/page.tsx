@@ -184,6 +184,21 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ lo
               <PartSourcingNote />
             </div>
           )}
+          {!!guide.sources?.length && (
+            <div className="guide-aside-card guide-sources">
+              <h2>{t("researchSources")}</h2>
+              <ul>
+                {guide.sources.map((source) => (
+                  <li key={source.url}>
+                    <a href={source.url} rel="noopener noreferrer" target="_blank">
+                      {source.title}
+                    </a>
+                    <span>{source.publisher}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           <div className="guide-aside-links">
             <Link href="/guides/">
               {t("browseAll")} <ArrowRight aria-hidden="true" />
