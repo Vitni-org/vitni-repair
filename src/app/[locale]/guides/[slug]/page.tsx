@@ -167,9 +167,22 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ lo
               </h2>
               <ul>
                 {guide.tools.map((tool) => (
-                  <li key={tool} lang={contentLocale}>{tool}</li>
+                  <li key={tool} lang={contentLocale}>
+                    {tool}
+                  </li>
                 ))}
               </ul>
+              <div className="parts-sourcing-list">
+                {guide.tools.map((tool) => (
+                  <PartSourcingLinks
+                    area={guide.area}
+                    context="guide_detail"
+                    key={`tool-${tool}`}
+                    part={{ name: tool, details: "" }}
+                  />
+                ))}
+              </div>
+              {!guide.parts.length ? <PartSourcingNote /> : null}
             </div>
           )}
           {!!guide.parts.length && (
@@ -179,7 +192,7 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ lo
               </h2>
               <div className="parts-sourcing-list">
                 {guide.parts.map((part) => (
-                  <PartSourcingLinks context="guide_detail" key={part.name} part={part} />
+                  <PartSourcingLinks area={guide.area} context="guide_detail" key={part.name} part={part} />
                 ))}
               </div>
               <PartSourcingNote />

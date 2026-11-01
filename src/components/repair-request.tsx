@@ -313,6 +313,17 @@ export function RepairRequest() {
                 {t("beforeYouBegin")}
               </h4>
               <p>{result.assessment.tools.join(" · ")}</p>
+              <div className="parts-sourcing-list">
+                {result.assessment.tools.map((tool) => (
+                  <PartSourcingLinks
+                    area={result.assessment.area}
+                    context="generated_plan"
+                    key={`tool-${tool}`}
+                    part={{ name: tool, details: "" }}
+                  />
+                ))}
+              </div>
+              {!result.assessment.parts.length ? <PartSourcingNote /> : null}
             </div>
           )}
           {!!result.assessment.parts.length && result.assessment.safety === "safe_diy" && (
@@ -320,7 +331,7 @@ export function RepairRequest() {
               <strong>{t("partsToCheck")}</strong>
               <div className="parts-sourcing-list">
                 {result.assessment.parts.map((part) => (
-                  <PartSourcingLinks context="generated_plan" key={part.name} part={part} />
+                  <PartSourcingLinks area={result.assessment.area} context="generated_plan" key={part.name} part={part} />
                 ))}
               </div>
               <PartSourcingNote />

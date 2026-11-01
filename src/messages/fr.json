@@ -420,10 +420,14 @@
   },
   "parts": {
     "viewSuggested": "Voir le lien suggéré",
-    "amazon": "Rechercher sur Amazon France",
+    "amazon": "Rechercher sur Amazon",
     "affiliateLink": "lien partenaire",
-    "compare": "Comparer les résultats d’achat",
+    "localStore": "Rechercher chez {store}",
+    "visitStore": "Visiter {store}",
+    "compare": "Comparer les prix",
+    "marketLabel": "Acheter depuis",
     "note": "Les liens de recherche servent à comparer les options ; ils ne confirment ni compatibilité ni disponibilité et ne constituent pas une recommandation de Vitni. Vérifiez la taille, le modèle, la compatibilité, le vendeur et les conditions de retour avant l’achat.",
+    "referralNote": "Les liens vers les boutiques incluent des balises de provenance pour leur indiquer que Vitni vous a envoyé (utm_source=vitni).",
     "affiliateDisclosure": "En tant que Partenaire Amazon, je réalise un bénéfice sur les achats remplissant les conditions requises. Certains liens peuvent générer une commission pour Vitni, sans coût supplémentaire pour vous."
   },
   "offline": {

@@ -2571,7 +2571,10 @@ p {
   background: #fff;
   padding: 1rem 1.1rem 1.15rem;
   text-decoration: none;
-  transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform 160ms ease;
 }
 .sector-card:hover {
   transform: translateY(-2px);
@@ -2867,7 +2870,9 @@ p {
   height: 25rem;
   border: 1px solid rgb(25 76 66 / 20%);
   border-radius: 50%;
-  box-shadow: 0 0 0 2rem rgb(217 239 80 / 25%), 0 0 0 4rem rgb(25 76 66 / 5%);
+  box-shadow:
+    0 0 0 2rem rgb(217 239 80 / 25%),
+    0 0 0 4rem rgb(25 76 66 / 5%);
   content: "";
   pointer-events: none;
 }
@@ -3152,6 +3157,8 @@ p {
   height: 0.8rem;
 }
 .part-sourcing-note {
+  display: grid;
+  gap: 0.45rem;
   margin: 0.8rem 0 0;
   border-left: 3px solid var(--lime);
   background: #edf4d4;
@@ -3159,6 +3166,31 @@ p {
   color: #40564d;
   font-size: 0.72rem;
   line-height: 1.45;
+}
+.part-sourcing-note p {
+  margin: 0;
+}
+.part-sourcing-market {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  color: var(--forest);
+  font-weight: 800;
+}
+.part-sourcing-market select {
+  max-width: min(12rem, 58%);
+  min-height: 2rem;
+  border: 1px solid var(--line);
+  border-radius: 0.2rem;
+  background: #fff;
+  padding: 0.3rem 0.55rem;
+  color: var(--ink);
+  font: inherit;
+}
+.part-sourcing-market select:focus-visible {
+  outline: 3px solid var(--forest);
+  outline-offset: 2px;
 }
 .parts-list {
   margin-top: 0.85rem;

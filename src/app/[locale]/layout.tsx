@@ -8,6 +8,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { GoogleAnalytics } from "@/components/google-analytics";
 import { PwaRegistrar } from "@/components/pwa-registrar";
+import { RetailerMarketProvider } from "@/components/retailer-market-provider";
 import { routing, type Locale } from "@/i18n/routing";
 import { createSiteStructuredData, serializeJsonLd } from "@/lib/structured-data";
 import "../globals.css";
@@ -65,15 +66,17 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
     <html lang={locale}>
       <body>
         <NextIntlClientProvider messages={messages}>
-          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: siteStructuredData }} />
-          <a className="skip-link" href="#content">
-            {common("skipToContent")}
-          </a>
-          <SiteHeader />
-          {children}
-          <SiteFooter />
-          <GoogleAnalytics />
-          <PwaRegistrar />
+          <RetailerMarketProvider>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: siteStructuredData }} />
+            <a className="skip-link" href="#content">
+              {common("skipToContent")}
+            </a>
+            <SiteHeader />
+            {children}
+            <SiteFooter />
+            <GoogleAnalytics />
+            <PwaRegistrar />
+          </RetailerMarketProvider>
         </NextIntlClientProvider>
       </body>
     </html>
