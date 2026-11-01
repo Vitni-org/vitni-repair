@@ -13,6 +13,7 @@ import type { RepairAssessment, RepairGuide } from "@/lib/content";
 import { RepairOutcomeFeedback } from "@/components/repair-outcome-feedback";
 import { PartSourcingLinks, PartSourcingNote } from "@/components/part-sourcing-links";
 import { localizedSectorLabel } from "@/lib/catalog-localization";
+import { MAX_REPAIR_STEP_ILLUSTRATIONS } from "@/lib/guide-step-limits";
 
 type GuideResponse = {
   assessment: RepairAssessment;
@@ -345,9 +346,16 @@ export function RepairRequest() {
                       width={960}
                     />
                   ) : (
-                    <div aria-label={t("illustrationPending")} className="result-image-pending">
+                    <div aria-label={index >= MAX_REPAIR_STEP_ILLUSTRATIONS ? t("writtenOnlyStep") : t("illustrationPending")} className="result-image-pending">
                       <Sparkles aria-hidden="true" />
-                      <span>{t("illustrationCanAdd")}</span>
+                      <span>
+                        {index >= MAX_REPAIR_STEP_ILLUSTRATIONS ? (
+                          <>
+                            <strong>{t("writtenOnlyStep")}</strong>
+                            <small>{t("writtenOnlyStepHint")}</small>
+                          </>
+                        ) : t("illustrationCanAdd")}
+                      </span>
                     </div>
                   )}
                 </div>

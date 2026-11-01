@@ -24,6 +24,7 @@ import {
 import type { RepairAssessment, RepairArea, RepairGuide } from "@/lib/content";
 import { repairSectorByLabel, repairSectors, type RepairSector } from "@/lib/repair-sectors";
 import { localizeStoredGuide } from "@/lib/catalog-localization";
+import { MAX_REPAIR_GUIDE_STEPS, MAX_REPAIR_STEP_ILLUSTRATIONS } from "@/lib/guide-step-limits";
 
 const MAX_REQUEST_BYTES = 12 * 1024 * 1024;
 const IMAGE_DATA_PATTERN = /^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/;
@@ -55,11 +56,11 @@ const assessmentSchema = z
     summary: z.string().max(700),
     generalizable: z.boolean(),
     tools: z.array(z.string().max(100)).max(8),
-    steps: z.array(stepSchema).min(2).max(5),
+    steps: z.array(stepSchema).min(2).max(MAX_REPAIR_GUIDE_STEPS),
     parts: z.array(z.object({ name: z.string().min(1).max(120), details: z.string().max(240) }).strict()).max(6),
   })
   .strict();
-const translatedAssessmentSchema = assessmentSchema.extend({ steps: z.array(stepSchema).max(5) });
+const translatedAssessmentSchema = assessmentSchema.extend({ steps: z.array(stepSchema).max(MAX_REPAIR_GUIDE_STEPS) });
 
 const assessmentJsonSchema = {
   type: "object",
@@ -79,7 +80,7 @@ const assessmentJsonSchema = {
     steps: {
       type: "array",
       minItems: 2,
-      maxItems: 5,
+      maxItems: MAX_REPAIR_GUIDE_STEPS,
       items: {
         type: "object",
         additionalProperties: false,
@@ -153,7 +154,7 @@ Write a practical, reusable guide for the likely issue, not a narrative about on
 
 Quality rules:
 - Use short, direct, beginner-friendly sentences. A step title names one action. Each step describes one action, how to do it, and what to check next; avoid vague words such as "carefully" without saying what to watch for.
-- Give 3–5 ordered steps for a safe DIY repair. Include preparation and a final check. For get_help or do_not_attempt, give only safe observation, stop/isolation, and referral steps. Do not skip prerequisites, use tools the user has not been told to obtain, or tell them to force a part.
+- Choose the number of ordered steps the complete repair actually needs, up to ${MAX_REPAIR_GUIDE_STEPS}. Include relevant preparation, each distinct action, intermediate checks, and a final check. Do not pad the guide, split one simple action into artificial steps, or combine steps that would hide an important prerequisite or safety check. For get_help or do_not_attempt, give only safe observation, stop/isolation, preparation, and referral steps. Do not skip prerequisites, use tools the user has not been told to obtain, or tell them to force a part.
 - Give conservative difficulty and time estimates. Never invent torque values, dimensions, thread types, model numbers, material compatibility, product availability, or retailer stock.
 - List a replacement part only if the repair actually needs one. In its details, name the compatibility checks the buyer must confirm; state that exact size/model is unknown when it cannot be read from the provided evidence.
 - Never fabricate a source, product URL, local business, or partnership. This feature does not have live web search.
@@ -346,14 +347,16 @@ async function illustrateSteps({
   steps: IllustrationStep[];
   cacheKey?: string;
 }) {
-  const validatedSteps = z.array(stepSchema).min(1).max(5).parse(steps);
+  const validatedSteps = z.array(stepSchema).min(1).max(MAX_REPAIR_GUIDE_STEPS).parse(steps);
+  const illustratedSteps = validatedSteps.slice(0, MAX_REPAIR_STEP_ILLUSTRATIONS);
   const key = typeof cacheKey === "string" && /^[a-z0-9-]{1,48}$/.test(cacheKey) ? `${cacheKey}:${JSON.stringify(validatedSteps)}` : "";
   if (key && illustrationCache.has(key)) return illustrationCache.get(key) || [];
-  const visuals = await Promise.all(
-    validatedSteps.map((step) =>
+  const generatedVisuals = await Promise.all(
+    illustratedSteps.map((step) =>
       generateIllustration(String(title || "Repair guide").slice(0, 120), step, String(category || "").slice(0, 40)).catch(() => null),
     ),
   );
+  const visuals = [...generatedVisuals, ...Array<null>(validatedSteps.length - generatedVisuals.length).fill(null)];
   if (key) {
     illustrationCache.set(key, visuals);
     if (illustrationCache.size > 8) illustrationCache.delete(illustrationCache.keys().next().value || "");
@@ -489,7 +492,7 @@ async function persistRepairGuide(originalAssessment: RepairAssessment, sharePub
       }
     }
     if (savedPaths[0]) await updateGuideCover(guideId, savedPaths[0].path);
-    if (savedPaths.length === visuals.length) await updateGuideStatus(guideId, "published");
+    if (savedPaths.length === Math.min(assessment.steps.length, MAX_REPAIR_STEP_ILLUSTRATIONS)) await updateGuideStatus(guideId, "published");
   }
 
   const storedRow = reusable ? await getPublicGuideBySlug(slug) : await getUnlistedGuideByToken(shareToken);
@@ -539,7 +542,7 @@ export async function illustrateRepair(value: unknown) {
       title: z.string().max(120).optional(),
       category: z.string().max(40).optional(),
       cacheKey: z.string().max(48).optional(),
-      steps: z.array(stepSchema).min(1).max(5),
+      steps: z.array(stepSchema).min(1).max(MAX_REPAIR_GUIDE_STEPS),
     })
     .parse(value);
   const cacheKey = body.cacheKey || "";
@@ -560,6 +563,10 @@ export async function illustrateRepair(value: unknown) {
           visuals.push(null);
           continue;
         }
+        if (index >= MAX_REPAIR_STEP_ILLUSTRATIONS) {
+          visuals.push(null);
+          continue;
+        }
         const visual = await generateIllustration(row.title, savedStep, row.sector || row.area).catch(() => null);
         if (!visual) {
           visuals.push(null);
@@ -574,8 +581,13 @@ export async function illustrateRepair(value: unknown) {
           visuals.push(null);
         }
       }
-      const { data: steps } = await client.from("guide_steps").select("illustration_status").eq("guide_id", row.id);
-      if (steps?.length && steps.every((step: { illustration_status: string }) => step.illustration_status === "ready"))
+      const { data: steps } = await client
+        .from("guide_steps")
+        .select("illustration_status")
+        .eq("guide_id", row.id)
+        .order("ordinal", { ascending: true });
+      const illustrationSteps = steps?.slice(0, MAX_REPAIR_STEP_ILLUSTRATIONS) || [];
+      if (illustrationSteps.length && illustrationSteps.every((step: { illustration_status: string }) => step.illustration_status === "ready"))
         await updateGuideStatus(row.id, "published");
       else await updateGuideStatus(row.id, "needs_illustrations");
       return { visuals, saved: visuals.some(Boolean), persistent: true };
@@ -586,6 +598,9 @@ export async function illustrateRepair(value: unknown) {
 }
 
 export async function retryGuideIllustration(slug: string, ordinal: number) {
+  if (!Number.isInteger(ordinal) || ordinal < 1 || ordinal > MAX_REPAIR_STEP_ILLUSTRATIONS) {
+    return { status: 400, body: { error: `Only the first ${MAX_REPAIR_STEP_ILLUSTRATIONS} guide steps can have illustrations.` } };
+  }
   const key = `${slug}:${ordinal}`;
   const lastRetry = illustrationRetryTimes.get(key) || 0;
   if (Date.now() - lastRetry < 60_000) return { status: 429, body: { error: "Please wait a minute before retrying this illustration." } };
@@ -602,7 +617,8 @@ export async function retryGuideIllustration(slug: string, ordinal: number) {
     const path = await storeStepIllustration(row.id, ordinal, image);
     if (ordinal === 1) await updateGuideCover(row.id, path);
     const latest = await getPublicGuideBySlug(slug);
-    const allReady = latest?.guide_steps?.every((item: { illustration_status: string }) => item.illustration_status === "ready");
+    const illustrationSteps = latest?.guide_steps?.slice(0, MAX_REPAIR_STEP_ILLUSTRATIONS) || [];
+    const allReady = illustrationSteps.length > 0 && illustrationSteps.every((item: { illustration_status: string }) => item.illustration_status === "ready");
     await updateGuideStatus(row.id, allReady ? "published" : "needs_illustrations");
     return { status: 200, body: { image: await getStepIllustrationUrl(path), ready: true } };
   } catch (error) {

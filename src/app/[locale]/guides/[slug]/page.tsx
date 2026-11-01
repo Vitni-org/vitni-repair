@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { ArrowLeft, ArrowRight, Clock3, ShieldCheck, ShoppingBag, Wrench } from "lucide-react";
 import { notFound } from "next/navigation";
 import { GuideIllustrations } from "@/components/guide-illustrations";
+import { MAX_REPAIR_STEP_ILLUSTRATIONS } from "@/lib/guide-step-limits";
 import { SaveGuideOffline } from "@/components/save-guide-offline";
 import { PartSourcingLinks, PartSourcingNote } from "@/components/part-sourcing-links";
 import { guideArtwork } from "@/lib/guide-artwork";
@@ -120,7 +121,7 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ lo
           <h1 lang={contentLocale}>{guide.title}</h1>
           <p className="guide-detail-hero__desc" lang={contentLocale}>{guide.desc}</p>
           <p className="guide-detail-hero__hint">
-            {guide.steps.length > 0 && guide.steps.every((step) => Boolean(step.image))
+            {guide.steps.length > 0 && guide.steps.slice(0, MAX_REPAIR_STEP_ILLUSTRATIONS).every((step) => Boolean(step.image))
               ? t("stepsReady")
               : t("stepsMissing")}
           </p>

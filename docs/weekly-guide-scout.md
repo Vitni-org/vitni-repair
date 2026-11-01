@@ -1,12 +1,12 @@
 # Weekly guide scout
 
-Vitni's Cloudflare Worker starts one durable guide-scout Workflow every Monday at 08:00 UTC, with concurrency limited to one run. Each run researches one repair intent, saves a bilingual English/French draft, and generates a cover plus one image for each of three or four steps. The run is limited to five generated images, and guide status always remains `draft`.
+Vitni's Cloudflare Worker starts one durable guide-scout Workflow every Monday at 08:00 UTC, with concurrency limited to one run. Each run researches one repair intent, saves a bilingual English/French draft with 3–20 quality-driven written steps, and generates a cover plus images for up to the first 10 steps. The run is limited to 11 generated images total, and guide status always remains `draft`.
 
 ## Research limits
 
 The scout uses OpenAI Responses web search to find qualitative evidence and stores the actual cited HTTPS sources. It does not have Google Search Console credentials, so it must not claim Google query volume, rankings, or traffic figures. Search Console query/impression data can be added after OAuth access is configured.
 
-The scout prefers general, beginner-friendly repairs and skips duplicate, highly specific, unsafe, or insufficiently sourced topics. It must not invent exact part dimensions, retailer stock, products, prices, or purchase links. OpenAI search and image generation consume the configured API account; the weekly schedule, one-topic limit, and five-image cap bound each run.
+The scout prefers general, beginner-friendly repairs and skips duplicate, highly specific, unsafe, or insufficiently sourced topics. It must not invent exact part dimensions, retailer stock, products, prices, or purchase links. Step count follows the complete safe procedure; the 20-step ceiling bounds text output but is never a target. Guides with more than 10 steps keep all written instructions while only their first 10 steps are illustrated. OpenAI search and image generation consume the configured API account; the weekly schedule, one-topic limit, and 11-image cap (cover included) bound each run.
 
 ## Required setup
 

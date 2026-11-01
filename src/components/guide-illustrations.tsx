@@ -6,6 +6,7 @@ import { LoaderCircle, RefreshCw, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { GuideStep } from "@/lib/content";
+import { MAX_REPAIR_STEP_ILLUSTRATIONS } from "@/lib/guide-step-limits";
 
 export function GuideIllustrations({
   slug,
@@ -27,6 +28,7 @@ export function GuideIllustrations({
   const [images, setImages] = useState(() => steps.map((step) => step.image || ""));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const illustrationSteps = steps.slice(0, MAX_REPAIR_STEP_ILLUSTRATIONS);
 
   const generate = async () => {
     if (!canGenerate || loading) return;
@@ -40,12 +42,12 @@ export function GuideIllustrations({
           title,
           category: area,
           cacheKey: slug,
-          steps: steps.map(({ title: stepTitle, instruction }) => ({ title: stepTitle, instruction })),
+          steps: illustrationSteps.map(({ title: stepTitle, instruction }) => ({ title: stepTitle, instruction })),
         }),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(t("guidesLoadError"));
-      setImages((current) => current.map((image, index) => image || data.visuals?.[index] || ""));
+      setImages((current) => current.map((image, index) => image || (index < MAX_REPAIR_STEP_ILLUSTRATIONS ? data.visuals?.[index] : "") || ""));
     } catch (cause) {
       setError(t("guidesLoadError"));
     } finally {
@@ -55,7 +57,7 @@ export function GuideIllustrations({
 
   useEffect(() => {
     const list = listRef.current;
-    if (!canGenerate || !images.some((image) => !image) || !list) return;
+    if (!canGenerate || !images.slice(0, MAX_REPAIR_STEP_ILLUSTRATIONS).some((image) => !image) || !list) return;
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries.some((entry) => entry.isIntersecting)) {
@@ -101,8 +103,8 @@ export function GuideIllustrations({
                   </span>
                   <Sparkles aria-hidden="true" />
                   <span>
-                    <strong>{loading ? t("drawStep") : t("illustrationComing")}</strong>
-                    <small>{loading ? t("writtenReady") : t("useWritten")}</small>
+                    <strong>{index >= MAX_REPAIR_STEP_ILLUSTRATIONS ? t("writtenOnlyStep") : loading ? t("drawStep") : t("illustrationComing")}</strong>
+                    <small>{index >= MAX_REPAIR_STEP_ILLUSTRATIONS ? t("writtenOnlyStepHint") : loading ? t("writtenReady") : t("useWritten")}</small>
                   </span>
                 </div>
               )}

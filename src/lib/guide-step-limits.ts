@@ -1,0 +1,2 @@
+export const MAX_REPAIR_GUIDE_STEPS = 20;
+export const MAX_REPAIR_STEP_ILLUSTRATIONS = 10;

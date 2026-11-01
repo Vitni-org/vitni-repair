@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { allowApiRequest, illustrateRepair } from "@/lib/repair-ai";
+import { MAX_REPAIR_GUIDE_STEPS, MAX_REPAIR_STEP_ILLUSTRATIONS } from "@/lib/guide-step-limits";
 
 export const runtime = "nodejs";
 export const maxDuration = 180;
@@ -11,7 +12,7 @@ export async function POST(request: Request) {
   try {
     return NextResponse.json(await illustrateRepair(await request.json()), { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
-    if (error instanceof ZodError) return NextResponse.json({ error: "Provide a title and one to five repair steps." }, { status: 400 });
+    if (error instanceof ZodError) return NextResponse.json({ error: `Provide a title and one to ${MAX_REPAIR_GUIDE_STEPS} repair steps. Only the first ${MAX_REPAIR_STEP_ILLUSTRATIONS} can be illustrated.` }, { status: 400 });
     console.error("Repair illustration failed:", error);
     return NextResponse.json({ error: error instanceof Error ? error.message : "Could not illustrate this guide." }, { status: 503 });
   }

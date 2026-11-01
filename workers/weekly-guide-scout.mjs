@@ -29,8 +29,9 @@ const sectorAreas = {
 };
 
 const stopWords = new Set(["a", "an", "and", "by", "for", "from", "in", "of", "on", "the", "to", "with"]);
-const maxSteps = 4;
-const maxImagesPerRun = 1 + maxSteps;
+const maxSteps = 20;
+const maxIllustratedSteps = 10;
+const maxImagesPerRun = 1 + maxIllustratedSteps;
 const openAiTextModel = "gpt-4.1-mini";
 const openAiImageModel = "gpt-image-2.5-flare";
 
@@ -300,7 +301,7 @@ Safety is strict: only set eligible=true when the entire job is a low-risk, begi
 
 For an eligible guide:
 - Write clear English (US/UK-neutral spelling) and a faithful, natural French (France) localization with the same number and order of steps, tools, and parts.
-- Give exactly 3 or 4 short, actionable steps. Each step is one action, includes what to do and what to check, and assumes only listed tools.
+- Choose the number of short, actionable steps the complete repair actually needs, up to ${maxSteps}. Include relevant preparation, distinct actions, intermediate checks, and a final check. Do not pad the guide, split one simple action into artificial steps, or combine steps that would hide an important prerequisite or safety check. Illustrations will cover the first ${maxIllustratedSteps} steps; write every step needed even when the guide is longer.
 - Include preparation, an end check, realistic time/difficulty, and specific safety notes.
 - List replacement parts only if needed. Do not fabricate a size, compatibility, model number, price, retailer, stock, product URL, business, or partnership. Explain what must be checked before buying.
 - Use the closest matching existing sector label and its area. Keep the issue and title specific enough to help someone choose the guide.
@@ -349,7 +350,7 @@ function sanitizeGuide(guide) {
   if (!Array.isArray(guide.related_keywords) || !Array.isArray(guide.tools) || !Array.isArray(guide.parts)) {
     throw new Error("The guide draft has invalid tools, parts, or related keyword data.");
   }
-  if (!Array.isArray(guide.steps) || guide.steps.length < 3 || guide.steps.length > maxSteps) throw new Error("Guide draft must have three or four repair steps.");
+  if (!Array.isArray(guide.steps) || guide.steps.length < 3 || guide.steps.length > maxSteps) throw new Error(`Guide draft must have between three and ${maxSteps} repair steps.`);
   if (!guide.french || typeof guide.french !== "object" || guide.french.steps?.length !== guide.steps.length) throw new Error("English and French guides must have the same number of steps.");
   if (!Array.isArray(guide.french.tools) || guide.french.tools.length !== guide.tools.length) throw new Error("English and French tools must match.");
   if (!Array.isArray(guide.french.parts) || guide.french.parts.length !== guide.parts.length) throw new Error("English and French parts must match.");
@@ -705,8 +706,9 @@ export class WeeklyGuideScout extends WorkflowEntrypoint {
         }),
       );
 
-      if (guide.steps.length + 1 > maxImagesPerRun) throw new Error("The guide exceeds the weekly image generation limit.");
-      for (let index = 0; index < guide.steps.length; index += 1) {
+      const illustratedSteps = guide.steps.slice(0, maxIllustratedSteps);
+      if (illustratedSteps.length + 1 > maxImagesPerRun) throw new Error("The guide exceeds the weekly image generation limit.");
+      for (let index = 0; index < illustratedSteps.length; index += 1) {
         const ordinal = index + 1;
         const instruction = guide.steps[index].instruction;
         const imagePath = `${draft.id}/step-${ordinal}.jpg`;
@@ -734,7 +736,7 @@ export class WeeklyGuideScout extends WorkflowEntrypoint {
         status: "drafted",
         runId,
         guide: draft.slug,
-        images: guide.steps.length + 1,
+        images: illustratedSteps.length + 1,
         citations: sources.length,
         publication: "human_review_required",
       };
